@@ -1,0 +1,21 @@
+{
+  "name": "zed-ai-lens-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun build src/index.ts --target=node --format=cjs --outfile dist/index.cjs && bun build src/cli.ts --target=node --format=cjs --outfile dist/cli.cjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "marked": "^18.0.11",
+    "picomatch": "^4.0.2",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/picomatch": "^3.0.1",
+    "typescript": "^5.7.2"
+  }
+}

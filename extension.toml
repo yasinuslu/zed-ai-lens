@@ -1,0 +1,30 @@
+id = "ai-lens"
+name = "AI Lens"
+version = "0.1.0"
+schema_version = 1
+authors = ["Yasin Uslu <aiappmigration@gmail.com>"]
+description = "View any file through a configured AI prompt — translate, summarize, explain — in a side tab, with content-hash caching."
+repository = "https://github.com/yasinuslu/zed-ai-lens"
+
+[language_servers.ai-lens]
+name = "AI Lens"
+languages = [
+  "Markdown",
+  "Plain Text",
+  "YAML",
+  "JSON",
+  "JSONC",
+  "TOML",
+  "TypeScript",
+  "TSX",
+  "JavaScript",
+  "JSX",
+  "Python",
+  "Rust",
+  "Go",
+  "HTML",
+  "CSS",
+  "Shell Script",
+  "C",
+  "C++",
+]
