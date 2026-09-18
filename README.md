@@ -113,19 +113,29 @@ translation-specific:
 ### Custom agents
 
 Each agent is a command plus an argument template. `modelArgs` is spliced in only
-when `model` is set. `stdin: "content"` pipes the file text to the process;
-`"none"` means the template passes the path instead.
+when a model is resolved, and `defaultModel` supplies one when the config sets
+none — a configured `model` always wins. `stdin: "content"` pipes the file text
+to the process; `"none"` means the template passes it by path or inline instead.
 
 ```jsonc
 "agents": {
   "pi":     { "command": "pi",     "args": ["--print", "--mode", "text", "--", "{{prompt}}", "@{{file}}"], "stdin": "none" },
   "claude": { "command": "claude", "args": ["-p", "{{prompt}}"], "stdin": "content" },
-  "antigravity": { "command": "agy", "args": ["-p", "{{prompt}}\n\nThe file is at: {{file}}"], "stdin": "none" },
+  "antigravity": { "command": "agy", "args": ["-p", "{{prompt}}\n\n---\n{{content}}", "--disable-slash-commands"], "defaultModel": "gemini-3.8-flash-low", "stdin": "none" },
   "ollama": { "command": "ollama", "args": ["run", "llama3", "{{prompt}}"], "stdin": "content" }
 }
 ```
 
-Placeholders in `args`: `{{prompt}}`, `{{file}}`, `{{filename}}`, `{{model}}`.
+Placeholders in `args`: `{{prompt}}`, `{{file}}`, `{{filename}}`, `{{content}}`,
+`{{model}}`.
+
+The three ways to hand an agent the file are not interchangeable — each agent
+supports exactly one. `pi` takes a path it resolves itself, `claude` takes the
+text on stdin, and `agy` takes it inline in the prompt, because its headless
+mode rejects stdin alongside `-p` *and* auto-denies the `read_file` permission
+it would need to open a path. That denial exits `0` with the error on stdout, so
+an agent configured the wrong way here caches an error message as a translation
+rather than failing visibly.
 
 ## Caching
 

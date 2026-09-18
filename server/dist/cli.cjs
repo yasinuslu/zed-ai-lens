@@ -17,26 +17,28 @@ var __toESM = (mod, isNodeMode, target) => {
       return cached;
   }
   target = mod != null ? __create(__getProtoOf(mod)) : {};
-  const to = isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target;
-  for (let key of __getOwnPropNames(mod))
-    if (!__hasOwnProp.call(to, key))
-      __defProp(to, key, {
-        get: __accessProp.bind(mod, key),
-        enumerable: true
-      });
+  const to = isNodeMode || !mod || !mod.__esModule || !__hasOwnProp.call(mod, "default") ? __defProp(target, "default", { value: mod, enumerable: true }) : target;
+  if (mod && typeof mod === "object" || typeof mod === "function") {
+    for (let key of __getOwnPropNames(mod))
+      if (!__hasOwnProp.call(to, key))
+        __defProp(to, key, {
+          get: __accessProp.bind(mod, key),
+          enumerable: true
+        });
+  }
   if (canCache)
     cache.set(mod, to);
   return to;
 };
 
 // src/cli.ts
-var fs4 = __toESM(require("fs/promises"));
-var path5 = __toESM(require("path"));
+var fs4 = __toESM(require("fs/promises"), 1);
+var path5 = __toESM(require("path"), 1);
 var import_child_process3 = require("child_process");
 
 // src/config.ts
-var os = __toESM(require("os"));
-var path = __toESM(require("path"));
+var os = __toESM(require("os"), 1);
+var path = __toESM(require("path"), 1);
 var DEFAULT_PROMPT = [
   "Determine the natural language the file below is written in.",
   "If its prose is already in {{targetLanguage}}, output exactly {{skipSentinel}}",
@@ -62,10 +64,16 @@ var DEFAULT_AGENTS = {
   },
   antigravity: {
     command: "agy",
-    args: ["-p", `{{prompt}}
+    args: [
+      "-p",
+      `{{prompt}}
 
-The file is at: {{file}}`],
+---
+{{content}}`,
+      "--disable-slash-commands"
+    ],
     modelArgs: ["--model", "{{model}}"],
+    defaultModel: "gemini-3.8-flash-low",
     stdin: "none"
   }
 };
@@ -140,13 +148,15 @@ function template(input, vars) {
 // src/agent.ts
 var import_child_process = require("child_process");
 function buildArgs(opts) {
+  const model = opts.model ?? opts.spec.defaultModel ?? null;
   const vars = {
     prompt: opts.prompt,
     file: opts.filePath,
     filename: opts.fileName,
-    model: opts.model ?? ""
+    content: opts.content,
+    model: model ?? ""
   };
-  const modelArgs = opts.model ? opts.spec.modelArgs ?? [] : [];
+  const modelArgs = model ? opts.spec.modelArgs ?? [] : [];
   return [...modelArgs, ...opts.spec.args].map((arg) => template(arg, vars));
 }
 function runAgent(opts) {
@@ -203,9 +213,9 @@ function runAgent(opts) {
 }
 
 // src/cache.ts
-var crypto = __toESM(require("crypto"));
-var fs = __toESM(require("fs/promises"));
-var path2 = __toESM(require("path"));
+var crypto = __toESM(require("crypto"), 1);
+var fs = __toESM(require("fs/promises"), 1);
+var path2 = __toESM(require("path"), 1);
 async function writeGuarded(filePath, content, readOnly) {
   await fs.mkdir(path2.dirname(filePath), { recursive: true });
   await fs.rm(filePath, { force: true });
@@ -278,9 +288,9 @@ async function pruneCache(cacheDir, maxEntries) {
 }
 
 // src/settings.ts
-var fs2 = __toESM(require("fs/promises"));
-var os2 = __toESM(require("os"));
-var path3 = __toESM(require("path"));
+var fs2 = __toESM(require("fs/promises"), 1);
+var os2 = __toESM(require("os"), 1);
+var path3 = __toESM(require("path"), 1);
 function stripJsonc(input) {
   let out = "";
   let inString = false;
@@ -355,9 +365,9 @@ async function readZedInitializationOptions(serverId = "ai-lens") {
 }
 
 // src/preview.ts
-var fs3 = __toESM(require("fs/promises"));
-var http = __toESM(require("http"));
-var path4 = __toESM(require("path"));
+var fs3 = __toESM(require("fs/promises"), 1);
+var http = __toESM(require("http"), 1);
+var path4 = __toESM(require("path"), 1);
 
 // node_modules/marked/lib/marked.esm.js
 function A() {
@@ -1341,7 +1351,7 @@ var L = class {
     return e;
   }
 };
-var b = class l2 {
+var b = class l {
   options;
   renderer;
   textRenderer;
@@ -1349,10 +1359,10 @@ var b = class l2 {
     this.options = e || R, this.options.renderer = this.options.renderer || new P, this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new L;
   }
   static parse(e, t) {
-    return new l2(t).parse(e);
+    return new l(t).parse(e);
   }
   static parseInline(e, t) {
-    return new l2(t).parseInline(e);
+    return new l(t).parseInline(e);
   }
   parse(e) {
     this.renderer.parser = this;
@@ -1703,20 +1713,20 @@ Please report this to https://github.com/markedjs/marked.`, e) {
   }
 };
 var M = new Z;
-function f(l3, e) {
-  return M.parse(l3, e);
+function f(l, e) {
+  return M.parse(l, e);
 }
-f.options = f.setOptions = function(l3) {
-  return M.setOptions(l3), f.defaults = M.defaults, j(f.defaults), f;
+f.options = f.setOptions = function(l) {
+  return M.setOptions(l), f.defaults = M.defaults, j(f.defaults), f;
 };
 f.getDefaults = A;
 f.defaults = R;
-function dt(...l3) {
-  return M.use(...l3), f.defaults = M.defaults, j(f.defaults), f;
+function dt(...l) {
+  return M.use(...l), f.defaults = M.defaults, j(f.defaults), f;
 }
 f.use = dt;
-f.walkTokens = function(l3, e) {
-  return M.walkTokens(l3, e);
+f.walkTokens = function(l, e) {
+  return M.walkTokens(l, e);
 };
 f.parseInline = M.parseInline;
 f.Parser = b;
@@ -2012,7 +2022,7 @@ async function main() {
     const served = await startPreviewServer({
       port: config.preview.port,
       cacheDir: config.cacheDir,
-      log: (m2) => console.log(`ai-lens: ${m2}`),
+      log: (m) => console.log(`ai-lens: ${m}`),
       keepAlive: true
     });
     if (served) {

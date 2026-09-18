@@ -7,10 +7,12 @@ export type StdinMode = "none" | "content";
 export interface AgentSpec {
   /** Executable name or absolute path. Resolved via PATH. */
   command: string;
-  /** Argument templates. Supports {{prompt}}, {{file}}, {{filename}}. */
+  /** Argument templates. Supports {{prompt}}, {{file}}, {{filename}}, {{content}}. */
   args: string[];
-  /** Extra args spliced in only when a model is configured. Supports {{model}}. */
+  /** Extra args spliced in only when a model is resolved. Supports {{model}}. */
   modelArgs?: string[];
+  /** Model used when the config sets none. A configured model overrides it. */
+  defaultModel?: string;
   /** Whether the file's text is piped to stdin. */
   stdin?: StdinMode;
 }
@@ -88,12 +90,23 @@ const DEFAULT_AGENTS: Record<string, AgentSpec> = {
   },
   antigravity: {
     // agy's headless mode takes the prompt as a flag, and `-p` and piped stdin
-    // are mutually exclusive — in stream mode a flag-passed prompt is dropped.
-    // So the file goes in by path and the agent reads it itself, the way pi
-    // does, rather than on stdin the way claude does.
+    // are mutually exclusive, so neither of the other two shapes works here.
+    // Passing the path instead does not work either: headless mode cannot
+    // prompt for the read_file permission, so it auto-denies it and exits 0
+    // with an error on stdout — which would be cached as the translation. The
+    // content therefore goes inline, and agy needs no file access at all.
     command: "agy",
-    args: ["-p", "{{prompt}}\n\nThe file is at: {{file}}"],
+    args: [
+      "-p",
+      "{{prompt}}\n\n---\n{{content}}",
+      // Inlined file content is untrusted input; without this a line starting
+      // with "/" is expanded as a slash command instead of being translated.
+      "--disable-slash-commands",
+    ],
     modelArgs: ["--model", "{{model}}"],
+    // Reasoning effort is part of the slug, not a separate knob: -low is the
+    // least this offers, and flash is the fast tier.
+    defaultModel: "gemini-3.8-flash-low",
     stdin: "none",
   },
 };

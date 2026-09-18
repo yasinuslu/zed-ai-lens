@@ -16,13 +16,16 @@ export interface RunOptions {
 
 /** Build the final argv, splicing in model args only when a model is set. */
 export function buildArgs(opts: RunOptions): string[] {
+  // A configured model wins; otherwise the agent's own default, if it has one.
+  const model = opts.model ?? opts.spec.defaultModel ?? null;
   const vars = {
     prompt: opts.prompt,
     file: opts.filePath,
     filename: opts.fileName,
-    model: opts.model ?? "",
+    content: opts.content,
+    model: model ?? "",
   };
-  const modelArgs = opts.model ? (opts.spec.modelArgs ?? []) : [];
+  const modelArgs = model ? (opts.spec.modelArgs ?? []) : [];
   return [...modelArgs, ...opts.spec.args].map((arg) => template(arg, vars));
 }
 

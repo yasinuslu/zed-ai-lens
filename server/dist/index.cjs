@@ -17,13 +17,15 @@ var __toESM = (mod, isNodeMode, target) => {
       return cached;
   }
   target = mod != null ? __create(__getProtoOf(mod)) : {};
-  const to = isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target;
-  for (let key of __getOwnPropNames(mod))
-    if (!__hasOwnProp.call(to, key))
-      __defProp(to, key, {
-        get: __accessProp.bind(mod, key),
-        enumerable: true
-      });
+  const to = isNodeMode || !mod || !mod.__esModule || !__hasOwnProp.call(mod, "default") ? __defProp(target, "default", { value: mod, enumerable: true }) : target;
+  if (mod && typeof mod === "object" || typeof mod === "function") {
+    for (let key of __getOwnPropNames(mod))
+      if (!__hasOwnProp.call(to, key))
+        __defProp(to, key, {
+          get: __accessProp.bind(mod, key),
+          enumerable: true
+        });
+  }
   if (canCache)
     cache.set(mod, to);
   return to;
@@ -31,7 +33,7 @@ var __toESM = (mod, isNodeMode, target) => {
 var __commonJS = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
 
 // node_modules/vscode-languageserver/lib/common/utils/is.js
-var require_is = __commonJS((exports2) => {
+var require_is = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.thenable = exports2.typedArray = exports2.stringArray = exports2.array = exports2.func = exports2.error = exports2.number = exports2.string = exports2.boolean = undefined;
   function boolean(value) {
@@ -73,7 +75,7 @@ var require_is = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/is.js
-var require_is2 = __commonJS((exports2) => {
+var require_is2 = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.stringArray = exports2.array = exports2.func = exports2.error = exports2.number = exports2.string = exports2.boolean = undefined;
   function boolean(value) {
@@ -107,27 +109,27 @@ var require_is2 = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/messages.js
-var require_messages = __commonJS((exports2) => {
+var require_messages = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.Message = exports2.NotificationType9 = exports2.NotificationType8 = exports2.NotificationType7 = exports2.NotificationType6 = exports2.NotificationType5 = exports2.NotificationType4 = exports2.NotificationType3 = exports2.NotificationType2 = exports2.NotificationType1 = exports2.NotificationType0 = exports2.NotificationType = exports2.RequestType9 = exports2.RequestType8 = exports2.RequestType7 = exports2.RequestType6 = exports2.RequestType5 = exports2.RequestType4 = exports2.RequestType3 = exports2.RequestType2 = exports2.RequestType1 = exports2.RequestType = exports2.RequestType0 = exports2.AbstractMessageSignature = exports2.ParameterStructures = exports2.ResponseError = exports2.ErrorCodes = undefined;
   var is = require_is2();
   var ErrorCodes;
-  (function(ErrorCodes2) {
-    ErrorCodes2.ParseError = -32700;
-    ErrorCodes2.InvalidRequest = -32600;
-    ErrorCodes2.MethodNotFound = -32601;
-    ErrorCodes2.InvalidParams = -32602;
-    ErrorCodes2.InternalError = -32603;
-    ErrorCodes2.jsonrpcReservedErrorRangeStart = -32099;
-    ErrorCodes2.serverErrorStart = -32099;
-    ErrorCodes2.MessageWriteError = -32099;
-    ErrorCodes2.MessageReadError = -32098;
-    ErrorCodes2.PendingResponseRejected = -32097;
-    ErrorCodes2.ConnectionInactive = -32096;
-    ErrorCodes2.ServerNotInitialized = -32002;
-    ErrorCodes2.UnknownErrorCode = -32001;
-    ErrorCodes2.jsonrpcReservedErrorRangeEnd = -32000;
-    ErrorCodes2.serverErrorEnd = -32000;
+  (function(ErrorCodes) {
+    ErrorCodes.ParseError = -32700;
+    ErrorCodes.InvalidRequest = -32600;
+    ErrorCodes.MethodNotFound = -32601;
+    ErrorCodes.InvalidParams = -32602;
+    ErrorCodes.InternalError = -32603;
+    ErrorCodes.jsonrpcReservedErrorRangeStart = -32099;
+    ErrorCodes.serverErrorStart = -32099;
+    ErrorCodes.MessageWriteError = -32099;
+    ErrorCodes.MessageReadError = -32098;
+    ErrorCodes.PendingResponseRejected = -32097;
+    ErrorCodes.ConnectionInactive = -32096;
+    ErrorCodes.ServerNotInitialized = -32002;
+    ErrorCodes.UnknownErrorCode = -32001;
+    ErrorCodes.jsonrpcReservedErrorRangeEnd = -32000;
+    ErrorCodes.serverErrorEnd = -32000;
   })(ErrorCodes || (exports2.ErrorCodes = ErrorCodes = {}));
 
   class ResponseError extends Error {
@@ -347,37 +349,37 @@ var require_messages = __commonJS((exports2) => {
   }
   exports2.NotificationType9 = NotificationType9;
   var Message;
-  (function(Message2) {
+  (function(Message) {
     function isRequest(message) {
       const candidate = message;
       return candidate && is.string(candidate.method) && (is.string(candidate.id) || is.number(candidate.id));
     }
-    Message2.isRequest = isRequest;
+    Message.isRequest = isRequest;
     function isNotification(message) {
       const candidate = message;
       return candidate && is.string(candidate.method) && message.id === undefined;
     }
-    Message2.isNotification = isNotification;
+    Message.isNotification = isNotification;
     function isResponse(message) {
       const candidate = message;
       return candidate && (candidate.result !== undefined || !!candidate.error) && (is.string(candidate.id) || is.number(candidate.id) || candidate.id === null);
     }
-    Message2.isResponse = isResponse;
+    Message.isResponse = isResponse;
   })(Message || (exports2.Message = Message = {}));
 });
 
 // node_modules/vscode-jsonrpc/lib/common/linkedMap.js
-var require_linkedMap = __commonJS((exports2) => {
+var require_linkedMap = __commonJS(function(exports2) {
   var _a;
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.LRUCache = exports2.LinkedMap = exports2.Touch = undefined;
   var Touch;
-  (function(Touch2) {
-    Touch2.None = 0;
-    Touch2.First = 1;
-    Touch2.AsOld = Touch2.First;
-    Touch2.Last = 2;
-    Touch2.AsNew = Touch2.Last;
+  (function(Touch) {
+    Touch.None = 0;
+    Touch.First = 1;
+    Touch.AsOld = Touch.First;
+    Touch.Last = 2;
+    Touch.AsNew = Touch.Last;
   })(Touch || (exports2.Touch = Touch = {}));
 
   class LinkedMap {
@@ -736,22 +738,22 @@ var require_linkedMap = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/disposable.js
-var require_disposable = __commonJS((exports2) => {
+var require_disposable = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.Disposable = undefined;
   var Disposable;
-  (function(Disposable2) {
+  (function(Disposable) {
     function create(func) {
       return {
         dispose: func
       };
     }
-    Disposable2.create = create;
+    Disposable.create = create;
   })(Disposable || (exports2.Disposable = Disposable = {}));
 });
 
 // node_modules/vscode-jsonrpc/lib/common/ral.js
-var require_ral = __commonJS((exports2) => {
+var require_ral = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   var _ral;
   function RAL() {
@@ -760,27 +762,27 @@ var require_ral = __commonJS((exports2) => {
     }
     return _ral;
   }
-  (function(RAL2) {
+  (function(RAL) {
     function install(ral) {
       if (ral === undefined) {
         throw new Error(`No runtime abstraction layer provided`);
       }
       _ral = ral;
     }
-    RAL2.install = install;
+    RAL.install = install;
   })(RAL || (RAL = {}));
   exports2.default = RAL;
 });
 
 // node_modules/vscode-jsonrpc/lib/common/events.js
-var require_events = __commonJS((exports2) => {
+var require_events = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.Emitter = exports2.Event = undefined;
   var ral_1 = require_ral();
   var Event;
-  (function(Event2) {
+  (function(Event) {
     const _disposable = { dispose() {} };
-    Event2.None = function() {
+    Event.None = function() {
       return _disposable;
     };
   })(Event || (exports2.Event = Event = {}));
@@ -891,27 +893,27 @@ var require_events = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/cancellation.js
-var require_cancellation = __commonJS((exports2) => {
+var require_cancellation = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.CancellationTokenSource = exports2.CancellationToken = undefined;
   var ral_1 = require_ral();
   var Is = require_is2();
   var events_1 = require_events();
   var CancellationToken;
-  (function(CancellationToken2) {
-    CancellationToken2.None = Object.freeze({
+  (function(CancellationToken) {
+    CancellationToken.None = Object.freeze({
       isCancellationRequested: false,
       onCancellationRequested: events_1.Event.None
     });
-    CancellationToken2.Cancelled = Object.freeze({
+    CancellationToken.Cancelled = Object.freeze({
       isCancellationRequested: true,
       onCancellationRequested: events_1.Event.None
     });
     function is(value) {
       const candidate = value;
-      return candidate && (candidate === CancellationToken2.None || candidate === CancellationToken2.Cancelled || Is.boolean(candidate.isCancellationRequested) && !!candidate.onCancellationRequested);
+      return candidate && (candidate === CancellationToken.None || candidate === CancellationToken.Cancelled || Is.boolean(candidate.isCancellationRequested) && !!candidate.onCancellationRequested);
     }
-    CancellationToken2.is = is;
+    CancellationToken.is = is;
   })(CancellationToken || (exports2.CancellationToken = CancellationToken = {}));
   var shortcutEvent = Object.freeze(function(callback, context) {
     const handle = (0, ral_1.default)().timer.setTimeout(callback.bind(context), 0);
@@ -979,14 +981,14 @@ var require_cancellation = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/sharedArrayCancellation.js
-var require_sharedArrayCancellation = __commonJS((exports2) => {
+var require_sharedArrayCancellation = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.SharedArrayReceiverStrategy = exports2.SharedArraySenderStrategy = undefined;
   var cancellation_1 = require_cancellation();
   var CancellationState;
-  (function(CancellationState2) {
-    CancellationState2.Continue = 0;
-    CancellationState2.Cancelled = 1;
+  (function(CancellationState) {
+    CancellationState.Continue = 0;
+    CancellationState.Cancelled = 1;
   })(CancellationState || (CancellationState = {}));
 
   class SharedArraySenderStrategy {
@@ -1056,7 +1058,7 @@ var require_sharedArrayCancellation = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/semaphore.js
-var require_semaphore = __commonJS((exports2) => {
+var require_semaphore = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.Semaphore = undefined;
   var ral_1 = require_ral();
@@ -1122,7 +1124,7 @@ var require_semaphore = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/messageReader.js
-var require_messageReader = __commonJS((exports2) => {
+var require_messageReader = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ReadableStreamMessageReader = exports2.AbstractMessageReader = exports2.MessageReader = undefined;
   var ral_1 = require_ral();
@@ -1130,12 +1132,12 @@ var require_messageReader = __commonJS((exports2) => {
   var events_1 = require_events();
   var semaphore_1 = require_semaphore();
   var MessageReader;
-  (function(MessageReader2) {
+  (function(MessageReader) {
     function is(value) {
       let candidate = value;
       return candidate && Is.func(candidate.listen) && Is.func(candidate.dispose) && Is.func(candidate.onError) && Is.func(candidate.onClose) && Is.func(candidate.onPartialMessage);
     }
-    MessageReader2.is = is;
+    MessageReader.is = is;
   })(MessageReader || (exports2.MessageReader = MessageReader = {}));
 
   class AbstractMessageReader {
@@ -1176,7 +1178,7 @@ var require_messageReader = __commonJS((exports2) => {
   }
   exports2.AbstractMessageReader = AbstractMessageReader;
   var ResolvedMessageReaderOptions;
-  (function(ResolvedMessageReaderOptions2) {
+  (function(ResolvedMessageReaderOptions) {
     function fromOptions(options) {
       let charset;
       let result;
@@ -1213,7 +1215,7 @@ var require_messageReader = __commonJS((exports2) => {
       }
       return { charset, contentDecoder, contentDecoders, contentTypeDecoder, contentTypeDecoders };
     }
-    ResolvedMessageReaderOptions2.fromOptions = fromOptions;
+    ResolvedMessageReaderOptions.fromOptions = fromOptions;
   })(ResolvedMessageReaderOptions || (ResolvedMessageReaderOptions = {}));
 
   class ReadableStreamMessageReader extends AbstractMessageReader {
@@ -1310,7 +1312,7 @@ ${JSON.stringify(Object.fromEntries(headers))}`));
 });
 
 // node_modules/vscode-jsonrpc/lib/common/messageWriter.js
-var require_messageWriter = __commonJS((exports2) => {
+var require_messageWriter = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.WriteableStreamMessageWriter = exports2.AbstractMessageWriter = exports2.MessageWriter = undefined;
   var ral_1 = require_ral();
@@ -1321,12 +1323,12 @@ var require_messageWriter = __commonJS((exports2) => {
   var CRLF = `\r
 `;
   var MessageWriter;
-  (function(MessageWriter2) {
+  (function(MessageWriter) {
     function is(value) {
       let candidate = value;
       return candidate && Is.func(candidate.dispose) && Is.func(candidate.onClose) && Is.func(candidate.onError) && Is.func(candidate.write);
     }
-    MessageWriter2.is = is;
+    MessageWriter.is = is;
   })(MessageWriter || (exports2.MessageWriter = MessageWriter = {}));
 
   class AbstractMessageWriter {
@@ -1360,7 +1362,7 @@ var require_messageWriter = __commonJS((exports2) => {
   }
   exports2.AbstractMessageWriter = AbstractMessageWriter;
   var ResolvedMessageWriterOptions;
-  (function(ResolvedMessageWriterOptions2) {
+  (function(ResolvedMessageWriterOptions) {
     function fromOptions(options) {
       if (options === undefined || typeof options === "string") {
         return { charset: options ?? "utf-8", contentTypeEncoder: (0, ral_1.default)().applicationJson.encoder };
@@ -1368,7 +1370,7 @@ var require_messageWriter = __commonJS((exports2) => {
         return { charset: options.charset ?? "utf-8", contentEncoder: options.contentEncoder, contentTypeEncoder: options.contentTypeEncoder ?? (0, ral_1.default)().applicationJson.encoder };
       }
     }
-    ResolvedMessageWriterOptions2.fromOptions = fromOptions;
+    ResolvedMessageWriterOptions.fromOptions = fromOptions;
   })(ResolvedMessageWriterOptions || (ResolvedMessageWriterOptions = {}));
 
   class WriteableStreamMessageWriter extends AbstractMessageWriter {
@@ -1422,7 +1424,7 @@ var require_messageWriter = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/common/messageBuffer.js
-var require_messageBuffer = __commonJS((exports2) => {
+var require_messageBuffer = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.AbstractMessageBuffer = undefined;
   var CR = 13;
@@ -1539,10 +1541,10 @@ ${header}`);
       }
       if (this._chunks[0].byteLength > byteCount) {
         const chunk = this._chunks[0];
-        const result2 = this.asNative(chunk, byteCount);
+        const result = this.asNative(chunk, byteCount);
         this._chunks[0] = chunk.slice(byteCount);
         this._totalLength -= byteCount;
-        return result2;
+        return result;
       }
       const result = this.allocNative(byteCount);
       let resultOffset = 0;
@@ -1571,7 +1573,7 @@ ${header}`);
 });
 
 // node_modules/vscode-jsonrpc/lib/common/connection.js
-var require_connection = __commonJS((exports2) => {
+var require_connection = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.createMessageConnection = exports2.ConnectionOptions = exports2.MessageStrategy = exports2.CancellationStrategy = exports2.CancellationSenderStrategy = exports2.CancellationReceiverStrategy = exports2.RequestCancellationReceiverStrategy = exports2.IdCancellationReceiverStrategy = exports2.ConnectionStrategy = exports2.ConnectionError = exports2.ConnectionErrors = exports2.LogTraceNotification = exports2.SetTraceNotification = exports2.TraceFormat = exports2.TraceValues = exports2.Trace = exports2.NullLogger = exports2.ProgressType = exports2.ProgressToken = undefined;
   var ral_1 = require_ral();
@@ -1581,19 +1583,19 @@ var require_connection = __commonJS((exports2) => {
   var events_1 = require_events();
   var cancellation_1 = require_cancellation();
   var CancelNotification;
-  (function(CancelNotification2) {
-    CancelNotification2.type = new messages_1.NotificationType("$/cancelRequest");
+  (function(CancelNotification) {
+    CancelNotification.type = new messages_1.NotificationType("$/cancelRequest");
   })(CancelNotification || (CancelNotification = {}));
   var ProgressToken;
-  (function(ProgressToken2) {
+  (function(ProgressToken) {
     function is(value) {
       return typeof value === "string" || typeof value === "number";
     }
-    ProgressToken2.is = is;
+    ProgressToken.is = is;
   })(ProgressToken || (exports2.ProgressToken = ProgressToken = {}));
   var ProgressNotification;
-  (function(ProgressNotification2) {
-    ProgressNotification2.type = new messages_1.NotificationType("$/progress");
+  (function(ProgressNotification) {
+    ProgressNotification.type = new messages_1.NotificationType("$/progress");
   })(ProgressNotification || (ProgressNotification = {}));
 
   class ProgressType {
@@ -1601,11 +1603,11 @@ var require_connection = __commonJS((exports2) => {
   }
   exports2.ProgressType = ProgressType;
   var StarRequestHandler;
-  (function(StarRequestHandler2) {
+  (function(StarRequestHandler) {
     function is(value) {
       return Is.func(value);
     }
-    StarRequestHandler2.is = is;
+    StarRequestHandler.is = is;
   })(StarRequestHandler || (StarRequestHandler = {}));
   exports2.NullLogger = Object.freeze({
     error: () => {},
@@ -1614,87 +1616,87 @@ var require_connection = __commonJS((exports2) => {
     log: () => {}
   });
   var Trace;
-  (function(Trace2) {
-    Trace2[Trace2["Off"] = 0] = "Off";
-    Trace2[Trace2["Messages"] = 1] = "Messages";
-    Trace2[Trace2["Compact"] = 2] = "Compact";
-    Trace2[Trace2["Verbose"] = 3] = "Verbose";
+  (function(Trace) {
+    Trace[Trace["Off"] = 0] = "Off";
+    Trace[Trace["Messages"] = 1] = "Messages";
+    Trace[Trace["Compact"] = 2] = "Compact";
+    Trace[Trace["Verbose"] = 3] = "Verbose";
   })(Trace || (exports2.Trace = Trace = {}));
   var TraceValues;
-  (function(TraceValues2) {
-    TraceValues2.Off = "off";
-    TraceValues2.Messages = "messages";
-    TraceValues2.Compact = "compact";
-    TraceValues2.Verbose = "verbose";
+  (function(TraceValues) {
+    TraceValues.Off = "off";
+    TraceValues.Messages = "messages";
+    TraceValues.Compact = "compact";
+    TraceValues.Verbose = "verbose";
   })(TraceValues || (exports2.TraceValues = TraceValues = {}));
-  (function(Trace2) {
+  (function(Trace) {
     function fromString(value) {
       if (!Is.string(value)) {
-        return Trace2.Off;
+        return Trace.Off;
       }
       value = value.toLowerCase();
       switch (value) {
         case "off":
-          return Trace2.Off;
+          return Trace.Off;
         case "messages":
-          return Trace2.Messages;
+          return Trace.Messages;
         case "compact":
-          return Trace2.Compact;
+          return Trace.Compact;
         case "verbose":
-          return Trace2.Verbose;
+          return Trace.Verbose;
         default:
-          return Trace2.Off;
+          return Trace.Off;
       }
     }
-    Trace2.fromString = fromString;
+    Trace.fromString = fromString;
     function toString(value) {
       switch (value) {
-        case Trace2.Off:
+        case Trace.Off:
           return "off";
-        case Trace2.Messages:
+        case Trace.Messages:
           return "messages";
-        case Trace2.Compact:
+        case Trace.Compact:
           return "compact";
-        case Trace2.Verbose:
+        case Trace.Verbose:
           return "verbose";
         default:
           return "off";
       }
     }
-    Trace2.toString = toString;
+    Trace.toString = toString;
   })(Trace || (exports2.Trace = Trace = {}));
   var TraceFormat;
-  (function(TraceFormat2) {
-    TraceFormat2["Text"] = "text";
-    TraceFormat2["JSON"] = "json";
+  (function(TraceFormat) {
+    TraceFormat["Text"] = "text";
+    TraceFormat["JSON"] = "json";
   })(TraceFormat || (exports2.TraceFormat = TraceFormat = {}));
-  (function(TraceFormat2) {
+  (function(TraceFormat) {
     function fromString(value) {
       if (!Is.string(value)) {
-        return TraceFormat2.Text;
+        return TraceFormat.Text;
       }
       value = value.toLowerCase();
       if (value === "json") {
-        return TraceFormat2.JSON;
+        return TraceFormat.JSON;
       } else {
-        return TraceFormat2.Text;
+        return TraceFormat.Text;
       }
     }
-    TraceFormat2.fromString = fromString;
+    TraceFormat.fromString = fromString;
   })(TraceFormat || (exports2.TraceFormat = TraceFormat = {}));
   var SetTraceNotification;
-  (function(SetTraceNotification2) {
-    SetTraceNotification2.type = new messages_1.NotificationType("$/setTrace");
+  (function(SetTraceNotification) {
+    SetTraceNotification.type = new messages_1.NotificationType("$/setTrace");
   })(SetTraceNotification || (exports2.SetTraceNotification = SetTraceNotification = {}));
   var LogTraceNotification;
-  (function(LogTraceNotification2) {
-    LogTraceNotification2.type = new messages_1.NotificationType("$/logTrace");
+  (function(LogTraceNotification) {
+    LogTraceNotification.type = new messages_1.NotificationType("$/logTrace");
   })(LogTraceNotification || (exports2.LogTraceNotification = LogTraceNotification = {}));
   var ConnectionErrors;
-  (function(ConnectionErrors2) {
-    ConnectionErrors2[ConnectionErrors2["Closed"] = 1] = "Closed";
-    ConnectionErrors2[ConnectionErrors2["Disposed"] = 2] = "Disposed";
-    ConnectionErrors2[ConnectionErrors2["AlreadyListening"] = 3] = "AlreadyListening";
+  (function(ConnectionErrors) {
+    ConnectionErrors[ConnectionErrors["Closed"] = 1] = "Closed";
+    ConnectionErrors[ConnectionErrors["Disposed"] = 2] = "Disposed";
+    ConnectionErrors[ConnectionErrors["AlreadyListening"] = 3] = "AlreadyListening";
   })(ConnectionErrors || (exports2.ConnectionErrors = ConnectionErrors = {}));
 
   class ConnectionError extends Error {
@@ -1706,32 +1708,32 @@ var require_connection = __commonJS((exports2) => {
   }
   exports2.ConnectionError = ConnectionError;
   var ConnectionStrategy;
-  (function(ConnectionStrategy2) {
+  (function(ConnectionStrategy) {
     function is(value) {
       const candidate = value;
       return candidate && Is.func(candidate.cancelUndispatched);
     }
-    ConnectionStrategy2.is = is;
+    ConnectionStrategy.is = is;
   })(ConnectionStrategy || (exports2.ConnectionStrategy = ConnectionStrategy = {}));
   var IdCancellationReceiverStrategy;
-  (function(IdCancellationReceiverStrategy2) {
+  (function(IdCancellationReceiverStrategy) {
     function is(value) {
       const candidate = value;
       return candidate && (candidate.kind === undefined || candidate.kind === "id") && Is.func(candidate.createCancellationTokenSource) && (candidate.dispose === undefined || Is.func(candidate.dispose));
     }
-    IdCancellationReceiverStrategy2.is = is;
+    IdCancellationReceiverStrategy.is = is;
   })(IdCancellationReceiverStrategy || (exports2.IdCancellationReceiverStrategy = IdCancellationReceiverStrategy = {}));
   var RequestCancellationReceiverStrategy;
-  (function(RequestCancellationReceiverStrategy2) {
+  (function(RequestCancellationReceiverStrategy) {
     function is(value) {
       const candidate = value;
       return candidate && candidate.kind === "request" && Is.func(candidate.createCancellationTokenSource) && (candidate.dispose === undefined || Is.func(candidate.dispose));
     }
-    RequestCancellationReceiverStrategy2.is = is;
+    RequestCancellationReceiverStrategy.is = is;
   })(RequestCancellationReceiverStrategy || (exports2.RequestCancellationReceiverStrategy = RequestCancellationReceiverStrategy = {}));
   var CancellationReceiverStrategy;
-  (function(CancellationReceiverStrategy2) {
-    CancellationReceiverStrategy2.Message = Object.freeze({
+  (function(CancellationReceiverStrategy) {
+    CancellationReceiverStrategy.Message = Object.freeze({
       createCancellationTokenSource(_) {
         return new cancellation_1.CancellationTokenSource;
       }
@@ -1739,11 +1741,11 @@ var require_connection = __commonJS((exports2) => {
     function is(value) {
       return IdCancellationReceiverStrategy.is(value) || RequestCancellationReceiverStrategy.is(value);
     }
-    CancellationReceiverStrategy2.is = is;
+    CancellationReceiverStrategy.is = is;
   })(CancellationReceiverStrategy || (exports2.CancellationReceiverStrategy = CancellationReceiverStrategy = {}));
   var CancellationSenderStrategy;
-  (function(CancellationSenderStrategy2) {
-    CancellationSenderStrategy2.Message = Object.freeze({
+  (function(CancellationSenderStrategy) {
+    CancellationSenderStrategy.Message = Object.freeze({
       sendCancellation(conn, id) {
         return conn.sendNotification(CancelNotification.type, { id });
       },
@@ -1753,11 +1755,11 @@ var require_connection = __commonJS((exports2) => {
       const candidate = value;
       return candidate && Is.func(candidate.sendCancellation) && Is.func(candidate.cleanup);
     }
-    CancellationSenderStrategy2.is = is;
+    CancellationSenderStrategy.is = is;
   })(CancellationSenderStrategy || (exports2.CancellationSenderStrategy = CancellationSenderStrategy = {}));
   var CancellationStrategy;
-  (function(CancellationStrategy2) {
-    CancellationStrategy2.Message = Object.freeze({
+  (function(CancellationStrategy) {
+    CancellationStrategy.Message = Object.freeze({
       receiver: CancellationReceiverStrategy.Message,
       sender: CancellationSenderStrategy.Message
     });
@@ -1765,30 +1767,30 @@ var require_connection = __commonJS((exports2) => {
       const candidate = value;
       return candidate && CancellationReceiverStrategy.is(candidate.receiver) && CancellationSenderStrategy.is(candidate.sender);
     }
-    CancellationStrategy2.is = is;
+    CancellationStrategy.is = is;
   })(CancellationStrategy || (exports2.CancellationStrategy = CancellationStrategy = {}));
   var MessageStrategy;
-  (function(MessageStrategy2) {
+  (function(MessageStrategy) {
     function is(value) {
       const candidate = value;
       return candidate && Is.func(candidate.handleMessage);
     }
-    MessageStrategy2.is = is;
+    MessageStrategy.is = is;
   })(MessageStrategy || (exports2.MessageStrategy = MessageStrategy = {}));
   var ConnectionOptions;
-  (function(ConnectionOptions2) {
+  (function(ConnectionOptions) {
     function is(value) {
       const candidate = value;
       return candidate && (CancellationStrategy.is(candidate.cancellationStrategy) || ConnectionStrategy.is(candidate.connectionStrategy) || MessageStrategy.is(candidate.messageStrategy));
     }
-    ConnectionOptions2.is = is;
+    ConnectionOptions.is = is;
   })(ConnectionOptions || (exports2.ConnectionOptions = ConnectionOptions = {}));
   var ConnectionState;
-  (function(ConnectionState2) {
-    ConnectionState2[ConnectionState2["New"] = 1] = "New";
-    ConnectionState2[ConnectionState2["Listening"] = 2] = "Listening";
-    ConnectionState2[ConnectionState2["Closed"] = 3] = "Closed";
-    ConnectionState2[ConnectionState2["Disposed"] = 4] = "Disposed";
+  (function(ConnectionState) {
+    ConnectionState[ConnectionState["New"] = 1] = "New";
+    ConnectionState[ConnectionState["Listening"] = 2] = "Listening";
+    ConnectionState[ConnectionState["Closed"] = 3] = "Closed";
+    ConnectionState[ConnectionState["Disposed"] = 4] = "Disposed";
   })(ConnectionState || (ConnectionState = {}));
   function createMessageConnection(messageReader, messageWriter, _logger, options) {
     const logger = _logger !== undefined ? _logger : exports2.NullLogger;
@@ -1941,7 +1943,7 @@ var require_connection = __commonJS((exports2) => {
       if (isDisposed()) {
         return;
       }
-      function reply(resultOrError, method, startTime2) {
+      function reply(resultOrError, method, startTime) {
         const message = {
           jsonrpc: version,
           id: requestMessage.id
@@ -1951,19 +1953,19 @@ var require_connection = __commonJS((exports2) => {
         } else {
           message.result = resultOrError === undefined ? null : resultOrError;
         }
-        traceSendingResponse(message, method, startTime2);
+        traceSendingResponse(message, method, startTime);
         messageWriter.write(message).catch(() => logger.error(`Sending response failed.`));
       }
-      function replyError(error, method, startTime2) {
+      function replyError(error, method, startTime) {
         const message = {
           jsonrpc: version,
           id: requestMessage.id,
           error: error.toJson()
         };
-        traceSendingResponse(message, method, startTime2);
+        traceSendingResponse(message, method, startTime);
         messageWriter.write(message).catch(() => logger.error(`Sending response failed.`));
       }
-      function replySuccess(result, method, startTime2) {
+      function replySuccess(result, method, startTime) {
         if (result === undefined) {
           result = null;
         }
@@ -1972,7 +1974,7 @@ var require_connection = __commonJS((exports2) => {
           id: requestMessage.id,
           result
         };
-        traceSendingResponse(message, method, startTime2);
+        traceSendingResponse(message, method, startTime);
         messageWriter.write(message).catch(() => logger.error(`Sending response failed.`));
       }
       traceReceivedRequest(requestMessage);
@@ -2700,7 +2702,7 @@ ${JSON.stringify(message, null, 4)}`);
 });
 
 // node_modules/vscode-jsonrpc/lib/common/api.js
-var require_api = __commonJS((exports2) => {
+var require_api = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ProgressType = exports2.ProgressToken = exports2.createMessageConnection = exports2.NullLogger = exports2.ConnectionOptions = exports2.ConnectionStrategy = exports2.AbstractMessageBuffer = exports2.WriteableStreamMessageWriter = exports2.AbstractMessageWriter = exports2.MessageWriter = exports2.ReadableStreamMessageReader = exports2.AbstractMessageReader = exports2.MessageReader = exports2.SharedArrayReceiverStrategy = exports2.SharedArraySenderStrategy = exports2.CancellationToken = exports2.CancellationTokenSource = exports2.Emitter = exports2.Event = exports2.Disposable = exports2.LRUCache = exports2.Touch = exports2.LinkedMap = exports2.ParameterStructures = exports2.NotificationType9 = exports2.NotificationType8 = exports2.NotificationType7 = exports2.NotificationType6 = exports2.NotificationType5 = exports2.NotificationType4 = exports2.NotificationType3 = exports2.NotificationType2 = exports2.NotificationType1 = exports2.NotificationType0 = exports2.NotificationType = exports2.ErrorCodes = exports2.ResponseError = exports2.RequestType9 = exports2.RequestType8 = exports2.RequestType7 = exports2.RequestType6 = exports2.RequestType5 = exports2.RequestType4 = exports2.RequestType3 = exports2.RequestType2 = exports2.RequestType1 = exports2.RequestType0 = exports2.RequestType = exports2.Message = exports2.RAL = undefined;
   exports2.MessageStrategy = exports2.CancellationStrategy = exports2.CancellationSenderStrategy = exports2.CancellationReceiverStrategy = exports2.ConnectionError = exports2.ConnectionErrors = exports2.LogTraceNotification = exports2.SetTraceNotification = exports2.TraceFormat = exports2.TraceValues = exports2.Trace = undefined;
@@ -2899,7 +2901,7 @@ var require_api = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/lib/node/ril.js
-var require_ril = __commonJS((exports2) => {
+var require_ril = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   var util_1 = require("util");
   var api_1 = require_api();
@@ -3045,17 +3047,17 @@ var require_ril = __commonJS((exports2) => {
   function RIL() {
     return _ril;
   }
-  (function(RIL2) {
+  (function(RIL) {
     function install() {
       api_1.RAL.install(_ril);
     }
-    RIL2.install = install;
+    RIL.install = install;
   })(RIL || (RIL = {}));
   exports2.default = RIL;
 });
 
 // node_modules/vscode-jsonrpc/lib/node/main.js
-var require_main = __commonJS((exports2) => {
+var require_main = __commonJS(function(exports2) {
   var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
     if (k2 === undefined)
       k2 = k;
@@ -3322,12 +3324,12 @@ var require_main = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-jsonrpc/node.js
-var require_node = __commonJS((exports2, module2) => {
+var require_node = __commonJS(function(exports2, module2) {
   module2.exports = require_main();
 });
 
 // node_modules/vscode-languageserver-types/lib/umd/main.js
-var require_main2 = __commonJS((exports2, module2) => {
+var require_main2 = __commonJS(function(exports2, module2) {
   (function(factory) {
     if (typeof module2 === "object" && typeof module2.exports === "object") {
       var v = factory(require, exports2);
@@ -3340,39 +3342,39 @@ var require_main2 = __commonJS((exports2, module2) => {
     Object.defineProperty(exports3, "__esModule", { value: true });
     exports3.TextDocument = exports3.EOL = exports3.WorkspaceFolder = exports3.InlineCompletionContext = exports3.SelectedCompletionInfo = exports3.InlineCompletionTriggerKind = exports3.InlineCompletionList = exports3.InlineCompletionItem = exports3.StringValue = exports3.InlayHint = exports3.InlayHintLabelPart = exports3.InlayHintKind = exports3.InlineValueContext = exports3.InlineValueEvaluatableExpression = exports3.InlineValueVariableLookup = exports3.InlineValueText = exports3.SemanticTokens = exports3.SemanticTokenModifiers = exports3.SemanticTokenTypes = exports3.SelectionRange = exports3.DocumentLink = exports3.FormattingOptions = exports3.CodeLens = exports3.CodeAction = exports3.CodeActionContext = exports3.CodeActionTriggerKind = exports3.CodeActionKind = exports3.DocumentSymbol = exports3.WorkspaceSymbol = exports3.SymbolInformation = exports3.SymbolTag = exports3.SymbolKind = exports3.DocumentHighlight = exports3.DocumentHighlightKind = exports3.SignatureInformation = exports3.ParameterInformation = exports3.Hover = exports3.MarkedString = exports3.CompletionList = exports3.CompletionItem = exports3.CompletionItemLabelDetails = exports3.InsertTextMode = exports3.InsertReplaceEdit = exports3.CompletionItemTag = exports3.InsertTextFormat = exports3.CompletionItemKind = exports3.MarkupContent = exports3.MarkupKind = exports3.TextDocumentItem = exports3.OptionalVersionedTextDocumentIdentifier = exports3.VersionedTextDocumentIdentifier = exports3.TextDocumentIdentifier = exports3.WorkspaceChange = exports3.WorkspaceEdit = exports3.DeleteFile = exports3.RenameFile = exports3.CreateFile = exports3.TextDocumentEdit = exports3.AnnotatedTextEdit = exports3.ChangeAnnotationIdentifier = exports3.ChangeAnnotation = exports3.TextEdit = exports3.Command = exports3.Diagnostic = exports3.CodeDescription = exports3.DiagnosticTag = exports3.DiagnosticSeverity = exports3.DiagnosticRelatedInformation = exports3.FoldingRange = exports3.FoldingRangeKind = exports3.ColorPresentation = exports3.ColorInformation = exports3.Color = exports3.LocationLink = exports3.Location = exports3.Range = exports3.Position = exports3.uinteger = exports3.integer = exports3.URI = exports3.DocumentUri = undefined;
     var DocumentUri;
-    (function(DocumentUri2) {
+    (function(DocumentUri) {
       function is(value) {
         return typeof value === "string";
       }
-      DocumentUri2.is = is;
+      DocumentUri.is = is;
     })(DocumentUri || (exports3.DocumentUri = DocumentUri = {}));
     var URI;
-    (function(URI2) {
+    (function(URI) {
       function is(value) {
         return typeof value === "string";
       }
-      URI2.is = is;
+      URI.is = is;
     })(URI || (exports3.URI = URI = {}));
     var integer;
-    (function(integer2) {
-      integer2.MIN_VALUE = -2147483648;
-      integer2.MAX_VALUE = 2147483647;
+    (function(integer) {
+      integer.MIN_VALUE = -2147483648;
+      integer.MAX_VALUE = 2147483647;
       function is(value) {
-        return typeof value === "number" && integer2.MIN_VALUE <= value && value <= integer2.MAX_VALUE;
+        return typeof value === "number" && integer.MIN_VALUE <= value && value <= integer.MAX_VALUE;
       }
-      integer2.is = is;
+      integer.is = is;
     })(integer || (exports3.integer = integer = {}));
     var uinteger;
-    (function(uinteger2) {
-      uinteger2.MIN_VALUE = 0;
-      uinteger2.MAX_VALUE = 2147483647;
+    (function(uinteger) {
+      uinteger.MIN_VALUE = 0;
+      uinteger.MAX_VALUE = 2147483647;
       function is(value) {
-        return typeof value === "number" && uinteger2.MIN_VALUE <= value && value <= uinteger2.MAX_VALUE;
+        return typeof value === "number" && uinteger.MIN_VALUE <= value && value <= uinteger.MAX_VALUE;
       }
-      uinteger2.is = is;
+      uinteger.is = is;
     })(uinteger || (exports3.uinteger = uinteger = {}));
     var Position;
-    (function(Position2) {
+    (function(Position) {
       function create(line, character) {
         if (line === Number.MAX_VALUE) {
           line = uinteger.MAX_VALUE;
@@ -3382,15 +3384,15 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return { line, character };
       }
-      Position2.create = create;
+      Position.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Is.uinteger(candidate.line) && Is.uinteger(candidate.character);
       }
-      Position2.is = is;
+      Position.is = is;
     })(Position || (exports3.Position = Position = {}));
     var Range;
-    (function(Range2) {
+    (function(Range) {
       function create(one, two, three, four) {
         if (Is.uinteger(one) && Is.uinteger(two) && Is.uinteger(three) && Is.uinteger(four)) {
           return { start: Position.create(one, two), end: Position.create(three, four) };
@@ -3400,39 +3402,39 @@ var require_main2 = __commonJS((exports2, module2) => {
           throw new Error("Range#create called with invalid arguments[".concat(one, ", ").concat(two, ", ").concat(three, ", ").concat(four, "]"));
         }
       }
-      Range2.create = create;
+      Range.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Position.is(candidate.start) && Position.is(candidate.end);
       }
-      Range2.is = is;
+      Range.is = is;
     })(Range || (exports3.Range = Range = {}));
     var Location;
-    (function(Location2) {
+    (function(Location) {
       function create(uri, range) {
         return { uri, range };
       }
-      Location2.create = create;
+      Location.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Range.is(candidate.range) && (Is.string(candidate.uri) || Is.undefined(candidate.uri));
       }
-      Location2.is = is;
+      Location.is = is;
     })(Location || (exports3.Location = Location = {}));
     var LocationLink;
-    (function(LocationLink2) {
+    (function(LocationLink) {
       function create(targetUri, targetRange, targetSelectionRange, originSelectionRange) {
         return { targetUri, targetRange, targetSelectionRange, originSelectionRange };
       }
-      LocationLink2.create = create;
+      LocationLink.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Range.is(candidate.targetRange) && Is.string(candidate.targetUri) && Range.is(candidate.targetSelectionRange) && (Range.is(candidate.originSelectionRange) || Is.undefined(candidate.originSelectionRange));
       }
-      LocationLink2.is = is;
+      LocationLink.is = is;
     })(LocationLink || (exports3.LocationLink = LocationLink = {}));
     var Color;
-    (function(Color2) {
+    (function(Color) {
       function create(red, green, blue, alpha) {
         return {
           red,
@@ -3441,30 +3443,30 @@ var require_main2 = __commonJS((exports2, module2) => {
           alpha
         };
       }
-      Color2.create = create;
+      Color.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Is.numberRange(candidate.red, 0, 1) && Is.numberRange(candidate.green, 0, 1) && Is.numberRange(candidate.blue, 0, 1) && Is.numberRange(candidate.alpha, 0, 1);
       }
-      Color2.is = is;
+      Color.is = is;
     })(Color || (exports3.Color = Color = {}));
     var ColorInformation;
-    (function(ColorInformation2) {
+    (function(ColorInformation) {
       function create(range, color) {
         return {
           range,
           color
         };
       }
-      ColorInformation2.create = create;
+      ColorInformation.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Range.is(candidate.range) && Color.is(candidate.color);
       }
-      ColorInformation2.is = is;
+      ColorInformation.is = is;
     })(ColorInformation || (exports3.ColorInformation = ColorInformation = {}));
     var ColorPresentation;
-    (function(ColorPresentation2) {
+    (function(ColorPresentation) {
       function create(label, textEdit, additionalTextEdits) {
         return {
           label,
@@ -3472,21 +3474,21 @@ var require_main2 = __commonJS((exports2, module2) => {
           additionalTextEdits
         };
       }
-      ColorPresentation2.create = create;
+      ColorPresentation.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Is.string(candidate.label) && (Is.undefined(candidate.textEdit) || TextEdit.is(candidate)) && (Is.undefined(candidate.additionalTextEdits) || Is.typedArray(candidate.additionalTextEdits, TextEdit.is));
       }
-      ColorPresentation2.is = is;
+      ColorPresentation.is = is;
     })(ColorPresentation || (exports3.ColorPresentation = ColorPresentation = {}));
     var FoldingRangeKind;
-    (function(FoldingRangeKind2) {
-      FoldingRangeKind2.Comment = "comment";
-      FoldingRangeKind2.Imports = "imports";
-      FoldingRangeKind2.Region = "region";
+    (function(FoldingRangeKind) {
+      FoldingRangeKind.Comment = "comment";
+      FoldingRangeKind.Imports = "imports";
+      FoldingRangeKind.Region = "region";
     })(FoldingRangeKind || (exports3.FoldingRangeKind = FoldingRangeKind = {}));
     var FoldingRange;
-    (function(FoldingRange2) {
+    (function(FoldingRange) {
       function create(startLine, endLine, startCharacter, endCharacter, kind, collapsedText) {
         var result = {
           startLine,
@@ -3506,50 +3508,50 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      FoldingRange2.create = create;
+      FoldingRange.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Is.uinteger(candidate.startLine) && Is.uinteger(candidate.startLine) && (Is.undefined(candidate.startCharacter) || Is.uinteger(candidate.startCharacter)) && (Is.undefined(candidate.endCharacter) || Is.uinteger(candidate.endCharacter)) && (Is.undefined(candidate.kind) || Is.string(candidate.kind));
       }
-      FoldingRange2.is = is;
+      FoldingRange.is = is;
     })(FoldingRange || (exports3.FoldingRange = FoldingRange = {}));
     var DiagnosticRelatedInformation;
-    (function(DiagnosticRelatedInformation2) {
+    (function(DiagnosticRelatedInformation) {
       function create(location, message) {
         return {
           location,
           message
         };
       }
-      DiagnosticRelatedInformation2.create = create;
+      DiagnosticRelatedInformation.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Location.is(candidate.location) && Is.string(candidate.message);
       }
-      DiagnosticRelatedInformation2.is = is;
+      DiagnosticRelatedInformation.is = is;
     })(DiagnosticRelatedInformation || (exports3.DiagnosticRelatedInformation = DiagnosticRelatedInformation = {}));
     var DiagnosticSeverity;
-    (function(DiagnosticSeverity2) {
-      DiagnosticSeverity2.Error = 1;
-      DiagnosticSeverity2.Warning = 2;
-      DiagnosticSeverity2.Information = 3;
-      DiagnosticSeverity2.Hint = 4;
+    (function(DiagnosticSeverity) {
+      DiagnosticSeverity.Error = 1;
+      DiagnosticSeverity.Warning = 2;
+      DiagnosticSeverity.Information = 3;
+      DiagnosticSeverity.Hint = 4;
     })(DiagnosticSeverity || (exports3.DiagnosticSeverity = DiagnosticSeverity = {}));
     var DiagnosticTag;
-    (function(DiagnosticTag2) {
-      DiagnosticTag2.Unnecessary = 1;
-      DiagnosticTag2.Deprecated = 2;
+    (function(DiagnosticTag) {
+      DiagnosticTag.Unnecessary = 1;
+      DiagnosticTag.Deprecated = 2;
     })(DiagnosticTag || (exports3.DiagnosticTag = DiagnosticTag = {}));
     var CodeDescription;
-    (function(CodeDescription2) {
+    (function(CodeDescription) {
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Is.string(candidate.href);
       }
-      CodeDescription2.is = is;
+      CodeDescription.is = is;
     })(CodeDescription || (exports3.CodeDescription = CodeDescription = {}));
     var Diagnostic;
-    (function(Diagnostic2) {
+    (function(Diagnostic) {
       function create(range, message, severity, code, source, relatedInformation) {
         var result = { range, message };
         if (Is.defined(severity)) {
@@ -3566,16 +3568,16 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      Diagnostic2.create = create;
+      Diagnostic.create = create;
       function is(value) {
         var _a;
         var candidate = value;
         return Is.defined(candidate) && Range.is(candidate.range) && Is.string(candidate.message) && (Is.number(candidate.severity) || Is.undefined(candidate.severity)) && (Is.integer(candidate.code) || Is.string(candidate.code) || Is.undefined(candidate.code)) && (Is.undefined(candidate.codeDescription) || Is.string((_a = candidate.codeDescription) === null || _a === undefined ? undefined : _a.href)) && (Is.string(candidate.source) || Is.undefined(candidate.source)) && (Is.undefined(candidate.relatedInformation) || Is.typedArray(candidate.relatedInformation, DiagnosticRelatedInformation.is));
       }
-      Diagnostic2.is = is;
+      Diagnostic.is = is;
     })(Diagnostic || (exports3.Diagnostic = Diagnostic = {}));
     var Command;
-    (function(Command2) {
+    (function(Command) {
       function create(title, command) {
         var args = [];
         for (var _i = 2;_i < arguments.length; _i++) {
@@ -3587,35 +3589,35 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      Command2.create = create;
+      Command.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.string(candidate.title) && Is.string(candidate.command);
       }
-      Command2.is = is;
+      Command.is = is;
     })(Command || (exports3.Command = Command = {}));
     var TextEdit;
-    (function(TextEdit2) {
+    (function(TextEdit) {
       function replace(range, newText) {
         return { range, newText };
       }
-      TextEdit2.replace = replace;
+      TextEdit.replace = replace;
       function insert(position, newText) {
         return { range: { start: position, end: position }, newText };
       }
-      TextEdit2.insert = insert;
+      TextEdit.insert = insert;
       function del(range) {
         return { range, newText: "" };
       }
-      TextEdit2.del = del;
+      TextEdit.del = del;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Is.string(candidate.newText) && Range.is(candidate.range);
       }
-      TextEdit2.is = is;
+      TextEdit.is = is;
     })(TextEdit || (exports3.TextEdit = TextEdit = {}));
     var ChangeAnnotation;
-    (function(ChangeAnnotation2) {
+    (function(ChangeAnnotation) {
       function create(label, needsConfirmation, description) {
         var result = { label };
         if (needsConfirmation !== undefined) {
@@ -3626,55 +3628,55 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      ChangeAnnotation2.create = create;
+      ChangeAnnotation.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Is.string(candidate.label) && (Is.boolean(candidate.needsConfirmation) || candidate.needsConfirmation === undefined) && (Is.string(candidate.description) || candidate.description === undefined);
       }
-      ChangeAnnotation2.is = is;
+      ChangeAnnotation.is = is;
     })(ChangeAnnotation || (exports3.ChangeAnnotation = ChangeAnnotation = {}));
     var ChangeAnnotationIdentifier;
-    (function(ChangeAnnotationIdentifier2) {
+    (function(ChangeAnnotationIdentifier) {
       function is(value) {
         var candidate = value;
         return Is.string(candidate);
       }
-      ChangeAnnotationIdentifier2.is = is;
+      ChangeAnnotationIdentifier.is = is;
     })(ChangeAnnotationIdentifier || (exports3.ChangeAnnotationIdentifier = ChangeAnnotationIdentifier = {}));
     var AnnotatedTextEdit;
-    (function(AnnotatedTextEdit2) {
+    (function(AnnotatedTextEdit) {
       function replace(range, newText, annotation) {
         return { range, newText, annotationId: annotation };
       }
-      AnnotatedTextEdit2.replace = replace;
+      AnnotatedTextEdit.replace = replace;
       function insert(position, newText, annotation) {
         return { range: { start: position, end: position }, newText, annotationId: annotation };
       }
-      AnnotatedTextEdit2.insert = insert;
+      AnnotatedTextEdit.insert = insert;
       function del(range, annotation) {
         return { range, newText: "", annotationId: annotation };
       }
-      AnnotatedTextEdit2.del = del;
+      AnnotatedTextEdit.del = del;
       function is(value) {
         var candidate = value;
         return TextEdit.is(candidate) && (ChangeAnnotation.is(candidate.annotationId) || ChangeAnnotationIdentifier.is(candidate.annotationId));
       }
-      AnnotatedTextEdit2.is = is;
+      AnnotatedTextEdit.is = is;
     })(AnnotatedTextEdit || (exports3.AnnotatedTextEdit = AnnotatedTextEdit = {}));
     var TextDocumentEdit;
-    (function(TextDocumentEdit2) {
+    (function(TextDocumentEdit) {
       function create(textDocument, edits) {
         return { textDocument, edits };
       }
-      TextDocumentEdit2.create = create;
+      TextDocumentEdit.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && OptionalVersionedTextDocumentIdentifier.is(candidate.textDocument) && Array.isArray(candidate.edits);
       }
-      TextDocumentEdit2.is = is;
+      TextDocumentEdit.is = is;
     })(TextDocumentEdit || (exports3.TextDocumentEdit = TextDocumentEdit = {}));
     var CreateFile;
-    (function(CreateFile2) {
+    (function(CreateFile) {
       function create(uri, options, annotation) {
         var result = {
           kind: "create",
@@ -3688,15 +3690,15 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      CreateFile2.create = create;
+      CreateFile.create = create;
       function is(value) {
         var candidate = value;
         return candidate && candidate.kind === "create" && Is.string(candidate.uri) && (candidate.options === undefined || (candidate.options.overwrite === undefined || Is.boolean(candidate.options.overwrite)) && (candidate.options.ignoreIfExists === undefined || Is.boolean(candidate.options.ignoreIfExists))) && (candidate.annotationId === undefined || ChangeAnnotationIdentifier.is(candidate.annotationId));
       }
-      CreateFile2.is = is;
+      CreateFile.is = is;
     })(CreateFile || (exports3.CreateFile = CreateFile = {}));
     var RenameFile;
-    (function(RenameFile2) {
+    (function(RenameFile) {
       function create(oldUri, newUri, options, annotation) {
         var result = {
           kind: "rename",
@@ -3711,15 +3713,15 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      RenameFile2.create = create;
+      RenameFile.create = create;
       function is(value) {
         var candidate = value;
         return candidate && candidate.kind === "rename" && Is.string(candidate.oldUri) && Is.string(candidate.newUri) && (candidate.options === undefined || (candidate.options.overwrite === undefined || Is.boolean(candidate.options.overwrite)) && (candidate.options.ignoreIfExists === undefined || Is.boolean(candidate.options.ignoreIfExists))) && (candidate.annotationId === undefined || ChangeAnnotationIdentifier.is(candidate.annotationId));
       }
-      RenameFile2.is = is;
+      RenameFile.is = is;
     })(RenameFile || (exports3.RenameFile = RenameFile = {}));
     var DeleteFile;
-    (function(DeleteFile2) {
+    (function(DeleteFile) {
       function create(uri, options, annotation) {
         var result = {
           kind: "delete",
@@ -3733,15 +3735,15 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      DeleteFile2.create = create;
+      DeleteFile.create = create;
       function is(value) {
         var candidate = value;
         return candidate && candidate.kind === "delete" && Is.string(candidate.uri) && (candidate.options === undefined || (candidate.options.recursive === undefined || Is.boolean(candidate.options.recursive)) && (candidate.options.ignoreIfNotExists === undefined || Is.boolean(candidate.options.ignoreIfNotExists))) && (candidate.annotationId === undefined || ChangeAnnotationIdentifier.is(candidate.annotationId));
       }
-      DeleteFile2.is = is;
+      DeleteFile.is = is;
     })(DeleteFile || (exports3.DeleteFile = DeleteFile = {}));
     var WorkspaceEdit;
-    (function(WorkspaceEdit2) {
+    (function(WorkspaceEdit) {
       function is(value) {
         var candidate = value;
         return candidate && (candidate.changes !== undefined || candidate.documentChanges !== undefined) && (candidate.documentChanges === undefined || candidate.documentChanges.every(function(change) {
@@ -3752,14 +3754,14 @@ var require_main2 = __commonJS((exports2, module2) => {
           }
         }));
       }
-      WorkspaceEdit2.is = is;
+      WorkspaceEdit.is = is;
     })(WorkspaceEdit || (exports3.WorkspaceEdit = WorkspaceEdit = {}));
     var TextEditChangeImpl = function() {
-      function TextEditChangeImpl2(edits, changeAnnotations) {
+      function TextEditChangeImpl(edits, changeAnnotations) {
         this.edits = edits;
         this.changeAnnotations = changeAnnotations;
       }
-      TextEditChangeImpl2.prototype.insert = function(position, newText, annotation) {
+      TextEditChangeImpl.prototype.insert = function(position, newText, annotation) {
         var edit;
         var id;
         if (annotation === undefined) {
@@ -3777,7 +3779,7 @@ var require_main2 = __commonJS((exports2, module2) => {
           return id;
         }
       };
-      TextEditChangeImpl2.prototype.replace = function(range, newText, annotation) {
+      TextEditChangeImpl.prototype.replace = function(range, newText, annotation) {
         var edit;
         var id;
         if (annotation === undefined) {
@@ -3795,7 +3797,7 @@ var require_main2 = __commonJS((exports2, module2) => {
           return id;
         }
       };
-      TextEditChangeImpl2.prototype.delete = function(range, annotation) {
+      TextEditChangeImpl.prototype.delete = function(range, annotation) {
         var edit;
         var id;
         if (annotation === undefined) {
@@ -3813,39 +3815,39 @@ var require_main2 = __commonJS((exports2, module2) => {
           return id;
         }
       };
-      TextEditChangeImpl2.prototype.add = function(edit) {
+      TextEditChangeImpl.prototype.add = function(edit) {
         this.edits.push(edit);
       };
-      TextEditChangeImpl2.prototype.all = function() {
+      TextEditChangeImpl.prototype.all = function() {
         return this.edits;
       };
-      TextEditChangeImpl2.prototype.clear = function() {
+      TextEditChangeImpl.prototype.clear = function() {
         this.edits.splice(0, this.edits.length);
       };
-      TextEditChangeImpl2.prototype.assertChangeAnnotations = function(value) {
+      TextEditChangeImpl.prototype.assertChangeAnnotations = function(value) {
         if (value === undefined) {
           throw new Error("Text edit change is not configured to manage change annotations.");
         }
       };
-      return TextEditChangeImpl2;
+      return TextEditChangeImpl;
     }();
     var ChangeAnnotations = function() {
-      function ChangeAnnotations2(annotations) {
+      function ChangeAnnotations(annotations) {
         this._annotations = annotations === undefined ? Object.create(null) : annotations;
         this._counter = 0;
         this._size = 0;
       }
-      ChangeAnnotations2.prototype.all = function() {
+      ChangeAnnotations.prototype.all = function() {
         return this._annotations;
       };
-      Object.defineProperty(ChangeAnnotations2.prototype, "size", {
+      Object.defineProperty(ChangeAnnotations.prototype, "size", {
         get: function() {
           return this._size;
         },
         enumerable: false,
         configurable: true
       });
-      ChangeAnnotations2.prototype.manage = function(idOrAnnotation, annotation) {
+      ChangeAnnotations.prototype.manage = function(idOrAnnotation, annotation) {
         var id;
         if (ChangeAnnotationIdentifier.is(idOrAnnotation)) {
           id = idOrAnnotation;
@@ -3863,14 +3865,14 @@ var require_main2 = __commonJS((exports2, module2) => {
         this._size++;
         return id;
       };
-      ChangeAnnotations2.prototype.nextId = function() {
+      ChangeAnnotations.prototype.nextId = function() {
         this._counter++;
         return this._counter.toString();
       };
-      return ChangeAnnotations2;
+      return ChangeAnnotations;
     }();
     var WorkspaceChange = function() {
-      function WorkspaceChange2(workspaceEdit) {
+      function WorkspaceChange(workspaceEdit) {
         var _this = this;
         this._textEditChanges = Object.create(null);
         if (workspaceEdit !== undefined) {
@@ -3894,7 +3896,7 @@ var require_main2 = __commonJS((exports2, module2) => {
           this._workspaceEdit = {};
         }
       }
-      Object.defineProperty(WorkspaceChange2.prototype, "edit", {
+      Object.defineProperty(WorkspaceChange.prototype, "edit", {
         get: function() {
           this.initDocumentChanges();
           if (this._changeAnnotations !== undefined) {
@@ -3909,7 +3911,7 @@ var require_main2 = __commonJS((exports2, module2) => {
         enumerable: false,
         configurable: true
       });
-      WorkspaceChange2.prototype.getTextEditChange = function(key) {
+      WorkspaceChange.prototype.getTextEditChange = function(key) {
         if (OptionalVersionedTextDocumentIdentifier.is(key)) {
           this.initDocumentChanges();
           if (this._workspaceEdit.documentChanges === undefined) {
@@ -3943,19 +3945,19 @@ var require_main2 = __commonJS((exports2, module2) => {
           return result;
         }
       };
-      WorkspaceChange2.prototype.initDocumentChanges = function() {
+      WorkspaceChange.prototype.initDocumentChanges = function() {
         if (this._workspaceEdit.documentChanges === undefined && this._workspaceEdit.changes === undefined) {
           this._changeAnnotations = new ChangeAnnotations;
           this._workspaceEdit.documentChanges = [];
           this._workspaceEdit.changeAnnotations = this._changeAnnotations.all();
         }
       };
-      WorkspaceChange2.prototype.initChanges = function() {
+      WorkspaceChange.prototype.initChanges = function() {
         if (this._workspaceEdit.documentChanges === undefined && this._workspaceEdit.changes === undefined) {
           this._workspaceEdit.changes = Object.create(null);
         }
       };
-      WorkspaceChange2.prototype.createFile = function(uri, optionsOrAnnotation, options) {
+      WorkspaceChange.prototype.createFile = function(uri, optionsOrAnnotation, options) {
         this.initDocumentChanges();
         if (this._workspaceEdit.documentChanges === undefined) {
           throw new Error("Workspace edit is not configured for document changes.");
@@ -3979,7 +3981,7 @@ var require_main2 = __commonJS((exports2, module2) => {
           return id;
         }
       };
-      WorkspaceChange2.prototype.renameFile = function(oldUri, newUri, optionsOrAnnotation, options) {
+      WorkspaceChange.prototype.renameFile = function(oldUri, newUri, optionsOrAnnotation, options) {
         this.initDocumentChanges();
         if (this._workspaceEdit.documentChanges === undefined) {
           throw new Error("Workspace edit is not configured for document changes.");
@@ -4003,7 +4005,7 @@ var require_main2 = __commonJS((exports2, module2) => {
           return id;
         }
       };
-      WorkspaceChange2.prototype.deleteFile = function(uri, optionsOrAnnotation, options) {
+      WorkspaceChange.prototype.deleteFile = function(uri, optionsOrAnnotation, options) {
         this.initDocumentChanges();
         if (this._workspaceEdit.documentChanges === undefined) {
           throw new Error("Workspace edit is not configured for document changes.");
@@ -4027,180 +4029,180 @@ var require_main2 = __commonJS((exports2, module2) => {
           return id;
         }
       };
-      return WorkspaceChange2;
+      return WorkspaceChange;
     }();
     exports3.WorkspaceChange = WorkspaceChange;
     var TextDocumentIdentifier;
-    (function(TextDocumentIdentifier2) {
+    (function(TextDocumentIdentifier) {
       function create(uri) {
         return { uri };
       }
-      TextDocumentIdentifier2.create = create;
+      TextDocumentIdentifier.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.string(candidate.uri);
       }
-      TextDocumentIdentifier2.is = is;
+      TextDocumentIdentifier.is = is;
     })(TextDocumentIdentifier || (exports3.TextDocumentIdentifier = TextDocumentIdentifier = {}));
     var VersionedTextDocumentIdentifier;
-    (function(VersionedTextDocumentIdentifier2) {
+    (function(VersionedTextDocumentIdentifier) {
       function create(uri, version) {
         return { uri, version };
       }
-      VersionedTextDocumentIdentifier2.create = create;
+      VersionedTextDocumentIdentifier.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.string(candidate.uri) && Is.integer(candidate.version);
       }
-      VersionedTextDocumentIdentifier2.is = is;
+      VersionedTextDocumentIdentifier.is = is;
     })(VersionedTextDocumentIdentifier || (exports3.VersionedTextDocumentIdentifier = VersionedTextDocumentIdentifier = {}));
     var OptionalVersionedTextDocumentIdentifier;
-    (function(OptionalVersionedTextDocumentIdentifier2) {
+    (function(OptionalVersionedTextDocumentIdentifier) {
       function create(uri, version) {
         return { uri, version };
       }
-      OptionalVersionedTextDocumentIdentifier2.create = create;
+      OptionalVersionedTextDocumentIdentifier.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.string(candidate.uri) && (candidate.version === null || Is.integer(candidate.version));
       }
-      OptionalVersionedTextDocumentIdentifier2.is = is;
+      OptionalVersionedTextDocumentIdentifier.is = is;
     })(OptionalVersionedTextDocumentIdentifier || (exports3.OptionalVersionedTextDocumentIdentifier = OptionalVersionedTextDocumentIdentifier = {}));
     var TextDocumentItem;
-    (function(TextDocumentItem2) {
+    (function(TextDocumentItem) {
       function create(uri, languageId, version, text) {
         return { uri, languageId, version, text };
       }
-      TextDocumentItem2.create = create;
+      TextDocumentItem.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.string(candidate.uri) && Is.string(candidate.languageId) && Is.integer(candidate.version) && Is.string(candidate.text);
       }
-      TextDocumentItem2.is = is;
+      TextDocumentItem.is = is;
     })(TextDocumentItem || (exports3.TextDocumentItem = TextDocumentItem = {}));
     var MarkupKind;
-    (function(MarkupKind2) {
-      MarkupKind2.PlainText = "plaintext";
-      MarkupKind2.Markdown = "markdown";
+    (function(MarkupKind) {
+      MarkupKind.PlainText = "plaintext";
+      MarkupKind.Markdown = "markdown";
       function is(value) {
         var candidate = value;
-        return candidate === MarkupKind2.PlainText || candidate === MarkupKind2.Markdown;
+        return candidate === MarkupKind.PlainText || candidate === MarkupKind.Markdown;
       }
-      MarkupKind2.is = is;
+      MarkupKind.is = is;
     })(MarkupKind || (exports3.MarkupKind = MarkupKind = {}));
     var MarkupContent;
-    (function(MarkupContent2) {
+    (function(MarkupContent) {
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(value) && MarkupKind.is(candidate.kind) && Is.string(candidate.value);
       }
-      MarkupContent2.is = is;
+      MarkupContent.is = is;
     })(MarkupContent || (exports3.MarkupContent = MarkupContent = {}));
     var CompletionItemKind;
-    (function(CompletionItemKind2) {
-      CompletionItemKind2.Text = 1;
-      CompletionItemKind2.Method = 2;
-      CompletionItemKind2.Function = 3;
-      CompletionItemKind2.Constructor = 4;
-      CompletionItemKind2.Field = 5;
-      CompletionItemKind2.Variable = 6;
-      CompletionItemKind2.Class = 7;
-      CompletionItemKind2.Interface = 8;
-      CompletionItemKind2.Module = 9;
-      CompletionItemKind2.Property = 10;
-      CompletionItemKind2.Unit = 11;
-      CompletionItemKind2.Value = 12;
-      CompletionItemKind2.Enum = 13;
-      CompletionItemKind2.Keyword = 14;
-      CompletionItemKind2.Snippet = 15;
-      CompletionItemKind2.Color = 16;
-      CompletionItemKind2.File = 17;
-      CompletionItemKind2.Reference = 18;
-      CompletionItemKind2.Folder = 19;
-      CompletionItemKind2.EnumMember = 20;
-      CompletionItemKind2.Constant = 21;
-      CompletionItemKind2.Struct = 22;
-      CompletionItemKind2.Event = 23;
-      CompletionItemKind2.Operator = 24;
-      CompletionItemKind2.TypeParameter = 25;
+    (function(CompletionItemKind) {
+      CompletionItemKind.Text = 1;
+      CompletionItemKind.Method = 2;
+      CompletionItemKind.Function = 3;
+      CompletionItemKind.Constructor = 4;
+      CompletionItemKind.Field = 5;
+      CompletionItemKind.Variable = 6;
+      CompletionItemKind.Class = 7;
+      CompletionItemKind.Interface = 8;
+      CompletionItemKind.Module = 9;
+      CompletionItemKind.Property = 10;
+      CompletionItemKind.Unit = 11;
+      CompletionItemKind.Value = 12;
+      CompletionItemKind.Enum = 13;
+      CompletionItemKind.Keyword = 14;
+      CompletionItemKind.Snippet = 15;
+      CompletionItemKind.Color = 16;
+      CompletionItemKind.File = 17;
+      CompletionItemKind.Reference = 18;
+      CompletionItemKind.Folder = 19;
+      CompletionItemKind.EnumMember = 20;
+      CompletionItemKind.Constant = 21;
+      CompletionItemKind.Struct = 22;
+      CompletionItemKind.Event = 23;
+      CompletionItemKind.Operator = 24;
+      CompletionItemKind.TypeParameter = 25;
     })(CompletionItemKind || (exports3.CompletionItemKind = CompletionItemKind = {}));
     var InsertTextFormat;
-    (function(InsertTextFormat2) {
-      InsertTextFormat2.PlainText = 1;
-      InsertTextFormat2.Snippet = 2;
+    (function(InsertTextFormat) {
+      InsertTextFormat.PlainText = 1;
+      InsertTextFormat.Snippet = 2;
     })(InsertTextFormat || (exports3.InsertTextFormat = InsertTextFormat = {}));
     var CompletionItemTag;
-    (function(CompletionItemTag2) {
-      CompletionItemTag2.Deprecated = 1;
+    (function(CompletionItemTag) {
+      CompletionItemTag.Deprecated = 1;
     })(CompletionItemTag || (exports3.CompletionItemTag = CompletionItemTag = {}));
     var InsertReplaceEdit;
-    (function(InsertReplaceEdit2) {
+    (function(InsertReplaceEdit) {
       function create(newText, insert, replace) {
         return { newText, insert, replace };
       }
-      InsertReplaceEdit2.create = create;
+      InsertReplaceEdit.create = create;
       function is(value) {
         var candidate = value;
         return candidate && Is.string(candidate.newText) && Range.is(candidate.insert) && Range.is(candidate.replace);
       }
-      InsertReplaceEdit2.is = is;
+      InsertReplaceEdit.is = is;
     })(InsertReplaceEdit || (exports3.InsertReplaceEdit = InsertReplaceEdit = {}));
     var InsertTextMode;
-    (function(InsertTextMode2) {
-      InsertTextMode2.asIs = 1;
-      InsertTextMode2.adjustIndentation = 2;
+    (function(InsertTextMode) {
+      InsertTextMode.asIs = 1;
+      InsertTextMode.adjustIndentation = 2;
     })(InsertTextMode || (exports3.InsertTextMode = InsertTextMode = {}));
     var CompletionItemLabelDetails;
-    (function(CompletionItemLabelDetails2) {
+    (function(CompletionItemLabelDetails) {
       function is(value) {
         var candidate = value;
         return candidate && (Is.string(candidate.detail) || candidate.detail === undefined) && (Is.string(candidate.description) || candidate.description === undefined);
       }
-      CompletionItemLabelDetails2.is = is;
+      CompletionItemLabelDetails.is = is;
     })(CompletionItemLabelDetails || (exports3.CompletionItemLabelDetails = CompletionItemLabelDetails = {}));
     var CompletionItem;
-    (function(CompletionItem2) {
+    (function(CompletionItem) {
       function create(label) {
         return { label };
       }
-      CompletionItem2.create = create;
+      CompletionItem.create = create;
     })(CompletionItem || (exports3.CompletionItem = CompletionItem = {}));
     var CompletionList;
-    (function(CompletionList2) {
+    (function(CompletionList) {
       function create(items, isIncomplete) {
         return { items: items ? items : [], isIncomplete: !!isIncomplete };
       }
-      CompletionList2.create = create;
+      CompletionList.create = create;
     })(CompletionList || (exports3.CompletionList = CompletionList = {}));
     var MarkedString;
-    (function(MarkedString2) {
+    (function(MarkedString) {
       function fromPlainText(plainText) {
         return plainText.replace(/[\\`*_{}[\]()#+\-.!]/g, "\\$&");
       }
-      MarkedString2.fromPlainText = fromPlainText;
+      MarkedString.fromPlainText = fromPlainText;
       function is(value) {
         var candidate = value;
         return Is.string(candidate) || Is.objectLiteral(candidate) && Is.string(candidate.language) && Is.string(candidate.value);
       }
-      MarkedString2.is = is;
+      MarkedString.is = is;
     })(MarkedString || (exports3.MarkedString = MarkedString = {}));
     var Hover;
-    (function(Hover2) {
+    (function(Hover) {
       function is(value) {
         var candidate = value;
         return !!candidate && Is.objectLiteral(candidate) && (MarkupContent.is(candidate.contents) || MarkedString.is(candidate.contents) || Is.typedArray(candidate.contents, MarkedString.is)) && (value.range === undefined || Range.is(value.range));
       }
-      Hover2.is = is;
+      Hover.is = is;
     })(Hover || (exports3.Hover = Hover = {}));
     var ParameterInformation;
-    (function(ParameterInformation2) {
+    (function(ParameterInformation) {
       function create(label, documentation) {
         return documentation ? { label, documentation } : { label };
       }
-      ParameterInformation2.create = create;
+      ParameterInformation.create = create;
     })(ParameterInformation || (exports3.ParameterInformation = ParameterInformation = {}));
     var SignatureInformation;
-    (function(SignatureInformation2) {
+    (function(SignatureInformation) {
       function create(label, documentation) {
         var parameters = [];
         for (var _i = 2;_i < arguments.length; _i++) {
@@ -4217,16 +4219,16 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      SignatureInformation2.create = create;
+      SignatureInformation.create = create;
     })(SignatureInformation || (exports3.SignatureInformation = SignatureInformation = {}));
     var DocumentHighlightKind;
-    (function(DocumentHighlightKind2) {
-      DocumentHighlightKind2.Text = 1;
-      DocumentHighlightKind2.Read = 2;
-      DocumentHighlightKind2.Write = 3;
+    (function(DocumentHighlightKind) {
+      DocumentHighlightKind.Text = 1;
+      DocumentHighlightKind.Read = 2;
+      DocumentHighlightKind.Write = 3;
     })(DocumentHighlightKind || (exports3.DocumentHighlightKind = DocumentHighlightKind = {}));
     var DocumentHighlight;
-    (function(DocumentHighlight2) {
+    (function(DocumentHighlight) {
       function create(range, kind) {
         var result = { range };
         if (Is.number(kind)) {
@@ -4234,43 +4236,43 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      DocumentHighlight2.create = create;
+      DocumentHighlight.create = create;
     })(DocumentHighlight || (exports3.DocumentHighlight = DocumentHighlight = {}));
     var SymbolKind;
-    (function(SymbolKind2) {
-      SymbolKind2.File = 1;
-      SymbolKind2.Module = 2;
-      SymbolKind2.Namespace = 3;
-      SymbolKind2.Package = 4;
-      SymbolKind2.Class = 5;
-      SymbolKind2.Method = 6;
-      SymbolKind2.Property = 7;
-      SymbolKind2.Field = 8;
-      SymbolKind2.Constructor = 9;
-      SymbolKind2.Enum = 10;
-      SymbolKind2.Interface = 11;
-      SymbolKind2.Function = 12;
-      SymbolKind2.Variable = 13;
-      SymbolKind2.Constant = 14;
-      SymbolKind2.String = 15;
-      SymbolKind2.Number = 16;
-      SymbolKind2.Boolean = 17;
-      SymbolKind2.Array = 18;
-      SymbolKind2.Object = 19;
-      SymbolKind2.Key = 20;
-      SymbolKind2.Null = 21;
-      SymbolKind2.EnumMember = 22;
-      SymbolKind2.Struct = 23;
-      SymbolKind2.Event = 24;
-      SymbolKind2.Operator = 25;
-      SymbolKind2.TypeParameter = 26;
+    (function(SymbolKind) {
+      SymbolKind.File = 1;
+      SymbolKind.Module = 2;
+      SymbolKind.Namespace = 3;
+      SymbolKind.Package = 4;
+      SymbolKind.Class = 5;
+      SymbolKind.Method = 6;
+      SymbolKind.Property = 7;
+      SymbolKind.Field = 8;
+      SymbolKind.Constructor = 9;
+      SymbolKind.Enum = 10;
+      SymbolKind.Interface = 11;
+      SymbolKind.Function = 12;
+      SymbolKind.Variable = 13;
+      SymbolKind.Constant = 14;
+      SymbolKind.String = 15;
+      SymbolKind.Number = 16;
+      SymbolKind.Boolean = 17;
+      SymbolKind.Array = 18;
+      SymbolKind.Object = 19;
+      SymbolKind.Key = 20;
+      SymbolKind.Null = 21;
+      SymbolKind.EnumMember = 22;
+      SymbolKind.Struct = 23;
+      SymbolKind.Event = 24;
+      SymbolKind.Operator = 25;
+      SymbolKind.TypeParameter = 26;
     })(SymbolKind || (exports3.SymbolKind = SymbolKind = {}));
     var SymbolTag;
-    (function(SymbolTag2) {
-      SymbolTag2.Deprecated = 1;
+    (function(SymbolTag) {
+      SymbolTag.Deprecated = 1;
     })(SymbolTag || (exports3.SymbolTag = SymbolTag = {}));
     var SymbolInformation;
-    (function(SymbolInformation2) {
+    (function(SymbolInformation) {
       function create(name, kind, range, uri, containerName) {
         var result = {
           name,
@@ -4282,17 +4284,17 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      SymbolInformation2.create = create;
+      SymbolInformation.create = create;
     })(SymbolInformation || (exports3.SymbolInformation = SymbolInformation = {}));
     var WorkspaceSymbol;
-    (function(WorkspaceSymbol2) {
+    (function(WorkspaceSymbol) {
       function create(name, kind, uri, range) {
         return range !== undefined ? { name, kind, location: { uri, range } } : { name, kind, location: { uri } };
       }
-      WorkspaceSymbol2.create = create;
+      WorkspaceSymbol.create = create;
     })(WorkspaceSymbol || (exports3.WorkspaceSymbol = WorkspaceSymbol = {}));
     var DocumentSymbol;
-    (function(DocumentSymbol2) {
+    (function(DocumentSymbol) {
       function create(name, detail, kind, range, selectionRange, children) {
         var result = {
           name,
@@ -4306,32 +4308,32 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      DocumentSymbol2.create = create;
+      DocumentSymbol.create = create;
       function is(value) {
         var candidate = value;
         return candidate && Is.string(candidate.name) && Is.number(candidate.kind) && Range.is(candidate.range) && Range.is(candidate.selectionRange) && (candidate.detail === undefined || Is.string(candidate.detail)) && (candidate.deprecated === undefined || Is.boolean(candidate.deprecated)) && (candidate.children === undefined || Array.isArray(candidate.children)) && (candidate.tags === undefined || Array.isArray(candidate.tags));
       }
-      DocumentSymbol2.is = is;
+      DocumentSymbol.is = is;
     })(DocumentSymbol || (exports3.DocumentSymbol = DocumentSymbol = {}));
     var CodeActionKind;
-    (function(CodeActionKind2) {
-      CodeActionKind2.Empty = "";
-      CodeActionKind2.QuickFix = "quickfix";
-      CodeActionKind2.Refactor = "refactor";
-      CodeActionKind2.RefactorExtract = "refactor.extract";
-      CodeActionKind2.RefactorInline = "refactor.inline";
-      CodeActionKind2.RefactorRewrite = "refactor.rewrite";
-      CodeActionKind2.Source = "source";
-      CodeActionKind2.SourceOrganizeImports = "source.organizeImports";
-      CodeActionKind2.SourceFixAll = "source.fixAll";
+    (function(CodeActionKind) {
+      CodeActionKind.Empty = "";
+      CodeActionKind.QuickFix = "quickfix";
+      CodeActionKind.Refactor = "refactor";
+      CodeActionKind.RefactorExtract = "refactor.extract";
+      CodeActionKind.RefactorInline = "refactor.inline";
+      CodeActionKind.RefactorRewrite = "refactor.rewrite";
+      CodeActionKind.Source = "source";
+      CodeActionKind.SourceOrganizeImports = "source.organizeImports";
+      CodeActionKind.SourceFixAll = "source.fixAll";
     })(CodeActionKind || (exports3.CodeActionKind = CodeActionKind = {}));
     var CodeActionTriggerKind;
-    (function(CodeActionTriggerKind2) {
-      CodeActionTriggerKind2.Invoked = 1;
-      CodeActionTriggerKind2.Automatic = 2;
+    (function(CodeActionTriggerKind) {
+      CodeActionTriggerKind.Invoked = 1;
+      CodeActionTriggerKind.Automatic = 2;
     })(CodeActionTriggerKind || (exports3.CodeActionTriggerKind = CodeActionTriggerKind = {}));
     var CodeActionContext;
-    (function(CodeActionContext2) {
+    (function(CodeActionContext) {
       function create(diagnostics, only, triggerKind) {
         var result = { diagnostics };
         if (only !== undefined && only !== null) {
@@ -4342,15 +4344,15 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      CodeActionContext2.create = create;
+      CodeActionContext.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.typedArray(candidate.diagnostics, Diagnostic.is) && (candidate.only === undefined || Is.typedArray(candidate.only, Is.string)) && (candidate.triggerKind === undefined || candidate.triggerKind === CodeActionTriggerKind.Invoked || candidate.triggerKind === CodeActionTriggerKind.Automatic);
       }
-      CodeActionContext2.is = is;
+      CodeActionContext.is = is;
     })(CodeActionContext || (exports3.CodeActionContext = CodeActionContext = {}));
     var CodeAction;
-    (function(CodeAction2) {
+    (function(CodeAction) {
       function create(title, kindOrCommandOrEdit, kind) {
         var result = { title };
         var checkKind = true;
@@ -4367,15 +4369,15 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      CodeAction2.create = create;
+      CodeAction.create = create;
       function is(value) {
         var candidate = value;
         return candidate && Is.string(candidate.title) && (candidate.diagnostics === undefined || Is.typedArray(candidate.diagnostics, Diagnostic.is)) && (candidate.kind === undefined || Is.string(candidate.kind)) && (candidate.edit !== undefined || candidate.command !== undefined) && (candidate.command === undefined || Command.is(candidate.command)) && (candidate.isPreferred === undefined || Is.boolean(candidate.isPreferred)) && (candidate.edit === undefined || WorkspaceEdit.is(candidate.edit));
       }
-      CodeAction2.is = is;
+      CodeAction.is = is;
     })(CodeAction || (exports3.CodeAction = CodeAction = {}));
     var CodeLens;
-    (function(CodeLens2) {
+    (function(CodeLens) {
       function create(range, data) {
         var result = { range };
         if (Is.defined(data)) {
@@ -4383,167 +4385,167 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      CodeLens2.create = create;
+      CodeLens.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Range.is(candidate.range) && (Is.undefined(candidate.command) || Command.is(candidate.command));
       }
-      CodeLens2.is = is;
+      CodeLens.is = is;
     })(CodeLens || (exports3.CodeLens = CodeLens = {}));
     var FormattingOptions;
-    (function(FormattingOptions2) {
+    (function(FormattingOptions) {
       function create(tabSize, insertSpaces) {
         return { tabSize, insertSpaces };
       }
-      FormattingOptions2.create = create;
+      FormattingOptions.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.uinteger(candidate.tabSize) && Is.boolean(candidate.insertSpaces);
       }
-      FormattingOptions2.is = is;
+      FormattingOptions.is = is;
     })(FormattingOptions || (exports3.FormattingOptions = FormattingOptions = {}));
     var DocumentLink;
-    (function(DocumentLink2) {
+    (function(DocumentLink) {
       function create(range, target, data) {
         return { range, target, data };
       }
-      DocumentLink2.create = create;
+      DocumentLink.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Range.is(candidate.range) && (Is.undefined(candidate.target) || Is.string(candidate.target));
       }
-      DocumentLink2.is = is;
+      DocumentLink.is = is;
     })(DocumentLink || (exports3.DocumentLink = DocumentLink = {}));
     var SelectionRange;
-    (function(SelectionRange2) {
+    (function(SelectionRange) {
       function create(range, parent) {
         return { range, parent };
       }
-      SelectionRange2.create = create;
+      SelectionRange.create = create;
       function is(value) {
         var candidate = value;
-        return Is.objectLiteral(candidate) && Range.is(candidate.range) && (candidate.parent === undefined || SelectionRange2.is(candidate.parent));
+        return Is.objectLiteral(candidate) && Range.is(candidate.range) && (candidate.parent === undefined || SelectionRange.is(candidate.parent));
       }
-      SelectionRange2.is = is;
+      SelectionRange.is = is;
     })(SelectionRange || (exports3.SelectionRange = SelectionRange = {}));
     var SemanticTokenTypes;
-    (function(SemanticTokenTypes2) {
-      SemanticTokenTypes2["namespace"] = "namespace";
-      SemanticTokenTypes2["type"] = "type";
-      SemanticTokenTypes2["class"] = "class";
-      SemanticTokenTypes2["enum"] = "enum";
-      SemanticTokenTypes2["interface"] = "interface";
-      SemanticTokenTypes2["struct"] = "struct";
-      SemanticTokenTypes2["typeParameter"] = "typeParameter";
-      SemanticTokenTypes2["parameter"] = "parameter";
-      SemanticTokenTypes2["variable"] = "variable";
-      SemanticTokenTypes2["property"] = "property";
-      SemanticTokenTypes2["enumMember"] = "enumMember";
-      SemanticTokenTypes2["event"] = "event";
-      SemanticTokenTypes2["function"] = "function";
-      SemanticTokenTypes2["method"] = "method";
-      SemanticTokenTypes2["macro"] = "macro";
-      SemanticTokenTypes2["keyword"] = "keyword";
-      SemanticTokenTypes2["modifier"] = "modifier";
-      SemanticTokenTypes2["comment"] = "comment";
-      SemanticTokenTypes2["string"] = "string";
-      SemanticTokenTypes2["number"] = "number";
-      SemanticTokenTypes2["regexp"] = "regexp";
-      SemanticTokenTypes2["operator"] = "operator";
-      SemanticTokenTypes2["decorator"] = "decorator";
+    (function(SemanticTokenTypes) {
+      SemanticTokenTypes["namespace"] = "namespace";
+      SemanticTokenTypes["type"] = "type";
+      SemanticTokenTypes["class"] = "class";
+      SemanticTokenTypes["enum"] = "enum";
+      SemanticTokenTypes["interface"] = "interface";
+      SemanticTokenTypes["struct"] = "struct";
+      SemanticTokenTypes["typeParameter"] = "typeParameter";
+      SemanticTokenTypes["parameter"] = "parameter";
+      SemanticTokenTypes["variable"] = "variable";
+      SemanticTokenTypes["property"] = "property";
+      SemanticTokenTypes["enumMember"] = "enumMember";
+      SemanticTokenTypes["event"] = "event";
+      SemanticTokenTypes["function"] = "function";
+      SemanticTokenTypes["method"] = "method";
+      SemanticTokenTypes["macro"] = "macro";
+      SemanticTokenTypes["keyword"] = "keyword";
+      SemanticTokenTypes["modifier"] = "modifier";
+      SemanticTokenTypes["comment"] = "comment";
+      SemanticTokenTypes["string"] = "string";
+      SemanticTokenTypes["number"] = "number";
+      SemanticTokenTypes["regexp"] = "regexp";
+      SemanticTokenTypes["operator"] = "operator";
+      SemanticTokenTypes["decorator"] = "decorator";
     })(SemanticTokenTypes || (exports3.SemanticTokenTypes = SemanticTokenTypes = {}));
     var SemanticTokenModifiers;
-    (function(SemanticTokenModifiers2) {
-      SemanticTokenModifiers2["declaration"] = "declaration";
-      SemanticTokenModifiers2["definition"] = "definition";
-      SemanticTokenModifiers2["readonly"] = "readonly";
-      SemanticTokenModifiers2["static"] = "static";
-      SemanticTokenModifiers2["deprecated"] = "deprecated";
-      SemanticTokenModifiers2["abstract"] = "abstract";
-      SemanticTokenModifiers2["async"] = "async";
-      SemanticTokenModifiers2["modification"] = "modification";
-      SemanticTokenModifiers2["documentation"] = "documentation";
-      SemanticTokenModifiers2["defaultLibrary"] = "defaultLibrary";
+    (function(SemanticTokenModifiers) {
+      SemanticTokenModifiers["declaration"] = "declaration";
+      SemanticTokenModifiers["definition"] = "definition";
+      SemanticTokenModifiers["readonly"] = "readonly";
+      SemanticTokenModifiers["static"] = "static";
+      SemanticTokenModifiers["deprecated"] = "deprecated";
+      SemanticTokenModifiers["abstract"] = "abstract";
+      SemanticTokenModifiers["async"] = "async";
+      SemanticTokenModifiers["modification"] = "modification";
+      SemanticTokenModifiers["documentation"] = "documentation";
+      SemanticTokenModifiers["defaultLibrary"] = "defaultLibrary";
     })(SemanticTokenModifiers || (exports3.SemanticTokenModifiers = SemanticTokenModifiers = {}));
     var SemanticTokens;
-    (function(SemanticTokens2) {
+    (function(SemanticTokens) {
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && (candidate.resultId === undefined || typeof candidate.resultId === "string") && Array.isArray(candidate.data) && (candidate.data.length === 0 || typeof candidate.data[0] === "number");
       }
-      SemanticTokens2.is = is;
+      SemanticTokens.is = is;
     })(SemanticTokens || (exports3.SemanticTokens = SemanticTokens = {}));
     var InlineValueText;
-    (function(InlineValueText2) {
+    (function(InlineValueText) {
       function create(range, text) {
         return { range, text };
       }
-      InlineValueText2.create = create;
+      InlineValueText.create = create;
       function is(value) {
         var candidate = value;
         return candidate !== undefined && candidate !== null && Range.is(candidate.range) && Is.string(candidate.text);
       }
-      InlineValueText2.is = is;
+      InlineValueText.is = is;
     })(InlineValueText || (exports3.InlineValueText = InlineValueText = {}));
     var InlineValueVariableLookup;
-    (function(InlineValueVariableLookup2) {
+    (function(InlineValueVariableLookup) {
       function create(range, variableName, caseSensitiveLookup) {
         return { range, variableName, caseSensitiveLookup };
       }
-      InlineValueVariableLookup2.create = create;
+      InlineValueVariableLookup.create = create;
       function is(value) {
         var candidate = value;
         return candidate !== undefined && candidate !== null && Range.is(candidate.range) && Is.boolean(candidate.caseSensitiveLookup) && (Is.string(candidate.variableName) || candidate.variableName === undefined);
       }
-      InlineValueVariableLookup2.is = is;
+      InlineValueVariableLookup.is = is;
     })(InlineValueVariableLookup || (exports3.InlineValueVariableLookup = InlineValueVariableLookup = {}));
     var InlineValueEvaluatableExpression;
-    (function(InlineValueEvaluatableExpression2) {
+    (function(InlineValueEvaluatableExpression) {
       function create(range, expression) {
         return { range, expression };
       }
-      InlineValueEvaluatableExpression2.create = create;
+      InlineValueEvaluatableExpression.create = create;
       function is(value) {
         var candidate = value;
         return candidate !== undefined && candidate !== null && Range.is(candidate.range) && (Is.string(candidate.expression) || candidate.expression === undefined);
       }
-      InlineValueEvaluatableExpression2.is = is;
+      InlineValueEvaluatableExpression.is = is;
     })(InlineValueEvaluatableExpression || (exports3.InlineValueEvaluatableExpression = InlineValueEvaluatableExpression = {}));
     var InlineValueContext;
-    (function(InlineValueContext2) {
+    (function(InlineValueContext) {
       function create(frameId, stoppedLocation) {
         return { frameId, stoppedLocation };
       }
-      InlineValueContext2.create = create;
+      InlineValueContext.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Range.is(value.stoppedLocation);
       }
-      InlineValueContext2.is = is;
+      InlineValueContext.is = is;
     })(InlineValueContext || (exports3.InlineValueContext = InlineValueContext = {}));
     var InlayHintKind;
-    (function(InlayHintKind2) {
-      InlayHintKind2.Type = 1;
-      InlayHintKind2.Parameter = 2;
+    (function(InlayHintKind) {
+      InlayHintKind.Type = 1;
+      InlayHintKind.Parameter = 2;
       function is(value) {
         return value === 1 || value === 2;
       }
-      InlayHintKind2.is = is;
+      InlayHintKind.is = is;
     })(InlayHintKind || (exports3.InlayHintKind = InlayHintKind = {}));
     var InlayHintLabelPart;
-    (function(InlayHintLabelPart2) {
+    (function(InlayHintLabelPart) {
       function create(value) {
         return { value };
       }
-      InlayHintLabelPart2.create = create;
+      InlayHintLabelPart.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && (candidate.tooltip === undefined || Is.string(candidate.tooltip) || MarkupContent.is(candidate.tooltip)) && (candidate.location === undefined || Location.is(candidate.location)) && (candidate.command === undefined || Command.is(candidate.command));
       }
-      InlayHintLabelPart2.is = is;
+      InlayHintLabelPart.is = is;
     })(InlayHintLabelPart || (exports3.InlayHintLabelPart = InlayHintLabelPart = {}));
     var InlayHint;
-    (function(InlayHint2) {
+    (function(InlayHint) {
       function create(position, label, kind) {
         var result = { position, label };
         if (kind !== undefined) {
@@ -4551,75 +4553,75 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return result;
       }
-      InlayHint2.create = create;
+      InlayHint.create = create;
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && Position.is(candidate.position) && (Is.string(candidate.label) || Is.typedArray(candidate.label, InlayHintLabelPart.is)) && (candidate.kind === undefined || InlayHintKind.is(candidate.kind)) && candidate.textEdits === undefined || Is.typedArray(candidate.textEdits, TextEdit.is) && (candidate.tooltip === undefined || Is.string(candidate.tooltip) || MarkupContent.is(candidate.tooltip)) && (candidate.paddingLeft === undefined || Is.boolean(candidate.paddingLeft)) && (candidate.paddingRight === undefined || Is.boolean(candidate.paddingRight));
       }
-      InlayHint2.is = is;
+      InlayHint.is = is;
     })(InlayHint || (exports3.InlayHint = InlayHint = {}));
     var StringValue;
-    (function(StringValue2) {
+    (function(StringValue) {
       function createSnippet(value) {
         return { kind: "snippet", value };
       }
-      StringValue2.createSnippet = createSnippet;
+      StringValue.createSnippet = createSnippet;
     })(StringValue || (exports3.StringValue = StringValue = {}));
     var InlineCompletionItem;
-    (function(InlineCompletionItem2) {
+    (function(InlineCompletionItem) {
       function create(insertText, filterText, range, command) {
         return { insertText, filterText, range, command };
       }
-      InlineCompletionItem2.create = create;
+      InlineCompletionItem.create = create;
     })(InlineCompletionItem || (exports3.InlineCompletionItem = InlineCompletionItem = {}));
     var InlineCompletionList;
-    (function(InlineCompletionList2) {
+    (function(InlineCompletionList) {
       function create(items) {
         return { items };
       }
-      InlineCompletionList2.create = create;
+      InlineCompletionList.create = create;
     })(InlineCompletionList || (exports3.InlineCompletionList = InlineCompletionList = {}));
     var InlineCompletionTriggerKind;
-    (function(InlineCompletionTriggerKind2) {
-      InlineCompletionTriggerKind2.Invoked = 0;
-      InlineCompletionTriggerKind2.Automatic = 1;
+    (function(InlineCompletionTriggerKind) {
+      InlineCompletionTriggerKind.Invoked = 0;
+      InlineCompletionTriggerKind.Automatic = 1;
     })(InlineCompletionTriggerKind || (exports3.InlineCompletionTriggerKind = InlineCompletionTriggerKind = {}));
     var SelectedCompletionInfo;
-    (function(SelectedCompletionInfo2) {
+    (function(SelectedCompletionInfo) {
       function create(range, text) {
         return { range, text };
       }
-      SelectedCompletionInfo2.create = create;
+      SelectedCompletionInfo.create = create;
     })(SelectedCompletionInfo || (exports3.SelectedCompletionInfo = SelectedCompletionInfo = {}));
     var InlineCompletionContext;
-    (function(InlineCompletionContext2) {
+    (function(InlineCompletionContext) {
       function create(triggerKind, selectedCompletionInfo) {
         return { triggerKind, selectedCompletionInfo };
       }
-      InlineCompletionContext2.create = create;
+      InlineCompletionContext.create = create;
     })(InlineCompletionContext || (exports3.InlineCompletionContext = InlineCompletionContext = {}));
     var WorkspaceFolder;
-    (function(WorkspaceFolder2) {
+    (function(WorkspaceFolder) {
       function is(value) {
         var candidate = value;
         return Is.objectLiteral(candidate) && URI.is(candidate.uri) && Is.string(candidate.name);
       }
-      WorkspaceFolder2.is = is;
+      WorkspaceFolder.is = is;
     })(WorkspaceFolder || (exports3.WorkspaceFolder = WorkspaceFolder = {}));
     exports3.EOL = [`
 `, `\r
 `, "\r"];
     var TextDocument;
-    (function(TextDocument2) {
+    (function(TextDocument) {
       function create(uri, languageId, version, content) {
         return new FullTextDocument(uri, languageId, version, content);
       }
-      TextDocument2.create = create;
+      TextDocument.create = create;
       function is(value) {
         var candidate = value;
         return Is.defined(candidate) && Is.string(candidate.uri) && (Is.undefined(candidate.languageId) || Is.string(candidate.languageId)) && Is.uinteger(candidate.lineCount) && Is.func(candidate.getText) && Is.func(candidate.positionAt) && Is.func(candidate.offsetAt) ? true : false;
       }
-      TextDocument2.is = is;
+      TextDocument.is = is;
       function applyEdits(document, edits) {
         var text = document.getText();
         var sortedEdits = mergeSort(edits, function(a, b) {
@@ -4643,7 +4645,7 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return text;
       }
-      TextDocument2.applyEdits = applyEdits;
+      TextDocument.applyEdits = applyEdits;
       function mergeSort(data, compare) {
         if (data.length <= 1) {
           return data;
@@ -4674,35 +4676,35 @@ var require_main2 = __commonJS((exports2, module2) => {
       }
     })(TextDocument || (exports3.TextDocument = TextDocument = {}));
     var FullTextDocument = function() {
-      function FullTextDocument2(uri, languageId, version, content) {
+      function FullTextDocument(uri, languageId, version, content) {
         this._uri = uri;
         this._languageId = languageId;
         this._version = version;
         this._content = content;
         this._lineOffsets = undefined;
       }
-      Object.defineProperty(FullTextDocument2.prototype, "uri", {
+      Object.defineProperty(FullTextDocument.prototype, "uri", {
         get: function() {
           return this._uri;
         },
         enumerable: false,
         configurable: true
       });
-      Object.defineProperty(FullTextDocument2.prototype, "languageId", {
+      Object.defineProperty(FullTextDocument.prototype, "languageId", {
         get: function() {
           return this._languageId;
         },
         enumerable: false,
         configurable: true
       });
-      Object.defineProperty(FullTextDocument2.prototype, "version", {
+      Object.defineProperty(FullTextDocument.prototype, "version", {
         get: function() {
           return this._version;
         },
         enumerable: false,
         configurable: true
       });
-      FullTextDocument2.prototype.getText = function(range) {
+      FullTextDocument.prototype.getText = function(range) {
         if (range) {
           var start = this.offsetAt(range.start);
           var end = this.offsetAt(range.end);
@@ -4710,12 +4712,12 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return this._content;
       };
-      FullTextDocument2.prototype.update = function(event, version) {
+      FullTextDocument.prototype.update = function(event, version) {
         this._content = event.text;
         this._version = version;
         this._lineOffsets = undefined;
       };
-      FullTextDocument2.prototype.getLineOffsets = function() {
+      FullTextDocument.prototype.getLineOffsets = function() {
         if (this._lineOffsets === undefined) {
           var lineOffsets = [];
           var text = this._content;
@@ -4740,7 +4742,7 @@ var require_main2 = __commonJS((exports2, module2) => {
         }
         return this._lineOffsets;
       };
-      FullTextDocument2.prototype.positionAt = function(offset) {
+      FullTextDocument.prototype.positionAt = function(offset) {
         offset = Math.max(Math.min(offset, this._content.length), 0);
         var lineOffsets = this.getLineOffsets();
         var low = 0, high = lineOffsets.length;
@@ -4758,7 +4760,7 @@ var require_main2 = __commonJS((exports2, module2) => {
         var line = low - 1;
         return Position.create(line, offset - lineOffsets[line]);
       };
-      FullTextDocument2.prototype.offsetAt = function(position) {
+      FullTextDocument.prototype.offsetAt = function(position) {
         var lineOffsets = this.getLineOffsets();
         if (position.line >= lineOffsets.length) {
           return this._content.length;
@@ -4769,76 +4771,76 @@ var require_main2 = __commonJS((exports2, module2) => {
         var nextLineOffset = position.line + 1 < lineOffsets.length ? lineOffsets[position.line + 1] : this._content.length;
         return Math.max(Math.min(lineOffset + position.character, nextLineOffset), lineOffset);
       };
-      Object.defineProperty(FullTextDocument2.prototype, "lineCount", {
+      Object.defineProperty(FullTextDocument.prototype, "lineCount", {
         get: function() {
           return this.getLineOffsets().length;
         },
         enumerable: false,
         configurable: true
       });
-      return FullTextDocument2;
+      return FullTextDocument;
     }();
     var Is;
-    (function(Is2) {
+    (function(Is) {
       var toString = Object.prototype.toString;
       function defined(value) {
         return typeof value !== "undefined";
       }
-      Is2.defined = defined;
+      Is.defined = defined;
       function undefined2(value) {
         return typeof value === "undefined";
       }
-      Is2.undefined = undefined2;
+      Is.undefined = undefined2;
       function boolean(value) {
         return value === true || value === false;
       }
-      Is2.boolean = boolean;
+      Is.boolean = boolean;
       function string(value) {
         return toString.call(value) === "[object String]";
       }
-      Is2.string = string;
+      Is.string = string;
       function number(value) {
         return toString.call(value) === "[object Number]";
       }
-      Is2.number = number;
+      Is.number = number;
       function numberRange(value, min, max) {
         return toString.call(value) === "[object Number]" && min <= value && value <= max;
       }
-      Is2.numberRange = numberRange;
-      function integer2(value) {
+      Is.numberRange = numberRange;
+      function integer(value) {
         return toString.call(value) === "[object Number]" && -2147483648 <= value && value <= 2147483647;
       }
-      Is2.integer = integer2;
-      function uinteger2(value) {
+      Is.integer = integer;
+      function uinteger(value) {
         return toString.call(value) === "[object Number]" && 0 <= value && value <= 2147483647;
       }
-      Is2.uinteger = uinteger2;
+      Is.uinteger = uinteger;
       function func(value) {
         return toString.call(value) === "[object Function]";
       }
-      Is2.func = func;
+      Is.func = func;
       function objectLiteral(value) {
         return value !== null && typeof value === "object";
       }
-      Is2.objectLiteral = objectLiteral;
+      Is.objectLiteral = objectLiteral;
       function typedArray(value, check) {
         return Array.isArray(value) && value.every(check);
       }
-      Is2.typedArray = typedArray;
+      Is.typedArray = typedArray;
     })(Is || (Is = {}));
   });
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/messages.js
-var require_messages2 = __commonJS((exports2) => {
+var require_messages2 = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ProtocolNotificationType = exports2.ProtocolNotificationType0 = exports2.ProtocolRequestType = exports2.ProtocolRequestType0 = exports2.RegistrationType = exports2.MessageDirection = undefined;
   var vscode_jsonrpc_1 = require_main();
   var MessageDirection;
-  (function(MessageDirection2) {
-    MessageDirection2["clientToServer"] = "clientToServer";
-    MessageDirection2["serverToClient"] = "serverToClient";
-    MessageDirection2["both"] = "both";
+  (function(MessageDirection) {
+    MessageDirection["clientToServer"] = "clientToServer";
+    MessageDirection["serverToClient"] = "serverToClient";
+    MessageDirection["both"] = "both";
   })(MessageDirection || (exports2.MessageDirection = MessageDirection = {}));
 
   class RegistrationType {
@@ -4878,7 +4880,7 @@ var require_messages2 = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/utils/is.js
-var require_is3 = __commonJS((exports2) => {
+var require_is3 = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.objectLiteral = exports2.typedArray = exports2.stringArray = exports2.array = exports2.func = exports2.error = exports2.number = exports2.string = exports2.boolean = undefined;
   function boolean(value) {
@@ -4920,453 +4922,453 @@ var require_is3 = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.implementation.js
-var require_protocol_implementation = __commonJS((exports2) => {
+var require_protocol_implementation = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ImplementationRequest = undefined;
   var messages_1 = require_messages2();
   var ImplementationRequest;
-  (function(ImplementationRequest2) {
-    ImplementationRequest2.method = "textDocument/implementation";
-    ImplementationRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    ImplementationRequest2.type = new messages_1.ProtocolRequestType(ImplementationRequest2.method);
+  (function(ImplementationRequest) {
+    ImplementationRequest.method = "textDocument/implementation";
+    ImplementationRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    ImplementationRequest.type = new messages_1.ProtocolRequestType(ImplementationRequest.method);
   })(ImplementationRequest || (exports2.ImplementationRequest = ImplementationRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.typeDefinition.js
-var require_protocol_typeDefinition = __commonJS((exports2) => {
+var require_protocol_typeDefinition = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.TypeDefinitionRequest = undefined;
   var messages_1 = require_messages2();
   var TypeDefinitionRequest;
-  (function(TypeDefinitionRequest2) {
-    TypeDefinitionRequest2.method = "textDocument/typeDefinition";
-    TypeDefinitionRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    TypeDefinitionRequest2.type = new messages_1.ProtocolRequestType(TypeDefinitionRequest2.method);
+  (function(TypeDefinitionRequest) {
+    TypeDefinitionRequest.method = "textDocument/typeDefinition";
+    TypeDefinitionRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    TypeDefinitionRequest.type = new messages_1.ProtocolRequestType(TypeDefinitionRequest.method);
   })(TypeDefinitionRequest || (exports2.TypeDefinitionRequest = TypeDefinitionRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.workspaceFolder.js
-var require_protocol_workspaceFolder = __commonJS((exports2) => {
+var require_protocol_workspaceFolder = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.DidChangeWorkspaceFoldersNotification = exports2.WorkspaceFoldersRequest = undefined;
   var messages_1 = require_messages2();
   var WorkspaceFoldersRequest;
-  (function(WorkspaceFoldersRequest2) {
-    WorkspaceFoldersRequest2.method = "workspace/workspaceFolders";
-    WorkspaceFoldersRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    WorkspaceFoldersRequest2.type = new messages_1.ProtocolRequestType0(WorkspaceFoldersRequest2.method);
+  (function(WorkspaceFoldersRequest) {
+    WorkspaceFoldersRequest.method = "workspace/workspaceFolders";
+    WorkspaceFoldersRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    WorkspaceFoldersRequest.type = new messages_1.ProtocolRequestType0(WorkspaceFoldersRequest.method);
   })(WorkspaceFoldersRequest || (exports2.WorkspaceFoldersRequest = WorkspaceFoldersRequest = {}));
   var DidChangeWorkspaceFoldersNotification;
-  (function(DidChangeWorkspaceFoldersNotification2) {
-    DidChangeWorkspaceFoldersNotification2.method = "workspace/didChangeWorkspaceFolders";
-    DidChangeWorkspaceFoldersNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidChangeWorkspaceFoldersNotification2.type = new messages_1.ProtocolNotificationType(DidChangeWorkspaceFoldersNotification2.method);
+  (function(DidChangeWorkspaceFoldersNotification) {
+    DidChangeWorkspaceFoldersNotification.method = "workspace/didChangeWorkspaceFolders";
+    DidChangeWorkspaceFoldersNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidChangeWorkspaceFoldersNotification.type = new messages_1.ProtocolNotificationType(DidChangeWorkspaceFoldersNotification.method);
   })(DidChangeWorkspaceFoldersNotification || (exports2.DidChangeWorkspaceFoldersNotification = DidChangeWorkspaceFoldersNotification = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.configuration.js
-var require_protocol_configuration = __commonJS((exports2) => {
+var require_protocol_configuration = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ConfigurationRequest = undefined;
   var messages_1 = require_messages2();
   var ConfigurationRequest;
-  (function(ConfigurationRequest2) {
-    ConfigurationRequest2.method = "workspace/configuration";
-    ConfigurationRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    ConfigurationRequest2.type = new messages_1.ProtocolRequestType(ConfigurationRequest2.method);
+  (function(ConfigurationRequest) {
+    ConfigurationRequest.method = "workspace/configuration";
+    ConfigurationRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    ConfigurationRequest.type = new messages_1.ProtocolRequestType(ConfigurationRequest.method);
   })(ConfigurationRequest || (exports2.ConfigurationRequest = ConfigurationRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.colorProvider.js
-var require_protocol_colorProvider = __commonJS((exports2) => {
+var require_protocol_colorProvider = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ColorPresentationRequest = exports2.DocumentColorRequest = undefined;
   var messages_1 = require_messages2();
   var DocumentColorRequest;
-  (function(DocumentColorRequest2) {
-    DocumentColorRequest2.method = "textDocument/documentColor";
-    DocumentColorRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentColorRequest2.type = new messages_1.ProtocolRequestType(DocumentColorRequest2.method);
+  (function(DocumentColorRequest) {
+    DocumentColorRequest.method = "textDocument/documentColor";
+    DocumentColorRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentColorRequest.type = new messages_1.ProtocolRequestType(DocumentColorRequest.method);
   })(DocumentColorRequest || (exports2.DocumentColorRequest = DocumentColorRequest = {}));
   var ColorPresentationRequest;
-  (function(ColorPresentationRequest2) {
-    ColorPresentationRequest2.method = "textDocument/colorPresentation";
-    ColorPresentationRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    ColorPresentationRequest2.type = new messages_1.ProtocolRequestType(ColorPresentationRequest2.method);
+  (function(ColorPresentationRequest) {
+    ColorPresentationRequest.method = "textDocument/colorPresentation";
+    ColorPresentationRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    ColorPresentationRequest.type = new messages_1.ProtocolRequestType(ColorPresentationRequest.method);
   })(ColorPresentationRequest || (exports2.ColorPresentationRequest = ColorPresentationRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.foldingRange.js
-var require_protocol_foldingRange = __commonJS((exports2) => {
+var require_protocol_foldingRange = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.FoldingRangeRefreshRequest = exports2.FoldingRangeRequest = undefined;
   var messages_1 = require_messages2();
   var FoldingRangeRequest;
-  (function(FoldingRangeRequest2) {
-    FoldingRangeRequest2.method = "textDocument/foldingRange";
-    FoldingRangeRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    FoldingRangeRequest2.type = new messages_1.ProtocolRequestType(FoldingRangeRequest2.method);
+  (function(FoldingRangeRequest) {
+    FoldingRangeRequest.method = "textDocument/foldingRange";
+    FoldingRangeRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    FoldingRangeRequest.type = new messages_1.ProtocolRequestType(FoldingRangeRequest.method);
   })(FoldingRangeRequest || (exports2.FoldingRangeRequest = FoldingRangeRequest = {}));
   var FoldingRangeRefreshRequest;
-  (function(FoldingRangeRefreshRequest2) {
-    FoldingRangeRefreshRequest2.method = `workspace/foldingRange/refresh`;
-    FoldingRangeRefreshRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    FoldingRangeRefreshRequest2.type = new messages_1.ProtocolRequestType0(FoldingRangeRefreshRequest2.method);
+  (function(FoldingRangeRefreshRequest) {
+    FoldingRangeRefreshRequest.method = `workspace/foldingRange/refresh`;
+    FoldingRangeRefreshRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    FoldingRangeRefreshRequest.type = new messages_1.ProtocolRequestType0(FoldingRangeRefreshRequest.method);
   })(FoldingRangeRefreshRequest || (exports2.FoldingRangeRefreshRequest = FoldingRangeRefreshRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.declaration.js
-var require_protocol_declaration = __commonJS((exports2) => {
+var require_protocol_declaration = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.DeclarationRequest = undefined;
   var messages_1 = require_messages2();
   var DeclarationRequest;
-  (function(DeclarationRequest2) {
-    DeclarationRequest2.method = "textDocument/declaration";
-    DeclarationRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DeclarationRequest2.type = new messages_1.ProtocolRequestType(DeclarationRequest2.method);
+  (function(DeclarationRequest) {
+    DeclarationRequest.method = "textDocument/declaration";
+    DeclarationRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DeclarationRequest.type = new messages_1.ProtocolRequestType(DeclarationRequest.method);
   })(DeclarationRequest || (exports2.DeclarationRequest = DeclarationRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.selectionRange.js
-var require_protocol_selectionRange = __commonJS((exports2) => {
+var require_protocol_selectionRange = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.SelectionRangeRequest = undefined;
   var messages_1 = require_messages2();
   var SelectionRangeRequest;
-  (function(SelectionRangeRequest2) {
-    SelectionRangeRequest2.method = "textDocument/selectionRange";
-    SelectionRangeRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    SelectionRangeRequest2.type = new messages_1.ProtocolRequestType(SelectionRangeRequest2.method);
+  (function(SelectionRangeRequest) {
+    SelectionRangeRequest.method = "textDocument/selectionRange";
+    SelectionRangeRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    SelectionRangeRequest.type = new messages_1.ProtocolRequestType(SelectionRangeRequest.method);
   })(SelectionRangeRequest || (exports2.SelectionRangeRequest = SelectionRangeRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.progress.js
-var require_protocol_progress = __commonJS((exports2) => {
+var require_protocol_progress = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.WorkDoneProgressCancelNotification = exports2.WorkDoneProgressCreateRequest = exports2.WorkDoneProgress = undefined;
   var vscode_jsonrpc_1 = require_main();
   var messages_1 = require_messages2();
   var WorkDoneProgress;
-  (function(WorkDoneProgress2) {
-    WorkDoneProgress2.type = new vscode_jsonrpc_1.ProgressType;
+  (function(WorkDoneProgress) {
+    WorkDoneProgress.type = new vscode_jsonrpc_1.ProgressType;
     function is(value) {
-      return value === WorkDoneProgress2.type;
+      return value === WorkDoneProgress.type;
     }
-    WorkDoneProgress2.is = is;
+    WorkDoneProgress.is = is;
   })(WorkDoneProgress || (exports2.WorkDoneProgress = WorkDoneProgress = {}));
   var WorkDoneProgressCreateRequest;
-  (function(WorkDoneProgressCreateRequest2) {
-    WorkDoneProgressCreateRequest2.method = "window/workDoneProgress/create";
-    WorkDoneProgressCreateRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    WorkDoneProgressCreateRequest2.type = new messages_1.ProtocolRequestType(WorkDoneProgressCreateRequest2.method);
+  (function(WorkDoneProgressCreateRequest) {
+    WorkDoneProgressCreateRequest.method = "window/workDoneProgress/create";
+    WorkDoneProgressCreateRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    WorkDoneProgressCreateRequest.type = new messages_1.ProtocolRequestType(WorkDoneProgressCreateRequest.method);
   })(WorkDoneProgressCreateRequest || (exports2.WorkDoneProgressCreateRequest = WorkDoneProgressCreateRequest = {}));
   var WorkDoneProgressCancelNotification;
-  (function(WorkDoneProgressCancelNotification2) {
-    WorkDoneProgressCancelNotification2.method = "window/workDoneProgress/cancel";
-    WorkDoneProgressCancelNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WorkDoneProgressCancelNotification2.type = new messages_1.ProtocolNotificationType(WorkDoneProgressCancelNotification2.method);
+  (function(WorkDoneProgressCancelNotification) {
+    WorkDoneProgressCancelNotification.method = "window/workDoneProgress/cancel";
+    WorkDoneProgressCancelNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    WorkDoneProgressCancelNotification.type = new messages_1.ProtocolNotificationType(WorkDoneProgressCancelNotification.method);
   })(WorkDoneProgressCancelNotification || (exports2.WorkDoneProgressCancelNotification = WorkDoneProgressCancelNotification = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.callHierarchy.js
-var require_protocol_callHierarchy = __commonJS((exports2) => {
+var require_protocol_callHierarchy = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.CallHierarchyOutgoingCallsRequest = exports2.CallHierarchyIncomingCallsRequest = exports2.CallHierarchyPrepareRequest = undefined;
   var messages_1 = require_messages2();
   var CallHierarchyPrepareRequest;
-  (function(CallHierarchyPrepareRequest2) {
-    CallHierarchyPrepareRequest2.method = "textDocument/prepareCallHierarchy";
-    CallHierarchyPrepareRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CallHierarchyPrepareRequest2.type = new messages_1.ProtocolRequestType(CallHierarchyPrepareRequest2.method);
+  (function(CallHierarchyPrepareRequest) {
+    CallHierarchyPrepareRequest.method = "textDocument/prepareCallHierarchy";
+    CallHierarchyPrepareRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CallHierarchyPrepareRequest.type = new messages_1.ProtocolRequestType(CallHierarchyPrepareRequest.method);
   })(CallHierarchyPrepareRequest || (exports2.CallHierarchyPrepareRequest = CallHierarchyPrepareRequest = {}));
   var CallHierarchyIncomingCallsRequest;
-  (function(CallHierarchyIncomingCallsRequest2) {
-    CallHierarchyIncomingCallsRequest2.method = "callHierarchy/incomingCalls";
-    CallHierarchyIncomingCallsRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CallHierarchyIncomingCallsRequest2.type = new messages_1.ProtocolRequestType(CallHierarchyIncomingCallsRequest2.method);
+  (function(CallHierarchyIncomingCallsRequest) {
+    CallHierarchyIncomingCallsRequest.method = "callHierarchy/incomingCalls";
+    CallHierarchyIncomingCallsRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CallHierarchyIncomingCallsRequest.type = new messages_1.ProtocolRequestType(CallHierarchyIncomingCallsRequest.method);
   })(CallHierarchyIncomingCallsRequest || (exports2.CallHierarchyIncomingCallsRequest = CallHierarchyIncomingCallsRequest = {}));
   var CallHierarchyOutgoingCallsRequest;
-  (function(CallHierarchyOutgoingCallsRequest2) {
-    CallHierarchyOutgoingCallsRequest2.method = "callHierarchy/outgoingCalls";
-    CallHierarchyOutgoingCallsRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CallHierarchyOutgoingCallsRequest2.type = new messages_1.ProtocolRequestType(CallHierarchyOutgoingCallsRequest2.method);
+  (function(CallHierarchyOutgoingCallsRequest) {
+    CallHierarchyOutgoingCallsRequest.method = "callHierarchy/outgoingCalls";
+    CallHierarchyOutgoingCallsRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CallHierarchyOutgoingCallsRequest.type = new messages_1.ProtocolRequestType(CallHierarchyOutgoingCallsRequest.method);
   })(CallHierarchyOutgoingCallsRequest || (exports2.CallHierarchyOutgoingCallsRequest = CallHierarchyOutgoingCallsRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.semanticTokens.js
-var require_protocol_semanticTokens = __commonJS((exports2) => {
+var require_protocol_semanticTokens = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.SemanticTokensRefreshRequest = exports2.SemanticTokensRangeRequest = exports2.SemanticTokensDeltaRequest = exports2.SemanticTokensRequest = exports2.SemanticTokensRegistrationType = exports2.TokenFormat = undefined;
   var messages_1 = require_messages2();
   var TokenFormat;
-  (function(TokenFormat2) {
-    TokenFormat2.Relative = "relative";
+  (function(TokenFormat) {
+    TokenFormat.Relative = "relative";
   })(TokenFormat || (exports2.TokenFormat = TokenFormat = {}));
   var SemanticTokensRegistrationType;
-  (function(SemanticTokensRegistrationType2) {
-    SemanticTokensRegistrationType2.method = "textDocument/semanticTokens";
-    SemanticTokensRegistrationType2.type = new messages_1.RegistrationType(SemanticTokensRegistrationType2.method);
+  (function(SemanticTokensRegistrationType) {
+    SemanticTokensRegistrationType.method = "textDocument/semanticTokens";
+    SemanticTokensRegistrationType.type = new messages_1.RegistrationType(SemanticTokensRegistrationType.method);
   })(SemanticTokensRegistrationType || (exports2.SemanticTokensRegistrationType = SemanticTokensRegistrationType = {}));
   var SemanticTokensRequest;
-  (function(SemanticTokensRequest2) {
-    SemanticTokensRequest2.method = "textDocument/semanticTokens/full";
-    SemanticTokensRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    SemanticTokensRequest2.type = new messages_1.ProtocolRequestType(SemanticTokensRequest2.method);
-    SemanticTokensRequest2.registrationMethod = SemanticTokensRegistrationType.method;
+  (function(SemanticTokensRequest) {
+    SemanticTokensRequest.method = "textDocument/semanticTokens/full";
+    SemanticTokensRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    SemanticTokensRequest.type = new messages_1.ProtocolRequestType(SemanticTokensRequest.method);
+    SemanticTokensRequest.registrationMethod = SemanticTokensRegistrationType.method;
   })(SemanticTokensRequest || (exports2.SemanticTokensRequest = SemanticTokensRequest = {}));
   var SemanticTokensDeltaRequest;
-  (function(SemanticTokensDeltaRequest2) {
-    SemanticTokensDeltaRequest2.method = "textDocument/semanticTokens/full/delta";
-    SemanticTokensDeltaRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    SemanticTokensDeltaRequest2.type = new messages_1.ProtocolRequestType(SemanticTokensDeltaRequest2.method);
-    SemanticTokensDeltaRequest2.registrationMethod = SemanticTokensRegistrationType.method;
+  (function(SemanticTokensDeltaRequest) {
+    SemanticTokensDeltaRequest.method = "textDocument/semanticTokens/full/delta";
+    SemanticTokensDeltaRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    SemanticTokensDeltaRequest.type = new messages_1.ProtocolRequestType(SemanticTokensDeltaRequest.method);
+    SemanticTokensDeltaRequest.registrationMethod = SemanticTokensRegistrationType.method;
   })(SemanticTokensDeltaRequest || (exports2.SemanticTokensDeltaRequest = SemanticTokensDeltaRequest = {}));
   var SemanticTokensRangeRequest;
-  (function(SemanticTokensRangeRequest2) {
-    SemanticTokensRangeRequest2.method = "textDocument/semanticTokens/range";
-    SemanticTokensRangeRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    SemanticTokensRangeRequest2.type = new messages_1.ProtocolRequestType(SemanticTokensRangeRequest2.method);
-    SemanticTokensRangeRequest2.registrationMethod = SemanticTokensRegistrationType.method;
+  (function(SemanticTokensRangeRequest) {
+    SemanticTokensRangeRequest.method = "textDocument/semanticTokens/range";
+    SemanticTokensRangeRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    SemanticTokensRangeRequest.type = new messages_1.ProtocolRequestType(SemanticTokensRangeRequest.method);
+    SemanticTokensRangeRequest.registrationMethod = SemanticTokensRegistrationType.method;
   })(SemanticTokensRangeRequest || (exports2.SemanticTokensRangeRequest = SemanticTokensRangeRequest = {}));
   var SemanticTokensRefreshRequest;
-  (function(SemanticTokensRefreshRequest2) {
-    SemanticTokensRefreshRequest2.method = `workspace/semanticTokens/refresh`;
-    SemanticTokensRefreshRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    SemanticTokensRefreshRequest2.type = new messages_1.ProtocolRequestType0(SemanticTokensRefreshRequest2.method);
+  (function(SemanticTokensRefreshRequest) {
+    SemanticTokensRefreshRequest.method = `workspace/semanticTokens/refresh`;
+    SemanticTokensRefreshRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    SemanticTokensRefreshRequest.type = new messages_1.ProtocolRequestType0(SemanticTokensRefreshRequest.method);
   })(SemanticTokensRefreshRequest || (exports2.SemanticTokensRefreshRequest = SemanticTokensRefreshRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.showDocument.js
-var require_protocol_showDocument = __commonJS((exports2) => {
+var require_protocol_showDocument = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ShowDocumentRequest = undefined;
   var messages_1 = require_messages2();
   var ShowDocumentRequest;
-  (function(ShowDocumentRequest2) {
-    ShowDocumentRequest2.method = "window/showDocument";
-    ShowDocumentRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    ShowDocumentRequest2.type = new messages_1.ProtocolRequestType(ShowDocumentRequest2.method);
+  (function(ShowDocumentRequest) {
+    ShowDocumentRequest.method = "window/showDocument";
+    ShowDocumentRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    ShowDocumentRequest.type = new messages_1.ProtocolRequestType(ShowDocumentRequest.method);
   })(ShowDocumentRequest || (exports2.ShowDocumentRequest = ShowDocumentRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.linkedEditingRange.js
-var require_protocol_linkedEditingRange = __commonJS((exports2) => {
+var require_protocol_linkedEditingRange = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.LinkedEditingRangeRequest = undefined;
   var messages_1 = require_messages2();
   var LinkedEditingRangeRequest;
-  (function(LinkedEditingRangeRequest2) {
-    LinkedEditingRangeRequest2.method = "textDocument/linkedEditingRange";
-    LinkedEditingRangeRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    LinkedEditingRangeRequest2.type = new messages_1.ProtocolRequestType(LinkedEditingRangeRequest2.method);
+  (function(LinkedEditingRangeRequest) {
+    LinkedEditingRangeRequest.method = "textDocument/linkedEditingRange";
+    LinkedEditingRangeRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    LinkedEditingRangeRequest.type = new messages_1.ProtocolRequestType(LinkedEditingRangeRequest.method);
   })(LinkedEditingRangeRequest || (exports2.LinkedEditingRangeRequest = LinkedEditingRangeRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.fileOperations.js
-var require_protocol_fileOperations = __commonJS((exports2) => {
+var require_protocol_fileOperations = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.WillDeleteFilesRequest = exports2.DidDeleteFilesNotification = exports2.DidRenameFilesNotification = exports2.WillRenameFilesRequest = exports2.DidCreateFilesNotification = exports2.WillCreateFilesRequest = exports2.FileOperationPatternKind = undefined;
   var messages_1 = require_messages2();
   var FileOperationPatternKind;
-  (function(FileOperationPatternKind2) {
-    FileOperationPatternKind2.file = "file";
-    FileOperationPatternKind2.folder = "folder";
+  (function(FileOperationPatternKind) {
+    FileOperationPatternKind.file = "file";
+    FileOperationPatternKind.folder = "folder";
   })(FileOperationPatternKind || (exports2.FileOperationPatternKind = FileOperationPatternKind = {}));
   var WillCreateFilesRequest;
-  (function(WillCreateFilesRequest2) {
-    WillCreateFilesRequest2.method = "workspace/willCreateFiles";
-    WillCreateFilesRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WillCreateFilesRequest2.type = new messages_1.ProtocolRequestType(WillCreateFilesRequest2.method);
+  (function(WillCreateFilesRequest) {
+    WillCreateFilesRequest.method = "workspace/willCreateFiles";
+    WillCreateFilesRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    WillCreateFilesRequest.type = new messages_1.ProtocolRequestType(WillCreateFilesRequest.method);
   })(WillCreateFilesRequest || (exports2.WillCreateFilesRequest = WillCreateFilesRequest = {}));
   var DidCreateFilesNotification;
-  (function(DidCreateFilesNotification2) {
-    DidCreateFilesNotification2.method = "workspace/didCreateFiles";
-    DidCreateFilesNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidCreateFilesNotification2.type = new messages_1.ProtocolNotificationType(DidCreateFilesNotification2.method);
+  (function(DidCreateFilesNotification) {
+    DidCreateFilesNotification.method = "workspace/didCreateFiles";
+    DidCreateFilesNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidCreateFilesNotification.type = new messages_1.ProtocolNotificationType(DidCreateFilesNotification.method);
   })(DidCreateFilesNotification || (exports2.DidCreateFilesNotification = DidCreateFilesNotification = {}));
   var WillRenameFilesRequest;
-  (function(WillRenameFilesRequest2) {
-    WillRenameFilesRequest2.method = "workspace/willRenameFiles";
-    WillRenameFilesRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WillRenameFilesRequest2.type = new messages_1.ProtocolRequestType(WillRenameFilesRequest2.method);
+  (function(WillRenameFilesRequest) {
+    WillRenameFilesRequest.method = "workspace/willRenameFiles";
+    WillRenameFilesRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    WillRenameFilesRequest.type = new messages_1.ProtocolRequestType(WillRenameFilesRequest.method);
   })(WillRenameFilesRequest || (exports2.WillRenameFilesRequest = WillRenameFilesRequest = {}));
   var DidRenameFilesNotification;
-  (function(DidRenameFilesNotification2) {
-    DidRenameFilesNotification2.method = "workspace/didRenameFiles";
-    DidRenameFilesNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidRenameFilesNotification2.type = new messages_1.ProtocolNotificationType(DidRenameFilesNotification2.method);
+  (function(DidRenameFilesNotification) {
+    DidRenameFilesNotification.method = "workspace/didRenameFiles";
+    DidRenameFilesNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidRenameFilesNotification.type = new messages_1.ProtocolNotificationType(DidRenameFilesNotification.method);
   })(DidRenameFilesNotification || (exports2.DidRenameFilesNotification = DidRenameFilesNotification = {}));
   var DidDeleteFilesNotification;
-  (function(DidDeleteFilesNotification2) {
-    DidDeleteFilesNotification2.method = "workspace/didDeleteFiles";
-    DidDeleteFilesNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidDeleteFilesNotification2.type = new messages_1.ProtocolNotificationType(DidDeleteFilesNotification2.method);
+  (function(DidDeleteFilesNotification) {
+    DidDeleteFilesNotification.method = "workspace/didDeleteFiles";
+    DidDeleteFilesNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidDeleteFilesNotification.type = new messages_1.ProtocolNotificationType(DidDeleteFilesNotification.method);
   })(DidDeleteFilesNotification || (exports2.DidDeleteFilesNotification = DidDeleteFilesNotification = {}));
   var WillDeleteFilesRequest;
-  (function(WillDeleteFilesRequest2) {
-    WillDeleteFilesRequest2.method = "workspace/willDeleteFiles";
-    WillDeleteFilesRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WillDeleteFilesRequest2.type = new messages_1.ProtocolRequestType(WillDeleteFilesRequest2.method);
+  (function(WillDeleteFilesRequest) {
+    WillDeleteFilesRequest.method = "workspace/willDeleteFiles";
+    WillDeleteFilesRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    WillDeleteFilesRequest.type = new messages_1.ProtocolRequestType(WillDeleteFilesRequest.method);
   })(WillDeleteFilesRequest || (exports2.WillDeleteFilesRequest = WillDeleteFilesRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.moniker.js
-var require_protocol_moniker = __commonJS((exports2) => {
+var require_protocol_moniker = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.MonikerRequest = exports2.MonikerKind = exports2.UniquenessLevel = undefined;
   var messages_1 = require_messages2();
   var UniquenessLevel;
-  (function(UniquenessLevel2) {
-    UniquenessLevel2.document = "document";
-    UniquenessLevel2.project = "project";
-    UniquenessLevel2.group = "group";
-    UniquenessLevel2.scheme = "scheme";
-    UniquenessLevel2.global = "global";
+  (function(UniquenessLevel) {
+    UniquenessLevel.document = "document";
+    UniquenessLevel.project = "project";
+    UniquenessLevel.group = "group";
+    UniquenessLevel.scheme = "scheme";
+    UniquenessLevel.global = "global";
   })(UniquenessLevel || (exports2.UniquenessLevel = UniquenessLevel = {}));
   var MonikerKind;
-  (function(MonikerKind2) {
-    MonikerKind2.$import = "import";
-    MonikerKind2.$export = "export";
-    MonikerKind2.local = "local";
+  (function(MonikerKind) {
+    MonikerKind.$import = "import";
+    MonikerKind.$export = "export";
+    MonikerKind.local = "local";
   })(MonikerKind || (exports2.MonikerKind = MonikerKind = {}));
   var MonikerRequest;
-  (function(MonikerRequest2) {
-    MonikerRequest2.method = "textDocument/moniker";
-    MonikerRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    MonikerRequest2.type = new messages_1.ProtocolRequestType(MonikerRequest2.method);
+  (function(MonikerRequest) {
+    MonikerRequest.method = "textDocument/moniker";
+    MonikerRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    MonikerRequest.type = new messages_1.ProtocolRequestType(MonikerRequest.method);
   })(MonikerRequest || (exports2.MonikerRequest = MonikerRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.typeHierarchy.js
-var require_protocol_typeHierarchy = __commonJS((exports2) => {
+var require_protocol_typeHierarchy = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.TypeHierarchySubtypesRequest = exports2.TypeHierarchySupertypesRequest = exports2.TypeHierarchyPrepareRequest = undefined;
   var messages_1 = require_messages2();
   var TypeHierarchyPrepareRequest;
-  (function(TypeHierarchyPrepareRequest2) {
-    TypeHierarchyPrepareRequest2.method = "textDocument/prepareTypeHierarchy";
-    TypeHierarchyPrepareRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    TypeHierarchyPrepareRequest2.type = new messages_1.ProtocolRequestType(TypeHierarchyPrepareRequest2.method);
+  (function(TypeHierarchyPrepareRequest) {
+    TypeHierarchyPrepareRequest.method = "textDocument/prepareTypeHierarchy";
+    TypeHierarchyPrepareRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    TypeHierarchyPrepareRequest.type = new messages_1.ProtocolRequestType(TypeHierarchyPrepareRequest.method);
   })(TypeHierarchyPrepareRequest || (exports2.TypeHierarchyPrepareRequest = TypeHierarchyPrepareRequest = {}));
   var TypeHierarchySupertypesRequest;
-  (function(TypeHierarchySupertypesRequest2) {
-    TypeHierarchySupertypesRequest2.method = "typeHierarchy/supertypes";
-    TypeHierarchySupertypesRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    TypeHierarchySupertypesRequest2.type = new messages_1.ProtocolRequestType(TypeHierarchySupertypesRequest2.method);
+  (function(TypeHierarchySupertypesRequest) {
+    TypeHierarchySupertypesRequest.method = "typeHierarchy/supertypes";
+    TypeHierarchySupertypesRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    TypeHierarchySupertypesRequest.type = new messages_1.ProtocolRequestType(TypeHierarchySupertypesRequest.method);
   })(TypeHierarchySupertypesRequest || (exports2.TypeHierarchySupertypesRequest = TypeHierarchySupertypesRequest = {}));
   var TypeHierarchySubtypesRequest;
-  (function(TypeHierarchySubtypesRequest2) {
-    TypeHierarchySubtypesRequest2.method = "typeHierarchy/subtypes";
-    TypeHierarchySubtypesRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    TypeHierarchySubtypesRequest2.type = new messages_1.ProtocolRequestType(TypeHierarchySubtypesRequest2.method);
+  (function(TypeHierarchySubtypesRequest) {
+    TypeHierarchySubtypesRequest.method = "typeHierarchy/subtypes";
+    TypeHierarchySubtypesRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    TypeHierarchySubtypesRequest.type = new messages_1.ProtocolRequestType(TypeHierarchySubtypesRequest.method);
   })(TypeHierarchySubtypesRequest || (exports2.TypeHierarchySubtypesRequest = TypeHierarchySubtypesRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineValue.js
-var require_protocol_inlineValue = __commonJS((exports2) => {
+var require_protocol_inlineValue = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.InlineValueRefreshRequest = exports2.InlineValueRequest = undefined;
   var messages_1 = require_messages2();
   var InlineValueRequest;
-  (function(InlineValueRequest2) {
-    InlineValueRequest2.method = "textDocument/inlineValue";
-    InlineValueRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    InlineValueRequest2.type = new messages_1.ProtocolRequestType(InlineValueRequest2.method);
+  (function(InlineValueRequest) {
+    InlineValueRequest.method = "textDocument/inlineValue";
+    InlineValueRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    InlineValueRequest.type = new messages_1.ProtocolRequestType(InlineValueRequest.method);
   })(InlineValueRequest || (exports2.InlineValueRequest = InlineValueRequest = {}));
   var InlineValueRefreshRequest;
-  (function(InlineValueRefreshRequest2) {
-    InlineValueRefreshRequest2.method = `workspace/inlineValue/refresh`;
-    InlineValueRefreshRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    InlineValueRefreshRequest2.type = new messages_1.ProtocolRequestType0(InlineValueRefreshRequest2.method);
+  (function(InlineValueRefreshRequest) {
+    InlineValueRefreshRequest.method = `workspace/inlineValue/refresh`;
+    InlineValueRefreshRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    InlineValueRefreshRequest.type = new messages_1.ProtocolRequestType0(InlineValueRefreshRequest.method);
   })(InlineValueRefreshRequest || (exports2.InlineValueRefreshRequest = InlineValueRefreshRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.inlayHint.js
-var require_protocol_inlayHint = __commonJS((exports2) => {
+var require_protocol_inlayHint = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.InlayHintRefreshRequest = exports2.InlayHintResolveRequest = exports2.InlayHintRequest = undefined;
   var messages_1 = require_messages2();
   var InlayHintRequest;
-  (function(InlayHintRequest2) {
-    InlayHintRequest2.method = "textDocument/inlayHint";
-    InlayHintRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    InlayHintRequest2.type = new messages_1.ProtocolRequestType(InlayHintRequest2.method);
+  (function(InlayHintRequest) {
+    InlayHintRequest.method = "textDocument/inlayHint";
+    InlayHintRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    InlayHintRequest.type = new messages_1.ProtocolRequestType(InlayHintRequest.method);
   })(InlayHintRequest || (exports2.InlayHintRequest = InlayHintRequest = {}));
   var InlayHintResolveRequest;
-  (function(InlayHintResolveRequest2) {
-    InlayHintResolveRequest2.method = "inlayHint/resolve";
-    InlayHintResolveRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    InlayHintResolveRequest2.type = new messages_1.ProtocolRequestType(InlayHintResolveRequest2.method);
+  (function(InlayHintResolveRequest) {
+    InlayHintResolveRequest.method = "inlayHint/resolve";
+    InlayHintResolveRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    InlayHintResolveRequest.type = new messages_1.ProtocolRequestType(InlayHintResolveRequest.method);
   })(InlayHintResolveRequest || (exports2.InlayHintResolveRequest = InlayHintResolveRequest = {}));
   var InlayHintRefreshRequest;
-  (function(InlayHintRefreshRequest2) {
-    InlayHintRefreshRequest2.method = `workspace/inlayHint/refresh`;
-    InlayHintRefreshRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    InlayHintRefreshRequest2.type = new messages_1.ProtocolRequestType0(InlayHintRefreshRequest2.method);
+  (function(InlayHintRefreshRequest) {
+    InlayHintRefreshRequest.method = `workspace/inlayHint/refresh`;
+    InlayHintRefreshRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    InlayHintRefreshRequest.type = new messages_1.ProtocolRequestType0(InlayHintRefreshRequest.method);
   })(InlayHintRefreshRequest || (exports2.InlayHintRefreshRequest = InlayHintRefreshRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.diagnostic.js
-var require_protocol_diagnostic = __commonJS((exports2) => {
+var require_protocol_diagnostic = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.DiagnosticRefreshRequest = exports2.WorkspaceDiagnosticRequest = exports2.DocumentDiagnosticRequest = exports2.DocumentDiagnosticReportKind = exports2.DiagnosticServerCancellationData = undefined;
   var vscode_jsonrpc_1 = require_main();
   var Is = require_is3();
   var messages_1 = require_messages2();
   var DiagnosticServerCancellationData;
-  (function(DiagnosticServerCancellationData2) {
+  (function(DiagnosticServerCancellationData) {
     function is(value) {
       const candidate = value;
       return candidate && Is.boolean(candidate.retriggerRequest);
     }
-    DiagnosticServerCancellationData2.is = is;
+    DiagnosticServerCancellationData.is = is;
   })(DiagnosticServerCancellationData || (exports2.DiagnosticServerCancellationData = DiagnosticServerCancellationData = {}));
   var DocumentDiagnosticReportKind;
-  (function(DocumentDiagnosticReportKind2) {
-    DocumentDiagnosticReportKind2.Full = "full";
-    DocumentDiagnosticReportKind2.Unchanged = "unchanged";
+  (function(DocumentDiagnosticReportKind) {
+    DocumentDiagnosticReportKind.Full = "full";
+    DocumentDiagnosticReportKind.Unchanged = "unchanged";
   })(DocumentDiagnosticReportKind || (exports2.DocumentDiagnosticReportKind = DocumentDiagnosticReportKind = {}));
   var DocumentDiagnosticRequest;
-  (function(DocumentDiagnosticRequest2) {
-    DocumentDiagnosticRequest2.method = "textDocument/diagnostic";
-    DocumentDiagnosticRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentDiagnosticRequest2.type = new messages_1.ProtocolRequestType(DocumentDiagnosticRequest2.method);
-    DocumentDiagnosticRequest2.partialResult = new vscode_jsonrpc_1.ProgressType;
+  (function(DocumentDiagnosticRequest) {
+    DocumentDiagnosticRequest.method = "textDocument/diagnostic";
+    DocumentDiagnosticRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentDiagnosticRequest.type = new messages_1.ProtocolRequestType(DocumentDiagnosticRequest.method);
+    DocumentDiagnosticRequest.partialResult = new vscode_jsonrpc_1.ProgressType;
   })(DocumentDiagnosticRequest || (exports2.DocumentDiagnosticRequest = DocumentDiagnosticRequest = {}));
   var WorkspaceDiagnosticRequest;
-  (function(WorkspaceDiagnosticRequest2) {
-    WorkspaceDiagnosticRequest2.method = "workspace/diagnostic";
-    WorkspaceDiagnosticRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WorkspaceDiagnosticRequest2.type = new messages_1.ProtocolRequestType(WorkspaceDiagnosticRequest2.method);
-    WorkspaceDiagnosticRequest2.partialResult = new vscode_jsonrpc_1.ProgressType;
+  (function(WorkspaceDiagnosticRequest) {
+    WorkspaceDiagnosticRequest.method = "workspace/diagnostic";
+    WorkspaceDiagnosticRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    WorkspaceDiagnosticRequest.type = new messages_1.ProtocolRequestType(WorkspaceDiagnosticRequest.method);
+    WorkspaceDiagnosticRequest.partialResult = new vscode_jsonrpc_1.ProgressType;
   })(WorkspaceDiagnosticRequest || (exports2.WorkspaceDiagnosticRequest = WorkspaceDiagnosticRequest = {}));
   var DiagnosticRefreshRequest;
-  (function(DiagnosticRefreshRequest2) {
-    DiagnosticRefreshRequest2.method = `workspace/diagnostic/refresh`;
-    DiagnosticRefreshRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    DiagnosticRefreshRequest2.type = new messages_1.ProtocolRequestType0(DiagnosticRefreshRequest2.method);
+  (function(DiagnosticRefreshRequest) {
+    DiagnosticRefreshRequest.method = `workspace/diagnostic/refresh`;
+    DiagnosticRefreshRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    DiagnosticRefreshRequest.type = new messages_1.ProtocolRequestType0(DiagnosticRefreshRequest.method);
   })(DiagnosticRefreshRequest || (exports2.DiagnosticRefreshRequest = DiagnosticRefreshRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.notebook.js
-var require_protocol_notebook = __commonJS((exports2) => {
+var require_protocol_notebook = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.DidCloseNotebookDocumentNotification = exports2.DidSaveNotebookDocumentNotification = exports2.DidChangeNotebookDocumentNotification = exports2.NotebookCellArrayChange = exports2.DidOpenNotebookDocumentNotification = exports2.NotebookDocumentSyncRegistrationType = exports2.NotebookDocument = exports2.NotebookCell = exports2.ExecutionSummary = exports2.NotebookCellKind = undefined;
   var vscode_languageserver_types_1 = require_main2();
   var Is = require_is3();
   var messages_1 = require_messages2();
   var NotebookCellKind;
-  (function(NotebookCellKind2) {
-    NotebookCellKind2.Markup = 1;
-    NotebookCellKind2.Code = 2;
+  (function(NotebookCellKind) {
+    NotebookCellKind.Markup = 1;
+    NotebookCellKind.Code = 2;
     function is(value) {
       return value === 1 || value === 2;
     }
-    NotebookCellKind2.is = is;
+    NotebookCellKind.is = is;
   })(NotebookCellKind || (exports2.NotebookCellKind = NotebookCellKind = {}));
   var ExecutionSummary;
-  (function(ExecutionSummary2) {
+  (function(ExecutionSummary) {
     function create(executionOrder, success) {
       const result = { executionOrder };
       if (success === true || success === false) {
@@ -5374,12 +5376,12 @@ var require_protocol_notebook = __commonJS((exports2) => {
       }
       return result;
     }
-    ExecutionSummary2.create = create;
+    ExecutionSummary.create = create;
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && vscode_languageserver_types_1.uinteger.is(candidate.executionOrder) && (candidate.success === undefined || Is.boolean(candidate.success));
     }
-    ExecutionSummary2.is = is;
+    ExecutionSummary.is = is;
     function equals(one, other) {
       if (one === other) {
         return true;
@@ -5389,19 +5391,19 @@ var require_protocol_notebook = __commonJS((exports2) => {
       }
       return one.executionOrder === other.executionOrder && one.success === other.success;
     }
-    ExecutionSummary2.equals = equals;
+    ExecutionSummary.equals = equals;
   })(ExecutionSummary || (exports2.ExecutionSummary = ExecutionSummary = {}));
   var NotebookCell;
-  (function(NotebookCell2) {
+  (function(NotebookCell) {
     function create(kind, document) {
       return { kind, document };
     }
-    NotebookCell2.create = create;
+    NotebookCell.create = create;
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && NotebookCellKind.is(candidate.kind) && vscode_languageserver_types_1.DocumentUri.is(candidate.document) && (candidate.metadata === undefined || Is.objectLiteral(candidate.metadata));
     }
-    NotebookCell2.is = is;
+    NotebookCell.is = is;
     function diff(one, two) {
       const result = new Set;
       if (one.document !== two.document) {
@@ -5421,7 +5423,7 @@ var require_protocol_notebook = __commonJS((exports2) => {
       }
       return result;
     }
-    NotebookCell2.diff = diff;
+    NotebookCell.diff = diff;
     function equalsMetadata(one, other) {
       if (one === other) {
         return true;
@@ -5472,37 +5474,37 @@ var require_protocol_notebook = __commonJS((exports2) => {
     }
   })(NotebookCell || (exports2.NotebookCell = NotebookCell = {}));
   var NotebookDocument;
-  (function(NotebookDocument2) {
+  (function(NotebookDocument) {
     function create(uri, notebookType, version, cells) {
       return { uri, notebookType, version, cells };
     }
-    NotebookDocument2.create = create;
+    NotebookDocument.create = create;
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && Is.string(candidate.uri) && vscode_languageserver_types_1.integer.is(candidate.version) && Is.typedArray(candidate.cells, NotebookCell.is);
     }
-    NotebookDocument2.is = is;
+    NotebookDocument.is = is;
   })(NotebookDocument || (exports2.NotebookDocument = NotebookDocument = {}));
   var NotebookDocumentSyncRegistrationType;
-  (function(NotebookDocumentSyncRegistrationType2) {
-    NotebookDocumentSyncRegistrationType2.method = "notebookDocument/sync";
-    NotebookDocumentSyncRegistrationType2.messageDirection = messages_1.MessageDirection.clientToServer;
-    NotebookDocumentSyncRegistrationType2.type = new messages_1.RegistrationType(NotebookDocumentSyncRegistrationType2.method);
+  (function(NotebookDocumentSyncRegistrationType) {
+    NotebookDocumentSyncRegistrationType.method = "notebookDocument/sync";
+    NotebookDocumentSyncRegistrationType.messageDirection = messages_1.MessageDirection.clientToServer;
+    NotebookDocumentSyncRegistrationType.type = new messages_1.RegistrationType(NotebookDocumentSyncRegistrationType.method);
   })(NotebookDocumentSyncRegistrationType || (exports2.NotebookDocumentSyncRegistrationType = NotebookDocumentSyncRegistrationType = {}));
   var DidOpenNotebookDocumentNotification;
-  (function(DidOpenNotebookDocumentNotification2) {
-    DidOpenNotebookDocumentNotification2.method = "notebookDocument/didOpen";
-    DidOpenNotebookDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidOpenNotebookDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidOpenNotebookDocumentNotification2.method);
-    DidOpenNotebookDocumentNotification2.registrationMethod = NotebookDocumentSyncRegistrationType.method;
+  (function(DidOpenNotebookDocumentNotification) {
+    DidOpenNotebookDocumentNotification.method = "notebookDocument/didOpen";
+    DidOpenNotebookDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidOpenNotebookDocumentNotification.type = new messages_1.ProtocolNotificationType(DidOpenNotebookDocumentNotification.method);
+    DidOpenNotebookDocumentNotification.registrationMethod = NotebookDocumentSyncRegistrationType.method;
   })(DidOpenNotebookDocumentNotification || (exports2.DidOpenNotebookDocumentNotification = DidOpenNotebookDocumentNotification = {}));
   var NotebookCellArrayChange;
-  (function(NotebookCellArrayChange2) {
+  (function(NotebookCellArrayChange) {
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && vscode_languageserver_types_1.uinteger.is(candidate.start) && vscode_languageserver_types_1.uinteger.is(candidate.deleteCount) && (candidate.cells === undefined || Is.typedArray(candidate.cells, NotebookCell.is));
     }
-    NotebookCellArrayChange2.is = is;
+    NotebookCellArrayChange.is = is;
     function create(start, deleteCount, cells) {
       const result = { start, deleteCount };
       if (cells !== undefined) {
@@ -5510,46 +5512,46 @@ var require_protocol_notebook = __commonJS((exports2) => {
       }
       return result;
     }
-    NotebookCellArrayChange2.create = create;
+    NotebookCellArrayChange.create = create;
   })(NotebookCellArrayChange || (exports2.NotebookCellArrayChange = NotebookCellArrayChange = {}));
   var DidChangeNotebookDocumentNotification;
-  (function(DidChangeNotebookDocumentNotification2) {
-    DidChangeNotebookDocumentNotification2.method = "notebookDocument/didChange";
-    DidChangeNotebookDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidChangeNotebookDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidChangeNotebookDocumentNotification2.method);
-    DidChangeNotebookDocumentNotification2.registrationMethod = NotebookDocumentSyncRegistrationType.method;
+  (function(DidChangeNotebookDocumentNotification) {
+    DidChangeNotebookDocumentNotification.method = "notebookDocument/didChange";
+    DidChangeNotebookDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidChangeNotebookDocumentNotification.type = new messages_1.ProtocolNotificationType(DidChangeNotebookDocumentNotification.method);
+    DidChangeNotebookDocumentNotification.registrationMethod = NotebookDocumentSyncRegistrationType.method;
   })(DidChangeNotebookDocumentNotification || (exports2.DidChangeNotebookDocumentNotification = DidChangeNotebookDocumentNotification = {}));
   var DidSaveNotebookDocumentNotification;
-  (function(DidSaveNotebookDocumentNotification2) {
-    DidSaveNotebookDocumentNotification2.method = "notebookDocument/didSave";
-    DidSaveNotebookDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidSaveNotebookDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidSaveNotebookDocumentNotification2.method);
-    DidSaveNotebookDocumentNotification2.registrationMethod = NotebookDocumentSyncRegistrationType.method;
+  (function(DidSaveNotebookDocumentNotification) {
+    DidSaveNotebookDocumentNotification.method = "notebookDocument/didSave";
+    DidSaveNotebookDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidSaveNotebookDocumentNotification.type = new messages_1.ProtocolNotificationType(DidSaveNotebookDocumentNotification.method);
+    DidSaveNotebookDocumentNotification.registrationMethod = NotebookDocumentSyncRegistrationType.method;
   })(DidSaveNotebookDocumentNotification || (exports2.DidSaveNotebookDocumentNotification = DidSaveNotebookDocumentNotification = {}));
   var DidCloseNotebookDocumentNotification;
-  (function(DidCloseNotebookDocumentNotification2) {
-    DidCloseNotebookDocumentNotification2.method = "notebookDocument/didClose";
-    DidCloseNotebookDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidCloseNotebookDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidCloseNotebookDocumentNotification2.method);
-    DidCloseNotebookDocumentNotification2.registrationMethod = NotebookDocumentSyncRegistrationType.method;
+  (function(DidCloseNotebookDocumentNotification) {
+    DidCloseNotebookDocumentNotification.method = "notebookDocument/didClose";
+    DidCloseNotebookDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidCloseNotebookDocumentNotification.type = new messages_1.ProtocolNotificationType(DidCloseNotebookDocumentNotification.method);
+    DidCloseNotebookDocumentNotification.registrationMethod = NotebookDocumentSyncRegistrationType.method;
   })(DidCloseNotebookDocumentNotification || (exports2.DidCloseNotebookDocumentNotification = DidCloseNotebookDocumentNotification = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineCompletion.js
-var require_protocol_inlineCompletion = __commonJS((exports2) => {
+var require_protocol_inlineCompletion = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.InlineCompletionRequest = undefined;
   var messages_1 = require_messages2();
   var InlineCompletionRequest;
-  (function(InlineCompletionRequest2) {
-    InlineCompletionRequest2.method = "textDocument/inlineCompletion";
-    InlineCompletionRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    InlineCompletionRequest2.type = new messages_1.ProtocolRequestType(InlineCompletionRequest2.method);
+  (function(InlineCompletionRequest) {
+    InlineCompletionRequest.method = "textDocument/inlineCompletion";
+    InlineCompletionRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    InlineCompletionRequest.type = new messages_1.ProtocolRequestType(InlineCompletionRequest.method);
   })(InlineCompletionRequest || (exports2.InlineCompletionRequest = InlineCompletionRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/protocol.js
-var require_protocol = __commonJS((exports2) => {
+var require_protocol = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.WorkspaceSymbolRequest = exports2.CodeActionResolveRequest = exports2.CodeActionRequest = exports2.DocumentSymbolRequest = exports2.DocumentHighlightRequest = exports2.ReferencesRequest = exports2.DefinitionRequest = exports2.SignatureHelpRequest = exports2.SignatureHelpTriggerKind = exports2.HoverRequest = exports2.CompletionResolveRequest = exports2.CompletionRequest = exports2.CompletionTriggerKind = exports2.PublishDiagnosticsNotification = exports2.WatchKind = exports2.RelativePattern = exports2.FileChangeType = exports2.DidChangeWatchedFilesNotification = exports2.WillSaveTextDocumentWaitUntilRequest = exports2.WillSaveTextDocumentNotification = exports2.TextDocumentSaveReason = exports2.DidSaveTextDocumentNotification = exports2.DidCloseTextDocumentNotification = exports2.DidChangeTextDocumentNotification = exports2.TextDocumentContentChangeEvent = exports2.DidOpenTextDocumentNotification = exports2.TextDocumentSyncKind = exports2.TelemetryEventNotification = exports2.LogMessageNotification = exports2.ShowMessageRequest = exports2.ShowMessageNotification = exports2.MessageType = exports2.DidChangeConfigurationNotification = exports2.ExitNotification = exports2.ShutdownRequest = exports2.InitializedNotification = exports2.InitializeErrorCodes = exports2.InitializeRequest = exports2.WorkDoneProgressOptions = exports2.TextDocumentRegistrationOptions = exports2.StaticRegistrationOptions = exports2.PositionEncodingKind = exports2.FailureHandlingKind = exports2.ResourceOperationKind = exports2.UnregistrationRequest = exports2.RegistrationRequest = exports2.DocumentSelector = exports2.NotebookCellTextDocumentFilter = exports2.NotebookDocumentFilter = exports2.TextDocumentFilter = undefined;
   exports2.MonikerRequest = exports2.MonikerKind = exports2.UniquenessLevel = exports2.WillDeleteFilesRequest = exports2.DidDeleteFilesNotification = exports2.WillRenameFilesRequest = exports2.DidRenameFilesNotification = exports2.WillCreateFilesRequest = exports2.DidCreateFilesNotification = exports2.FileOperationPatternKind = exports2.LinkedEditingRangeRequest = exports2.ShowDocumentRequest = exports2.SemanticTokensRegistrationType = exports2.SemanticTokensRefreshRequest = exports2.SemanticTokensRangeRequest = exports2.SemanticTokensDeltaRequest = exports2.SemanticTokensRequest = exports2.TokenFormat = exports2.CallHierarchyPrepareRequest = exports2.CallHierarchyOutgoingCallsRequest = exports2.CallHierarchyIncomingCallsRequest = exports2.WorkDoneProgressCancelNotification = exports2.WorkDoneProgressCreateRequest = exports2.WorkDoneProgress = exports2.SelectionRangeRequest = exports2.DeclarationRequest = exports2.FoldingRangeRefreshRequest = exports2.FoldingRangeRequest = exports2.ColorPresentationRequest = exports2.DocumentColorRequest = exports2.ConfigurationRequest = exports2.DidChangeWorkspaceFoldersNotification = exports2.WorkspaceFoldersRequest = exports2.TypeDefinitionRequest = exports2.ImplementationRequest = exports2.ApplyWorkspaceEditRequest = exports2.ExecuteCommandRequest = exports2.PrepareRenameRequest = exports2.RenameRequest = exports2.PrepareSupportDefaultBehavior = exports2.DocumentOnTypeFormattingRequest = exports2.DocumentRangesFormattingRequest = exports2.DocumentRangeFormattingRequest = exports2.DocumentFormattingRequest = exports2.DocumentLinkResolveRequest = exports2.DocumentLinkRequest = exports2.CodeLensRefreshRequest = exports2.CodeLensResolveRequest = exports2.CodeLensRequest = exports2.WorkspaceSymbolResolveRequest = undefined;
@@ -5756,31 +5758,31 @@ var require_protocol = __commonJS((exports2) => {
     return protocol_inlineCompletion_1.InlineCompletionRequest;
   } });
   var TextDocumentFilter;
-  (function(TextDocumentFilter2) {
+  (function(TextDocumentFilter) {
     function is(value) {
       const candidate = value;
       return Is.string(candidate) || (Is.string(candidate.language) || Is.string(candidate.scheme) || Is.string(candidate.pattern));
     }
-    TextDocumentFilter2.is = is;
+    TextDocumentFilter.is = is;
   })(TextDocumentFilter || (exports2.TextDocumentFilter = TextDocumentFilter = {}));
   var NotebookDocumentFilter;
-  (function(NotebookDocumentFilter2) {
+  (function(NotebookDocumentFilter) {
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && (Is.string(candidate.notebookType) || Is.string(candidate.scheme) || Is.string(candidate.pattern));
     }
-    NotebookDocumentFilter2.is = is;
+    NotebookDocumentFilter.is = is;
   })(NotebookDocumentFilter || (exports2.NotebookDocumentFilter = NotebookDocumentFilter = {}));
   var NotebookCellTextDocumentFilter;
-  (function(NotebookCellTextDocumentFilter2) {
+  (function(NotebookCellTextDocumentFilter) {
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && (Is.string(candidate.notebook) || NotebookDocumentFilter.is(candidate.notebook)) && (candidate.language === undefined || Is.string(candidate.language));
     }
-    NotebookCellTextDocumentFilter2.is = is;
+    NotebookCellTextDocumentFilter.is = is;
   })(NotebookCellTextDocumentFilter || (exports2.NotebookCellTextDocumentFilter = NotebookCellTextDocumentFilter = {}));
   var DocumentSelector;
-  (function(DocumentSelector2) {
+  (function(DocumentSelector) {
     function is(value) {
       if (!Array.isArray(value)) {
         return false;
@@ -5792,397 +5794,397 @@ var require_protocol = __commonJS((exports2) => {
       }
       return true;
     }
-    DocumentSelector2.is = is;
+    DocumentSelector.is = is;
   })(DocumentSelector || (exports2.DocumentSelector = DocumentSelector = {}));
   var RegistrationRequest;
-  (function(RegistrationRequest2) {
-    RegistrationRequest2.method = "client/registerCapability";
-    RegistrationRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    RegistrationRequest2.type = new messages_1.ProtocolRequestType(RegistrationRequest2.method);
+  (function(RegistrationRequest) {
+    RegistrationRequest.method = "client/registerCapability";
+    RegistrationRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    RegistrationRequest.type = new messages_1.ProtocolRequestType(RegistrationRequest.method);
   })(RegistrationRequest || (exports2.RegistrationRequest = RegistrationRequest = {}));
   var UnregistrationRequest;
-  (function(UnregistrationRequest2) {
-    UnregistrationRequest2.method = "client/unregisterCapability";
-    UnregistrationRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    UnregistrationRequest2.type = new messages_1.ProtocolRequestType(UnregistrationRequest2.method);
+  (function(UnregistrationRequest) {
+    UnregistrationRequest.method = "client/unregisterCapability";
+    UnregistrationRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    UnregistrationRequest.type = new messages_1.ProtocolRequestType(UnregistrationRequest.method);
   })(UnregistrationRequest || (exports2.UnregistrationRequest = UnregistrationRequest = {}));
   var ResourceOperationKind;
-  (function(ResourceOperationKind2) {
-    ResourceOperationKind2.Create = "create";
-    ResourceOperationKind2.Rename = "rename";
-    ResourceOperationKind2.Delete = "delete";
+  (function(ResourceOperationKind) {
+    ResourceOperationKind.Create = "create";
+    ResourceOperationKind.Rename = "rename";
+    ResourceOperationKind.Delete = "delete";
   })(ResourceOperationKind || (exports2.ResourceOperationKind = ResourceOperationKind = {}));
   var FailureHandlingKind;
-  (function(FailureHandlingKind2) {
-    FailureHandlingKind2.Abort = "abort";
-    FailureHandlingKind2.Transactional = "transactional";
-    FailureHandlingKind2.TextOnlyTransactional = "textOnlyTransactional";
-    FailureHandlingKind2.Undo = "undo";
+  (function(FailureHandlingKind) {
+    FailureHandlingKind.Abort = "abort";
+    FailureHandlingKind.Transactional = "transactional";
+    FailureHandlingKind.TextOnlyTransactional = "textOnlyTransactional";
+    FailureHandlingKind.Undo = "undo";
   })(FailureHandlingKind || (exports2.FailureHandlingKind = FailureHandlingKind = {}));
   var PositionEncodingKind;
-  (function(PositionEncodingKind2) {
-    PositionEncodingKind2.UTF8 = "utf-8";
-    PositionEncodingKind2.UTF16 = "utf-16";
-    PositionEncodingKind2.UTF32 = "utf-32";
+  (function(PositionEncodingKind) {
+    PositionEncodingKind.UTF8 = "utf-8";
+    PositionEncodingKind.UTF16 = "utf-16";
+    PositionEncodingKind.UTF32 = "utf-32";
   })(PositionEncodingKind || (exports2.PositionEncodingKind = PositionEncodingKind = {}));
   var StaticRegistrationOptions;
-  (function(StaticRegistrationOptions2) {
+  (function(StaticRegistrationOptions) {
     function hasId(value) {
       const candidate = value;
       return candidate && Is.string(candidate.id) && candidate.id.length > 0;
     }
-    StaticRegistrationOptions2.hasId = hasId;
+    StaticRegistrationOptions.hasId = hasId;
   })(StaticRegistrationOptions || (exports2.StaticRegistrationOptions = StaticRegistrationOptions = {}));
   var TextDocumentRegistrationOptions;
-  (function(TextDocumentRegistrationOptions2) {
+  (function(TextDocumentRegistrationOptions) {
     function is(value) {
       const candidate = value;
       return candidate && (candidate.documentSelector === null || DocumentSelector.is(candidate.documentSelector));
     }
-    TextDocumentRegistrationOptions2.is = is;
+    TextDocumentRegistrationOptions.is = is;
   })(TextDocumentRegistrationOptions || (exports2.TextDocumentRegistrationOptions = TextDocumentRegistrationOptions = {}));
   var WorkDoneProgressOptions;
-  (function(WorkDoneProgressOptions2) {
+  (function(WorkDoneProgressOptions) {
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && (candidate.workDoneProgress === undefined || Is.boolean(candidate.workDoneProgress));
     }
-    WorkDoneProgressOptions2.is = is;
+    WorkDoneProgressOptions.is = is;
     function hasWorkDoneProgress(value) {
       const candidate = value;
       return candidate && Is.boolean(candidate.workDoneProgress);
     }
-    WorkDoneProgressOptions2.hasWorkDoneProgress = hasWorkDoneProgress;
+    WorkDoneProgressOptions.hasWorkDoneProgress = hasWorkDoneProgress;
   })(WorkDoneProgressOptions || (exports2.WorkDoneProgressOptions = WorkDoneProgressOptions = {}));
   var InitializeRequest;
-  (function(InitializeRequest2) {
-    InitializeRequest2.method = "initialize";
-    InitializeRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    InitializeRequest2.type = new messages_1.ProtocolRequestType(InitializeRequest2.method);
+  (function(InitializeRequest) {
+    InitializeRequest.method = "initialize";
+    InitializeRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    InitializeRequest.type = new messages_1.ProtocolRequestType(InitializeRequest.method);
   })(InitializeRequest || (exports2.InitializeRequest = InitializeRequest = {}));
   var InitializeErrorCodes;
-  (function(InitializeErrorCodes2) {
-    InitializeErrorCodes2.unknownProtocolVersion = 1;
+  (function(InitializeErrorCodes) {
+    InitializeErrorCodes.unknownProtocolVersion = 1;
   })(InitializeErrorCodes || (exports2.InitializeErrorCodes = InitializeErrorCodes = {}));
   var InitializedNotification;
-  (function(InitializedNotification2) {
-    InitializedNotification2.method = "initialized";
-    InitializedNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    InitializedNotification2.type = new messages_1.ProtocolNotificationType(InitializedNotification2.method);
+  (function(InitializedNotification) {
+    InitializedNotification.method = "initialized";
+    InitializedNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    InitializedNotification.type = new messages_1.ProtocolNotificationType(InitializedNotification.method);
   })(InitializedNotification || (exports2.InitializedNotification = InitializedNotification = {}));
   var ShutdownRequest;
-  (function(ShutdownRequest2) {
-    ShutdownRequest2.method = "shutdown";
-    ShutdownRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    ShutdownRequest2.type = new messages_1.ProtocolRequestType0(ShutdownRequest2.method);
+  (function(ShutdownRequest) {
+    ShutdownRequest.method = "shutdown";
+    ShutdownRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    ShutdownRequest.type = new messages_1.ProtocolRequestType0(ShutdownRequest.method);
   })(ShutdownRequest || (exports2.ShutdownRequest = ShutdownRequest = {}));
   var ExitNotification;
-  (function(ExitNotification2) {
-    ExitNotification2.method = "exit";
-    ExitNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    ExitNotification2.type = new messages_1.ProtocolNotificationType0(ExitNotification2.method);
+  (function(ExitNotification) {
+    ExitNotification.method = "exit";
+    ExitNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    ExitNotification.type = new messages_1.ProtocolNotificationType0(ExitNotification.method);
   })(ExitNotification || (exports2.ExitNotification = ExitNotification = {}));
   var DidChangeConfigurationNotification;
-  (function(DidChangeConfigurationNotification2) {
-    DidChangeConfigurationNotification2.method = "workspace/didChangeConfiguration";
-    DidChangeConfigurationNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidChangeConfigurationNotification2.type = new messages_1.ProtocolNotificationType(DidChangeConfigurationNotification2.method);
+  (function(DidChangeConfigurationNotification) {
+    DidChangeConfigurationNotification.method = "workspace/didChangeConfiguration";
+    DidChangeConfigurationNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidChangeConfigurationNotification.type = new messages_1.ProtocolNotificationType(DidChangeConfigurationNotification.method);
   })(DidChangeConfigurationNotification || (exports2.DidChangeConfigurationNotification = DidChangeConfigurationNotification = {}));
   var MessageType;
-  (function(MessageType2) {
-    MessageType2.Error = 1;
-    MessageType2.Warning = 2;
-    MessageType2.Info = 3;
-    MessageType2.Log = 4;
-    MessageType2.Debug = 5;
+  (function(MessageType) {
+    MessageType.Error = 1;
+    MessageType.Warning = 2;
+    MessageType.Info = 3;
+    MessageType.Log = 4;
+    MessageType.Debug = 5;
   })(MessageType || (exports2.MessageType = MessageType = {}));
   var ShowMessageNotification;
-  (function(ShowMessageNotification2) {
-    ShowMessageNotification2.method = "window/showMessage";
-    ShowMessageNotification2.messageDirection = messages_1.MessageDirection.serverToClient;
-    ShowMessageNotification2.type = new messages_1.ProtocolNotificationType(ShowMessageNotification2.method);
+  (function(ShowMessageNotification) {
+    ShowMessageNotification.method = "window/showMessage";
+    ShowMessageNotification.messageDirection = messages_1.MessageDirection.serverToClient;
+    ShowMessageNotification.type = new messages_1.ProtocolNotificationType(ShowMessageNotification.method);
   })(ShowMessageNotification || (exports2.ShowMessageNotification = ShowMessageNotification = {}));
   var ShowMessageRequest;
-  (function(ShowMessageRequest2) {
-    ShowMessageRequest2.method = "window/showMessageRequest";
-    ShowMessageRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    ShowMessageRequest2.type = new messages_1.ProtocolRequestType(ShowMessageRequest2.method);
+  (function(ShowMessageRequest) {
+    ShowMessageRequest.method = "window/showMessageRequest";
+    ShowMessageRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    ShowMessageRequest.type = new messages_1.ProtocolRequestType(ShowMessageRequest.method);
   })(ShowMessageRequest || (exports2.ShowMessageRequest = ShowMessageRequest = {}));
   var LogMessageNotification;
-  (function(LogMessageNotification2) {
-    LogMessageNotification2.method = "window/logMessage";
-    LogMessageNotification2.messageDirection = messages_1.MessageDirection.serverToClient;
-    LogMessageNotification2.type = new messages_1.ProtocolNotificationType(LogMessageNotification2.method);
+  (function(LogMessageNotification) {
+    LogMessageNotification.method = "window/logMessage";
+    LogMessageNotification.messageDirection = messages_1.MessageDirection.serverToClient;
+    LogMessageNotification.type = new messages_1.ProtocolNotificationType(LogMessageNotification.method);
   })(LogMessageNotification || (exports2.LogMessageNotification = LogMessageNotification = {}));
   var TelemetryEventNotification;
-  (function(TelemetryEventNotification2) {
-    TelemetryEventNotification2.method = "telemetry/event";
-    TelemetryEventNotification2.messageDirection = messages_1.MessageDirection.serverToClient;
-    TelemetryEventNotification2.type = new messages_1.ProtocolNotificationType(TelemetryEventNotification2.method);
+  (function(TelemetryEventNotification) {
+    TelemetryEventNotification.method = "telemetry/event";
+    TelemetryEventNotification.messageDirection = messages_1.MessageDirection.serverToClient;
+    TelemetryEventNotification.type = new messages_1.ProtocolNotificationType(TelemetryEventNotification.method);
   })(TelemetryEventNotification || (exports2.TelemetryEventNotification = TelemetryEventNotification = {}));
   var TextDocumentSyncKind;
-  (function(TextDocumentSyncKind2) {
-    TextDocumentSyncKind2.None = 0;
-    TextDocumentSyncKind2.Full = 1;
-    TextDocumentSyncKind2.Incremental = 2;
+  (function(TextDocumentSyncKind) {
+    TextDocumentSyncKind.None = 0;
+    TextDocumentSyncKind.Full = 1;
+    TextDocumentSyncKind.Incremental = 2;
   })(TextDocumentSyncKind || (exports2.TextDocumentSyncKind = TextDocumentSyncKind = {}));
   var DidOpenTextDocumentNotification;
-  (function(DidOpenTextDocumentNotification2) {
-    DidOpenTextDocumentNotification2.method = "textDocument/didOpen";
-    DidOpenTextDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidOpenTextDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidOpenTextDocumentNotification2.method);
+  (function(DidOpenTextDocumentNotification) {
+    DidOpenTextDocumentNotification.method = "textDocument/didOpen";
+    DidOpenTextDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidOpenTextDocumentNotification.type = new messages_1.ProtocolNotificationType(DidOpenTextDocumentNotification.method);
   })(DidOpenTextDocumentNotification || (exports2.DidOpenTextDocumentNotification = DidOpenTextDocumentNotification = {}));
   var TextDocumentContentChangeEvent;
-  (function(TextDocumentContentChangeEvent2) {
+  (function(TextDocumentContentChangeEvent) {
     function isIncremental(event) {
       let candidate = event;
       return candidate !== undefined && candidate !== null && typeof candidate.text === "string" && candidate.range !== undefined && (candidate.rangeLength === undefined || typeof candidate.rangeLength === "number");
     }
-    TextDocumentContentChangeEvent2.isIncremental = isIncremental;
+    TextDocumentContentChangeEvent.isIncremental = isIncremental;
     function isFull(event) {
       let candidate = event;
       return candidate !== undefined && candidate !== null && typeof candidate.text === "string" && candidate.range === undefined && candidate.rangeLength === undefined;
     }
-    TextDocumentContentChangeEvent2.isFull = isFull;
+    TextDocumentContentChangeEvent.isFull = isFull;
   })(TextDocumentContentChangeEvent || (exports2.TextDocumentContentChangeEvent = TextDocumentContentChangeEvent = {}));
   var DidChangeTextDocumentNotification;
-  (function(DidChangeTextDocumentNotification2) {
-    DidChangeTextDocumentNotification2.method = "textDocument/didChange";
-    DidChangeTextDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidChangeTextDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidChangeTextDocumentNotification2.method);
+  (function(DidChangeTextDocumentNotification) {
+    DidChangeTextDocumentNotification.method = "textDocument/didChange";
+    DidChangeTextDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidChangeTextDocumentNotification.type = new messages_1.ProtocolNotificationType(DidChangeTextDocumentNotification.method);
   })(DidChangeTextDocumentNotification || (exports2.DidChangeTextDocumentNotification = DidChangeTextDocumentNotification = {}));
   var DidCloseTextDocumentNotification;
-  (function(DidCloseTextDocumentNotification2) {
-    DidCloseTextDocumentNotification2.method = "textDocument/didClose";
-    DidCloseTextDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidCloseTextDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidCloseTextDocumentNotification2.method);
+  (function(DidCloseTextDocumentNotification) {
+    DidCloseTextDocumentNotification.method = "textDocument/didClose";
+    DidCloseTextDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidCloseTextDocumentNotification.type = new messages_1.ProtocolNotificationType(DidCloseTextDocumentNotification.method);
   })(DidCloseTextDocumentNotification || (exports2.DidCloseTextDocumentNotification = DidCloseTextDocumentNotification = {}));
   var DidSaveTextDocumentNotification;
-  (function(DidSaveTextDocumentNotification2) {
-    DidSaveTextDocumentNotification2.method = "textDocument/didSave";
-    DidSaveTextDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidSaveTextDocumentNotification2.type = new messages_1.ProtocolNotificationType(DidSaveTextDocumentNotification2.method);
+  (function(DidSaveTextDocumentNotification) {
+    DidSaveTextDocumentNotification.method = "textDocument/didSave";
+    DidSaveTextDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidSaveTextDocumentNotification.type = new messages_1.ProtocolNotificationType(DidSaveTextDocumentNotification.method);
   })(DidSaveTextDocumentNotification || (exports2.DidSaveTextDocumentNotification = DidSaveTextDocumentNotification = {}));
   var TextDocumentSaveReason;
-  (function(TextDocumentSaveReason2) {
-    TextDocumentSaveReason2.Manual = 1;
-    TextDocumentSaveReason2.AfterDelay = 2;
-    TextDocumentSaveReason2.FocusOut = 3;
+  (function(TextDocumentSaveReason) {
+    TextDocumentSaveReason.Manual = 1;
+    TextDocumentSaveReason.AfterDelay = 2;
+    TextDocumentSaveReason.FocusOut = 3;
   })(TextDocumentSaveReason || (exports2.TextDocumentSaveReason = TextDocumentSaveReason = {}));
   var WillSaveTextDocumentNotification;
-  (function(WillSaveTextDocumentNotification2) {
-    WillSaveTextDocumentNotification2.method = "textDocument/willSave";
-    WillSaveTextDocumentNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WillSaveTextDocumentNotification2.type = new messages_1.ProtocolNotificationType(WillSaveTextDocumentNotification2.method);
+  (function(WillSaveTextDocumentNotification) {
+    WillSaveTextDocumentNotification.method = "textDocument/willSave";
+    WillSaveTextDocumentNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    WillSaveTextDocumentNotification.type = new messages_1.ProtocolNotificationType(WillSaveTextDocumentNotification.method);
   })(WillSaveTextDocumentNotification || (exports2.WillSaveTextDocumentNotification = WillSaveTextDocumentNotification = {}));
   var WillSaveTextDocumentWaitUntilRequest;
-  (function(WillSaveTextDocumentWaitUntilRequest2) {
-    WillSaveTextDocumentWaitUntilRequest2.method = "textDocument/willSaveWaitUntil";
-    WillSaveTextDocumentWaitUntilRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WillSaveTextDocumentWaitUntilRequest2.type = new messages_1.ProtocolRequestType(WillSaveTextDocumentWaitUntilRequest2.method);
+  (function(WillSaveTextDocumentWaitUntilRequest) {
+    WillSaveTextDocumentWaitUntilRequest.method = "textDocument/willSaveWaitUntil";
+    WillSaveTextDocumentWaitUntilRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    WillSaveTextDocumentWaitUntilRequest.type = new messages_1.ProtocolRequestType(WillSaveTextDocumentWaitUntilRequest.method);
   })(WillSaveTextDocumentWaitUntilRequest || (exports2.WillSaveTextDocumentWaitUntilRequest = WillSaveTextDocumentWaitUntilRequest = {}));
   var DidChangeWatchedFilesNotification;
-  (function(DidChangeWatchedFilesNotification2) {
-    DidChangeWatchedFilesNotification2.method = "workspace/didChangeWatchedFiles";
-    DidChangeWatchedFilesNotification2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DidChangeWatchedFilesNotification2.type = new messages_1.ProtocolNotificationType(DidChangeWatchedFilesNotification2.method);
+  (function(DidChangeWatchedFilesNotification) {
+    DidChangeWatchedFilesNotification.method = "workspace/didChangeWatchedFiles";
+    DidChangeWatchedFilesNotification.messageDirection = messages_1.MessageDirection.clientToServer;
+    DidChangeWatchedFilesNotification.type = new messages_1.ProtocolNotificationType(DidChangeWatchedFilesNotification.method);
   })(DidChangeWatchedFilesNotification || (exports2.DidChangeWatchedFilesNotification = DidChangeWatchedFilesNotification = {}));
   var FileChangeType;
-  (function(FileChangeType2) {
-    FileChangeType2.Created = 1;
-    FileChangeType2.Changed = 2;
-    FileChangeType2.Deleted = 3;
+  (function(FileChangeType) {
+    FileChangeType.Created = 1;
+    FileChangeType.Changed = 2;
+    FileChangeType.Deleted = 3;
   })(FileChangeType || (exports2.FileChangeType = FileChangeType = {}));
   var RelativePattern;
-  (function(RelativePattern2) {
+  (function(RelativePattern) {
     function is(value) {
       const candidate = value;
       return Is.objectLiteral(candidate) && (vscode_languageserver_types_1.URI.is(candidate.baseUri) || vscode_languageserver_types_1.WorkspaceFolder.is(candidate.baseUri)) && Is.string(candidate.pattern);
     }
-    RelativePattern2.is = is;
+    RelativePattern.is = is;
   })(RelativePattern || (exports2.RelativePattern = RelativePattern = {}));
   var WatchKind;
-  (function(WatchKind2) {
-    WatchKind2.Create = 1;
-    WatchKind2.Change = 2;
-    WatchKind2.Delete = 4;
+  (function(WatchKind) {
+    WatchKind.Create = 1;
+    WatchKind.Change = 2;
+    WatchKind.Delete = 4;
   })(WatchKind || (exports2.WatchKind = WatchKind = {}));
   var PublishDiagnosticsNotification;
-  (function(PublishDiagnosticsNotification2) {
-    PublishDiagnosticsNotification2.method = "textDocument/publishDiagnostics";
-    PublishDiagnosticsNotification2.messageDirection = messages_1.MessageDirection.serverToClient;
-    PublishDiagnosticsNotification2.type = new messages_1.ProtocolNotificationType(PublishDiagnosticsNotification2.method);
+  (function(PublishDiagnosticsNotification) {
+    PublishDiagnosticsNotification.method = "textDocument/publishDiagnostics";
+    PublishDiagnosticsNotification.messageDirection = messages_1.MessageDirection.serverToClient;
+    PublishDiagnosticsNotification.type = new messages_1.ProtocolNotificationType(PublishDiagnosticsNotification.method);
   })(PublishDiagnosticsNotification || (exports2.PublishDiagnosticsNotification = PublishDiagnosticsNotification = {}));
   var CompletionTriggerKind;
-  (function(CompletionTriggerKind2) {
-    CompletionTriggerKind2.Invoked = 1;
-    CompletionTriggerKind2.TriggerCharacter = 2;
-    CompletionTriggerKind2.TriggerForIncompleteCompletions = 3;
+  (function(CompletionTriggerKind) {
+    CompletionTriggerKind.Invoked = 1;
+    CompletionTriggerKind.TriggerCharacter = 2;
+    CompletionTriggerKind.TriggerForIncompleteCompletions = 3;
   })(CompletionTriggerKind || (exports2.CompletionTriggerKind = CompletionTriggerKind = {}));
   var CompletionRequest;
-  (function(CompletionRequest2) {
-    CompletionRequest2.method = "textDocument/completion";
-    CompletionRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CompletionRequest2.type = new messages_1.ProtocolRequestType(CompletionRequest2.method);
+  (function(CompletionRequest) {
+    CompletionRequest.method = "textDocument/completion";
+    CompletionRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CompletionRequest.type = new messages_1.ProtocolRequestType(CompletionRequest.method);
   })(CompletionRequest || (exports2.CompletionRequest = CompletionRequest = {}));
   var CompletionResolveRequest;
-  (function(CompletionResolveRequest2) {
-    CompletionResolveRequest2.method = "completionItem/resolve";
-    CompletionResolveRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CompletionResolveRequest2.type = new messages_1.ProtocolRequestType(CompletionResolveRequest2.method);
+  (function(CompletionResolveRequest) {
+    CompletionResolveRequest.method = "completionItem/resolve";
+    CompletionResolveRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CompletionResolveRequest.type = new messages_1.ProtocolRequestType(CompletionResolveRequest.method);
   })(CompletionResolveRequest || (exports2.CompletionResolveRequest = CompletionResolveRequest = {}));
   var HoverRequest;
-  (function(HoverRequest2) {
-    HoverRequest2.method = "textDocument/hover";
-    HoverRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    HoverRequest2.type = new messages_1.ProtocolRequestType(HoverRequest2.method);
+  (function(HoverRequest) {
+    HoverRequest.method = "textDocument/hover";
+    HoverRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    HoverRequest.type = new messages_1.ProtocolRequestType(HoverRequest.method);
   })(HoverRequest || (exports2.HoverRequest = HoverRequest = {}));
   var SignatureHelpTriggerKind;
-  (function(SignatureHelpTriggerKind2) {
-    SignatureHelpTriggerKind2.Invoked = 1;
-    SignatureHelpTriggerKind2.TriggerCharacter = 2;
-    SignatureHelpTriggerKind2.ContentChange = 3;
+  (function(SignatureHelpTriggerKind) {
+    SignatureHelpTriggerKind.Invoked = 1;
+    SignatureHelpTriggerKind.TriggerCharacter = 2;
+    SignatureHelpTriggerKind.ContentChange = 3;
   })(SignatureHelpTriggerKind || (exports2.SignatureHelpTriggerKind = SignatureHelpTriggerKind = {}));
   var SignatureHelpRequest;
-  (function(SignatureHelpRequest2) {
-    SignatureHelpRequest2.method = "textDocument/signatureHelp";
-    SignatureHelpRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    SignatureHelpRequest2.type = new messages_1.ProtocolRequestType(SignatureHelpRequest2.method);
+  (function(SignatureHelpRequest) {
+    SignatureHelpRequest.method = "textDocument/signatureHelp";
+    SignatureHelpRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    SignatureHelpRequest.type = new messages_1.ProtocolRequestType(SignatureHelpRequest.method);
   })(SignatureHelpRequest || (exports2.SignatureHelpRequest = SignatureHelpRequest = {}));
   var DefinitionRequest;
-  (function(DefinitionRequest2) {
-    DefinitionRequest2.method = "textDocument/definition";
-    DefinitionRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DefinitionRequest2.type = new messages_1.ProtocolRequestType(DefinitionRequest2.method);
+  (function(DefinitionRequest) {
+    DefinitionRequest.method = "textDocument/definition";
+    DefinitionRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DefinitionRequest.type = new messages_1.ProtocolRequestType(DefinitionRequest.method);
   })(DefinitionRequest || (exports2.DefinitionRequest = DefinitionRequest = {}));
   var ReferencesRequest;
-  (function(ReferencesRequest2) {
-    ReferencesRequest2.method = "textDocument/references";
-    ReferencesRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    ReferencesRequest2.type = new messages_1.ProtocolRequestType(ReferencesRequest2.method);
+  (function(ReferencesRequest) {
+    ReferencesRequest.method = "textDocument/references";
+    ReferencesRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    ReferencesRequest.type = new messages_1.ProtocolRequestType(ReferencesRequest.method);
   })(ReferencesRequest || (exports2.ReferencesRequest = ReferencesRequest = {}));
   var DocumentHighlightRequest;
-  (function(DocumentHighlightRequest2) {
-    DocumentHighlightRequest2.method = "textDocument/documentHighlight";
-    DocumentHighlightRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentHighlightRequest2.type = new messages_1.ProtocolRequestType(DocumentHighlightRequest2.method);
+  (function(DocumentHighlightRequest) {
+    DocumentHighlightRequest.method = "textDocument/documentHighlight";
+    DocumentHighlightRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentHighlightRequest.type = new messages_1.ProtocolRequestType(DocumentHighlightRequest.method);
   })(DocumentHighlightRequest || (exports2.DocumentHighlightRequest = DocumentHighlightRequest = {}));
   var DocumentSymbolRequest;
-  (function(DocumentSymbolRequest2) {
-    DocumentSymbolRequest2.method = "textDocument/documentSymbol";
-    DocumentSymbolRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentSymbolRequest2.type = new messages_1.ProtocolRequestType(DocumentSymbolRequest2.method);
+  (function(DocumentSymbolRequest) {
+    DocumentSymbolRequest.method = "textDocument/documentSymbol";
+    DocumentSymbolRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentSymbolRequest.type = new messages_1.ProtocolRequestType(DocumentSymbolRequest.method);
   })(DocumentSymbolRequest || (exports2.DocumentSymbolRequest = DocumentSymbolRequest = {}));
   var CodeActionRequest;
-  (function(CodeActionRequest2) {
-    CodeActionRequest2.method = "textDocument/codeAction";
-    CodeActionRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CodeActionRequest2.type = new messages_1.ProtocolRequestType(CodeActionRequest2.method);
+  (function(CodeActionRequest) {
+    CodeActionRequest.method = "textDocument/codeAction";
+    CodeActionRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CodeActionRequest.type = new messages_1.ProtocolRequestType(CodeActionRequest.method);
   })(CodeActionRequest || (exports2.CodeActionRequest = CodeActionRequest = {}));
   var CodeActionResolveRequest;
-  (function(CodeActionResolveRequest2) {
-    CodeActionResolveRequest2.method = "codeAction/resolve";
-    CodeActionResolveRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CodeActionResolveRequest2.type = new messages_1.ProtocolRequestType(CodeActionResolveRequest2.method);
+  (function(CodeActionResolveRequest) {
+    CodeActionResolveRequest.method = "codeAction/resolve";
+    CodeActionResolveRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CodeActionResolveRequest.type = new messages_1.ProtocolRequestType(CodeActionResolveRequest.method);
   })(CodeActionResolveRequest || (exports2.CodeActionResolveRequest = CodeActionResolveRequest = {}));
   var WorkspaceSymbolRequest;
-  (function(WorkspaceSymbolRequest2) {
-    WorkspaceSymbolRequest2.method = "workspace/symbol";
-    WorkspaceSymbolRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WorkspaceSymbolRequest2.type = new messages_1.ProtocolRequestType(WorkspaceSymbolRequest2.method);
+  (function(WorkspaceSymbolRequest) {
+    WorkspaceSymbolRequest.method = "workspace/symbol";
+    WorkspaceSymbolRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    WorkspaceSymbolRequest.type = new messages_1.ProtocolRequestType(WorkspaceSymbolRequest.method);
   })(WorkspaceSymbolRequest || (exports2.WorkspaceSymbolRequest = WorkspaceSymbolRequest = {}));
   var WorkspaceSymbolResolveRequest;
-  (function(WorkspaceSymbolResolveRequest2) {
-    WorkspaceSymbolResolveRequest2.method = "workspaceSymbol/resolve";
-    WorkspaceSymbolResolveRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    WorkspaceSymbolResolveRequest2.type = new messages_1.ProtocolRequestType(WorkspaceSymbolResolveRequest2.method);
+  (function(WorkspaceSymbolResolveRequest) {
+    WorkspaceSymbolResolveRequest.method = "workspaceSymbol/resolve";
+    WorkspaceSymbolResolveRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    WorkspaceSymbolResolveRequest.type = new messages_1.ProtocolRequestType(WorkspaceSymbolResolveRequest.method);
   })(WorkspaceSymbolResolveRequest || (exports2.WorkspaceSymbolResolveRequest = WorkspaceSymbolResolveRequest = {}));
   var CodeLensRequest;
-  (function(CodeLensRequest2) {
-    CodeLensRequest2.method = "textDocument/codeLens";
-    CodeLensRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CodeLensRequest2.type = new messages_1.ProtocolRequestType(CodeLensRequest2.method);
+  (function(CodeLensRequest) {
+    CodeLensRequest.method = "textDocument/codeLens";
+    CodeLensRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CodeLensRequest.type = new messages_1.ProtocolRequestType(CodeLensRequest.method);
   })(CodeLensRequest || (exports2.CodeLensRequest = CodeLensRequest = {}));
   var CodeLensResolveRequest;
-  (function(CodeLensResolveRequest2) {
-    CodeLensResolveRequest2.method = "codeLens/resolve";
-    CodeLensResolveRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    CodeLensResolveRequest2.type = new messages_1.ProtocolRequestType(CodeLensResolveRequest2.method);
+  (function(CodeLensResolveRequest) {
+    CodeLensResolveRequest.method = "codeLens/resolve";
+    CodeLensResolveRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    CodeLensResolveRequest.type = new messages_1.ProtocolRequestType(CodeLensResolveRequest.method);
   })(CodeLensResolveRequest || (exports2.CodeLensResolveRequest = CodeLensResolveRequest = {}));
   var CodeLensRefreshRequest;
-  (function(CodeLensRefreshRequest2) {
-    CodeLensRefreshRequest2.method = `workspace/codeLens/refresh`;
-    CodeLensRefreshRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    CodeLensRefreshRequest2.type = new messages_1.ProtocolRequestType0(CodeLensRefreshRequest2.method);
+  (function(CodeLensRefreshRequest) {
+    CodeLensRefreshRequest.method = `workspace/codeLens/refresh`;
+    CodeLensRefreshRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    CodeLensRefreshRequest.type = new messages_1.ProtocolRequestType0(CodeLensRefreshRequest.method);
   })(CodeLensRefreshRequest || (exports2.CodeLensRefreshRequest = CodeLensRefreshRequest = {}));
   var DocumentLinkRequest;
-  (function(DocumentLinkRequest2) {
-    DocumentLinkRequest2.method = "textDocument/documentLink";
-    DocumentLinkRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentLinkRequest2.type = new messages_1.ProtocolRequestType(DocumentLinkRequest2.method);
+  (function(DocumentLinkRequest) {
+    DocumentLinkRequest.method = "textDocument/documentLink";
+    DocumentLinkRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentLinkRequest.type = new messages_1.ProtocolRequestType(DocumentLinkRequest.method);
   })(DocumentLinkRequest || (exports2.DocumentLinkRequest = DocumentLinkRequest = {}));
   var DocumentLinkResolveRequest;
-  (function(DocumentLinkResolveRequest2) {
-    DocumentLinkResolveRequest2.method = "documentLink/resolve";
-    DocumentLinkResolveRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentLinkResolveRequest2.type = new messages_1.ProtocolRequestType(DocumentLinkResolveRequest2.method);
+  (function(DocumentLinkResolveRequest) {
+    DocumentLinkResolveRequest.method = "documentLink/resolve";
+    DocumentLinkResolveRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentLinkResolveRequest.type = new messages_1.ProtocolRequestType(DocumentLinkResolveRequest.method);
   })(DocumentLinkResolveRequest || (exports2.DocumentLinkResolveRequest = DocumentLinkResolveRequest = {}));
   var DocumentFormattingRequest;
-  (function(DocumentFormattingRequest2) {
-    DocumentFormattingRequest2.method = "textDocument/formatting";
-    DocumentFormattingRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentFormattingRequest2.type = new messages_1.ProtocolRequestType(DocumentFormattingRequest2.method);
+  (function(DocumentFormattingRequest) {
+    DocumentFormattingRequest.method = "textDocument/formatting";
+    DocumentFormattingRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentFormattingRequest.type = new messages_1.ProtocolRequestType(DocumentFormattingRequest.method);
   })(DocumentFormattingRequest || (exports2.DocumentFormattingRequest = DocumentFormattingRequest = {}));
   var DocumentRangeFormattingRequest;
-  (function(DocumentRangeFormattingRequest2) {
-    DocumentRangeFormattingRequest2.method = "textDocument/rangeFormatting";
-    DocumentRangeFormattingRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentRangeFormattingRequest2.type = new messages_1.ProtocolRequestType(DocumentRangeFormattingRequest2.method);
+  (function(DocumentRangeFormattingRequest) {
+    DocumentRangeFormattingRequest.method = "textDocument/rangeFormatting";
+    DocumentRangeFormattingRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentRangeFormattingRequest.type = new messages_1.ProtocolRequestType(DocumentRangeFormattingRequest.method);
   })(DocumentRangeFormattingRequest || (exports2.DocumentRangeFormattingRequest = DocumentRangeFormattingRequest = {}));
   var DocumentRangesFormattingRequest;
-  (function(DocumentRangesFormattingRequest2) {
-    DocumentRangesFormattingRequest2.method = "textDocument/rangesFormatting";
-    DocumentRangesFormattingRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentRangesFormattingRequest2.type = new messages_1.ProtocolRequestType(DocumentRangesFormattingRequest2.method);
+  (function(DocumentRangesFormattingRequest) {
+    DocumentRangesFormattingRequest.method = "textDocument/rangesFormatting";
+    DocumentRangesFormattingRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentRangesFormattingRequest.type = new messages_1.ProtocolRequestType(DocumentRangesFormattingRequest.method);
   })(DocumentRangesFormattingRequest || (exports2.DocumentRangesFormattingRequest = DocumentRangesFormattingRequest = {}));
   var DocumentOnTypeFormattingRequest;
-  (function(DocumentOnTypeFormattingRequest2) {
-    DocumentOnTypeFormattingRequest2.method = "textDocument/onTypeFormatting";
-    DocumentOnTypeFormattingRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    DocumentOnTypeFormattingRequest2.type = new messages_1.ProtocolRequestType(DocumentOnTypeFormattingRequest2.method);
+  (function(DocumentOnTypeFormattingRequest) {
+    DocumentOnTypeFormattingRequest.method = "textDocument/onTypeFormatting";
+    DocumentOnTypeFormattingRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    DocumentOnTypeFormattingRequest.type = new messages_1.ProtocolRequestType(DocumentOnTypeFormattingRequest.method);
   })(DocumentOnTypeFormattingRequest || (exports2.DocumentOnTypeFormattingRequest = DocumentOnTypeFormattingRequest = {}));
   var PrepareSupportDefaultBehavior;
-  (function(PrepareSupportDefaultBehavior2) {
-    PrepareSupportDefaultBehavior2.Identifier = 1;
+  (function(PrepareSupportDefaultBehavior) {
+    PrepareSupportDefaultBehavior.Identifier = 1;
   })(PrepareSupportDefaultBehavior || (exports2.PrepareSupportDefaultBehavior = PrepareSupportDefaultBehavior = {}));
   var RenameRequest;
-  (function(RenameRequest2) {
-    RenameRequest2.method = "textDocument/rename";
-    RenameRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    RenameRequest2.type = new messages_1.ProtocolRequestType(RenameRequest2.method);
+  (function(RenameRequest) {
+    RenameRequest.method = "textDocument/rename";
+    RenameRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    RenameRequest.type = new messages_1.ProtocolRequestType(RenameRequest.method);
   })(RenameRequest || (exports2.RenameRequest = RenameRequest = {}));
   var PrepareRenameRequest;
-  (function(PrepareRenameRequest2) {
-    PrepareRenameRequest2.method = "textDocument/prepareRename";
-    PrepareRenameRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    PrepareRenameRequest2.type = new messages_1.ProtocolRequestType(PrepareRenameRequest2.method);
+  (function(PrepareRenameRequest) {
+    PrepareRenameRequest.method = "textDocument/prepareRename";
+    PrepareRenameRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    PrepareRenameRequest.type = new messages_1.ProtocolRequestType(PrepareRenameRequest.method);
   })(PrepareRenameRequest || (exports2.PrepareRenameRequest = PrepareRenameRequest = {}));
   var ExecuteCommandRequest;
-  (function(ExecuteCommandRequest2) {
-    ExecuteCommandRequest2.method = "workspace/executeCommand";
-    ExecuteCommandRequest2.messageDirection = messages_1.MessageDirection.clientToServer;
-    ExecuteCommandRequest2.type = new messages_1.ProtocolRequestType(ExecuteCommandRequest2.method);
+  (function(ExecuteCommandRequest) {
+    ExecuteCommandRequest.method = "workspace/executeCommand";
+    ExecuteCommandRequest.messageDirection = messages_1.MessageDirection.clientToServer;
+    ExecuteCommandRequest.type = new messages_1.ProtocolRequestType(ExecuteCommandRequest.method);
   })(ExecuteCommandRequest || (exports2.ExecuteCommandRequest = ExecuteCommandRequest = {}));
   var ApplyWorkspaceEditRequest;
-  (function(ApplyWorkspaceEditRequest2) {
-    ApplyWorkspaceEditRequest2.method = "workspace/applyEdit";
-    ApplyWorkspaceEditRequest2.messageDirection = messages_1.MessageDirection.serverToClient;
-    ApplyWorkspaceEditRequest2.type = new messages_1.ProtocolRequestType("workspace/applyEdit");
+  (function(ApplyWorkspaceEditRequest) {
+    ApplyWorkspaceEditRequest.method = "workspace/applyEdit";
+    ApplyWorkspaceEditRequest.messageDirection = messages_1.MessageDirection.serverToClient;
+    ApplyWorkspaceEditRequest.type = new messages_1.ProtocolRequestType("workspace/applyEdit");
   })(ApplyWorkspaceEditRequest || (exports2.ApplyWorkspaceEditRequest = ApplyWorkspaceEditRequest = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/connection.js
-var require_connection2 = __commonJS((exports2) => {
+var require_connection2 = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.createProtocolConnection = undefined;
   var vscode_jsonrpc_1 = require_main();
@@ -6196,7 +6198,7 @@ var require_connection2 = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver-protocol/lib/common/api.js
-var require_api2 = __commonJS((exports2) => {
+var require_api2 = __commonJS(function(exports2) {
   var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
     if (k2 === undefined)
       k2 = k;
@@ -6228,18 +6230,18 @@ var require_api2 = __commonJS((exports2) => {
     return connection_1.createProtocolConnection;
   } });
   var LSPErrorCodes;
-  (function(LSPErrorCodes2) {
-    LSPErrorCodes2.lspReservedErrorRangeStart = -32899;
-    LSPErrorCodes2.RequestFailed = -32803;
-    LSPErrorCodes2.ServerCancelled = -32802;
-    LSPErrorCodes2.ContentModified = -32801;
-    LSPErrorCodes2.RequestCancelled = -32800;
-    LSPErrorCodes2.lspReservedErrorRangeEnd = -32800;
+  (function(LSPErrorCodes) {
+    LSPErrorCodes.lspReservedErrorRangeStart = -32899;
+    LSPErrorCodes.RequestFailed = -32803;
+    LSPErrorCodes.ServerCancelled = -32802;
+    LSPErrorCodes.ContentModified = -32801;
+    LSPErrorCodes.RequestCancelled = -32800;
+    LSPErrorCodes.lspReservedErrorRangeEnd = -32800;
   })(LSPErrorCodes || (exports2.LSPErrorCodes = LSPErrorCodes = {}));
 });
 
 // node_modules/vscode-languageserver-protocol/lib/node/main.js
-var require_main3 = __commonJS((exports2) => {
+var require_main3 = __commonJS(function(exports2) {
   var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
     if (k2 === undefined)
       k2 = k;
@@ -6272,7 +6274,7 @@ var require_main3 = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/utils/uuid.js
-var require_uuid = __commonJS((exports2) => {
+var require_uuid = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.generateUuid = exports2.parse = exports2.isUUID = exports2.v4 = exports2.empty = undefined;
 
@@ -6362,7 +6364,7 @@ var require_uuid = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/progress.js
-var require_progress = __commonJS((exports2) => {
+var require_progress = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.attachPartialResult = exports2.ProgressFeature = exports2.attachWorkDone = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6493,8 +6495,8 @@ var require_progress = __commonJS((exports2) => {
   };
   exports2.ProgressFeature = ProgressFeature;
   var ResultProgress;
-  (function(ResultProgress2) {
-    ResultProgress2.type = new vscode_languageserver_protocol_1.ProgressType;
+  (function(ResultProgress) {
+    ResultProgress.type = new vscode_languageserver_protocol_1.ProgressType;
   })(ResultProgress || (ResultProgress = {}));
 
   class ResultProgressReporterImpl {
@@ -6518,7 +6520,7 @@ var require_progress = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/configuration.js
-var require_configuration = __commonJS((exports2) => {
+var require_configuration = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ConfigurationFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6552,7 +6554,7 @@ var require_configuration = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/workspaceFolder.js
-var require_workspaceFolder = __commonJS((exports2) => {
+var require_workspaceFolder = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.WorkspaceFoldersFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6595,7 +6597,7 @@ var require_workspaceFolder = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/callHierarchy.js
-var require_callHierarchy = __commonJS((exports2) => {
+var require_callHierarchy = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.CallHierarchyFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6628,7 +6630,7 @@ var require_callHierarchy = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/semanticTokens.js
-var require_semanticTokens = __commonJS((exports2) => {
+var require_semanticTokens = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.SemanticTokensBuilder = exports2.SemanticTokensDiff = exports2.SemanticTokensFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6775,7 +6777,7 @@ var require_semanticTokens = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/showDocument.js
-var require_showDocument = __commonJS((exports2) => {
+var require_showDocument = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.ShowDocumentFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6790,7 +6792,7 @@ var require_showDocument = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/fileOperations.js
-var require_fileOperations = __commonJS((exports2) => {
+var require_fileOperations = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.FileOperationsFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6832,7 +6834,7 @@ var require_fileOperations = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/linkedEditingRange.js
-var require_linkedEditingRange = __commonJS((exports2) => {
+var require_linkedEditingRange = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.LinkedEditingRangeFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6849,7 +6851,7 @@ var require_linkedEditingRange = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/typeHierarchy.js
-var require_typeHierarchy = __commonJS((exports2) => {
+var require_typeHierarchy = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.TypeHierarchyFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6882,7 +6884,7 @@ var require_typeHierarchy = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/inlineValue.js
-var require_inlineValue = __commonJS((exports2) => {
+var require_inlineValue = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.InlineValueFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6906,7 +6908,7 @@ var require_inlineValue = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/foldingRange.js
-var require_foldingRange = __commonJS((exports2) => {
+var require_foldingRange = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.FoldingRangeFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6931,7 +6933,7 @@ var require_foldingRange = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/inlayHint.js
-var require_inlayHint = __commonJS((exports2) => {
+var require_inlayHint = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.InlayHintFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6960,7 +6962,7 @@ var require_inlayHint = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/diagnostic.js
-var require_diagnostic = __commonJS((exports2) => {
+var require_diagnostic = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.DiagnosticFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -6989,7 +6991,7 @@ var require_diagnostic = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/textDocuments.js
-var require_textDocuments = __commonJS((exports2) => {
+var require_textDocuments = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.TextDocuments = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -7095,7 +7097,7 @@ var require_textDocuments = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/notebook.js
-var require_notebook = __commonJS((exports2) => {
+var require_notebook = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.NotebookDocuments = exports2.NotebookSyncFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -7264,11 +7266,11 @@ var require_notebook = __commonJS((exports2) => {
           if (changedCells.data !== undefined) {
             const cellUpdates = new Map(changedCells.data.map((cell) => [cell.document, cell]));
             for (let i = 0;i <= notebookDocument.cells.length; i++) {
-              const change2 = cellUpdates.get(notebookDocument.cells[i].document);
-              if (change2 !== undefined) {
-                const old = notebookDocument.cells.splice(i, 1, change2);
-                data.push({ old: old[0], new: change2 });
-                cellUpdates.delete(change2.document);
+              const change = cellUpdates.get(notebookDocument.cells[i].document);
+              if (change !== undefined) {
+                const old = notebookDocument.cells.splice(i, 1, change);
+                data.push({ old: old[0], new: change });
+                cellUpdates.delete(change.document);
                 if (cellUpdates.size === 0) {
                   break;
                 }
@@ -7296,8 +7298,8 @@ var require_notebook = __commonJS((exports2) => {
           removed.push(this.getNotebookCell(close));
         }
         const textContent = [];
-        for (const change2 of text) {
-          textContent.push(this.getNotebookCell(change2));
+        for (const change of text) {
+          textContent.push(this.getNotebookCell(change));
         }
         if (added.length > 0 || removed.length > 0 || data.length > 0 || textContent.length > 0) {
           changeEvent.cells = { added, removed, changed: { data, textContent } };
@@ -7341,7 +7343,7 @@ var require_notebook = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/moniker.js
-var require_moniker = __commonJS((exports2) => {
+var require_moniker = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.MonikerFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -7363,7 +7365,7 @@ var require_moniker = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/server.js
-var require_server = __commonJS((exports2) => {
+var require_server = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.createConnection = exports2.combineFeatures = exports2.combineNotebooksFeatures = exports2.combineLanguagesFeatures = exports2.combineWorkspaceFeatures = exports2.combineWindowFeatures = exports2.combineClientFeatures = exports2.combineTracerFeatures = exports2.combineTelemetryFeatures = exports2.combineConsoleFeatures = exports2._NotebooksImpl = exports2._LanguagesImpl = exports2.BulkUnregistration = exports2.BulkRegistration = exports2.ErrorMessageTracker = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -7479,11 +7481,11 @@ var require_server = __commonJS((exports2) => {
   }
   var RemoteWindowImpl = (0, showDocument_1.ShowDocumentFeature)((0, progress_1.ProgressFeature)(_RemoteWindowImpl));
   var BulkRegistration;
-  (function(BulkRegistration2) {
+  (function(BulkRegistration) {
     function create() {
       return new BulkRegistrationImpl;
     }
-    BulkRegistration2.create = create;
+    BulkRegistration.create = create;
   })(BulkRegistration || (exports2.BulkRegistration = BulkRegistration = {}));
 
   class BulkRegistrationImpl {
@@ -7511,11 +7513,11 @@ var require_server = __commonJS((exports2) => {
     }
   }
   var BulkUnregistration;
-  (function(BulkUnregistration2) {
+  (function(BulkUnregistration) {
     function create() {
       return new BulkUnregistrationImpl(undefined, []);
     }
-    BulkUnregistration2.create = create;
+    BulkUnregistration.create = create;
   })(BulkUnregistration || (exports2.BulkUnregistration = BulkUnregistration = {}));
 
   class BulkUnregistrationImpl {
@@ -7807,13 +7809,13 @@ var require_server = __commonJS((exports2) => {
   }
   exports2.combineNotebooksFeatures = combineNotebooksFeatures;
   function combineFeatures(one, two) {
-    function combine(one2, two2, func) {
-      if (one2 && two2) {
-        return func(one2, two2);
-      } else if (one2) {
-        return one2;
+    function combine(one, two, func) {
+      if (one && two) {
+        return func(one, two);
+      } else if (one) {
+        return one;
       } else {
-        return two2;
+        return two;
       }
     }
     let result = {
@@ -8028,14 +8030,14 @@ var require_server = __commonJS((exports2) => {
           if (value instanceof vscode_languageserver_protocol_1.ResponseError) {
             return value;
           }
-          let result2 = value;
-          if (!result2) {
-            result2 = { capabilities: {} };
+          let result = value;
+          if (!result) {
+            result = { capabilities: {} };
           }
-          let capabilities = result2.capabilities;
+          let capabilities = result.capabilities;
           if (!capabilities) {
             capabilities = {};
-            result2.capabilities = capabilities;
+            result.capabilities = capabilities;
           }
           if (capabilities.textDocumentSync === undefined || capabilities.textDocumentSync === null) {
             capabilities.textDocumentSync = Is.number(protocolConnection.__textDocumentSync) ? protocolConnection.__textDocumentSync : vscode_languageserver_protocol_1.TextDocumentSyncKind.None;
@@ -8045,7 +8047,7 @@ var require_server = __commonJS((exports2) => {
           for (let remote of allRemotes) {
             remote.fillServerCapabilities(capabilities);
           }
-          return result2;
+          return result;
         });
       } else {
         let result = { capabilities: { textDocumentSync: vscode_languageserver_protocol_1.TextDocumentSyncKind.None } };
@@ -8085,7 +8087,7 @@ var require_server = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/node/files.js
-var require_files = __commonJS((exports2) => {
+var require_files = __commonJS(function(exports2) {
   var __filename = "/Users/nepjua/code/yu/github/yasinuslu/zed-ai-lens/server/node_modules/vscode-languageserver/lib/node/files.js";
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.resolveModulePath = exports2.FileSystem = exports2.resolveGlobalYarnPath = exports2.resolveGlobalNodePath = exports2.resolve = exports2.uriToFilePath = undefined;
@@ -8134,7 +8136,7 @@ var require_files = __commonJS((exports2) => {
       "}",
       "});"
     ].join("");
-    return new Promise((resolve2, reject) => {
+    return new Promise((resolve, reject) => {
       let env = process.env;
       let newEnv = Object.create(null);
       Object.keys(env).forEach((key) => newEnv[key] = env[key]);
@@ -8162,11 +8164,11 @@ var require_files = __commonJS((exports2) => {
         cp.on("error", (error) => {
           reject(error);
         });
-        cp.on("message", (message2) => {
-          if (message2.c === "r") {
+        cp.on("message", (message) => {
+          if (message.c === "r") {
             cp.send({ c: "e" });
-            if (message2.s) {
-              resolve2(message2.r);
+            if (message.s) {
+              resolve(message.r);
             } else {
               reject(new Error(`Failed to resolve module: ${moduleName}`));
             }
@@ -8266,7 +8268,7 @@ var require_files = __commonJS((exports2) => {
   }
   exports2.resolveGlobalYarnPath = resolveGlobalYarnPath;
   var FileSystem;
-  (function(FileSystem2) {
+  (function(FileSystem) {
     let _isCaseSensitive = undefined;
     function isCaseSensitive() {
       if (_isCaseSensitive !== undefined) {
@@ -8279,7 +8281,7 @@ var require_files = __commonJS((exports2) => {
       }
       return _isCaseSensitive;
     }
-    FileSystem2.isCaseSensitive = isCaseSensitive;
+    FileSystem.isCaseSensitive = isCaseSensitive;
     function isParent(parent, child) {
       if (isCaseSensitive()) {
         return path.normalize(child).indexOf(path.normalize(parent)) === 0;
@@ -8287,7 +8289,7 @@ var require_files = __commonJS((exports2) => {
         return path.normalize(child).toLowerCase().indexOf(path.normalize(parent).toLowerCase()) === 0;
       }
     }
-    FileSystem2.isParent = isParent;
+    FileSystem.isParent = isParent;
   })(FileSystem || (exports2.FileSystem = FileSystem = {}));
   function resolveModulePath(workspaceRoot, moduleName, nodePath, tracer) {
     if (nodePath) {
@@ -8311,12 +8313,12 @@ var require_files = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver-protocol/node.js
-var require_node2 = __commonJS((exports2, module2) => {
+var require_node2 = __commonJS(function(exports2, module2) {
   module2.exports = require_main3();
 });
 
 // node_modules/vscode-languageserver/lib/common/inlineCompletion.proposed.js
-var require_inlineCompletion_proposed = __commonJS((exports2) => {
+var require_inlineCompletion_proposed = __commonJS(function(exports2) {
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.InlineCompletionFeature = undefined;
   var vscode_languageserver_protocol_1 = require_main3();
@@ -8337,7 +8339,7 @@ var require_inlineCompletion_proposed = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/common/api.js
-var require_api3 = __commonJS((exports2) => {
+var require_api3 = __commonJS(function(exports2) {
   var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
     if (k2 === undefined)
       k2 = k;
@@ -8376,8 +8378,8 @@ var require_api3 = __commonJS((exports2) => {
   } });
   __exportStar(require_server(), exports2);
   var ProposedFeatures;
-  (function(ProposedFeatures2) {
-    ProposedFeatures2.all = {
+  (function(ProposedFeatures) {
+    ProposedFeatures.all = {
       __brand: "features",
       languages: ic.InlineCompletionFeature
     };
@@ -8385,7 +8387,7 @@ var require_api3 = __commonJS((exports2) => {
 });
 
 // node_modules/vscode-languageserver/lib/node/main.js
-var require_main4 = __commonJS((exports2) => {
+var require_main4 = __commonJS(function(exports2) {
   var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
     if (k2 === undefined)
       k2 = k;
@@ -8416,12 +8418,12 @@ var require_main4 = __commonJS((exports2) => {
   __exportStar(require_node2(), exports2);
   __exportStar(require_api3(), exports2);
   var Files;
-  (function(Files2) {
-    Files2.uriToFilePath = fm.uriToFilePath;
-    Files2.resolveGlobalNodePath = fm.resolveGlobalNodePath;
-    Files2.resolveGlobalYarnPath = fm.resolveGlobalYarnPath;
-    Files2.resolve = fm.resolve;
-    Files2.resolveModulePath = fm.resolveModulePath;
+  (function(Files) {
+    Files.uriToFilePath = fm.uriToFilePath;
+    Files.resolveGlobalNodePath = fm.resolveGlobalNodePath;
+    Files.resolveGlobalYarnPath = fm.resolveGlobalYarnPath;
+    Files.resolve = fm.resolve;
+    Files.resolveModulePath = fm.resolveModulePath;
   })(Files || (exports2.Files = Files = {}));
   var _protocolConnection;
   function endProtocolConnection() {
@@ -8639,12 +8641,12 @@ ${stack}`);
 });
 
 // node_modules/vscode-languageserver/node.js
-var require_node3 = __commonJS((exports2, module2) => {
+var require_node3 = __commonJS(function(exports2, module2) {
   module2.exports = require_main4();
 });
 
 // node_modules/picomatch/lib/constants.js
-var require_constants = __commonJS((exports2, module2) => {
+var require_constants = __commonJS(function(exports2, module2) {
   var WIN_SLASH = "\\\\/";
   var WIN_NO_SLASH = `[^${WIN_SLASH}]`;
   var DEFAULT_MAX_EXTGLOB_RECURSION = 0;
@@ -8789,7 +8791,7 @@ var require_constants = __commonJS((exports2, module2) => {
 });
 
 // node_modules/picomatch/lib/utils.js
-var require_utils = __commonJS((exports2) => {
+var require_utils = __commonJS(function(exports2) {
   var {
     REGEX_BACKSLASH,
     REGEX_REMOVE_BACKSLASH,
@@ -8852,7 +8854,7 @@ var require_utils = __commonJS((exports2) => {
 });
 
 // node_modules/picomatch/lib/scan.js
-var require_scan = __commonJS((exports2, module2) => {
+var require_scan = __commonJS(function(exports2, module2) {
   var utils = require_utils();
   var {
     CHAR_ASTERISK,
@@ -9140,21 +9142,21 @@ var require_scan = __commonJS((exports2, module2) => {
     if (opts.parts === true || opts.tokens === true) {
       let prevIndex;
       for (let idx = 0;idx < slashes.length; idx++) {
-        const n2 = prevIndex !== undefined ? prevIndex + 1 : start;
+        const n = prevIndex !== undefined ? prevIndex + 1 : start;
         const i = slashes[idx];
-        const value2 = input.slice(n2, i);
+        const value = input.slice(n, i);
         if (opts.tokens) {
           if (idx === 0 && start !== 0) {
             tokens[idx].isPrefix = true;
             tokens[idx].value = prefix;
           } else {
-            tokens[idx].value = value2;
+            tokens[idx].value = value;
           }
           depth(tokens[idx]);
           state.maxDepth += tokens[idx].depth;
         }
         if (i >= start) {
-          parts.push(value2);
+          parts.push(value);
           prevIndex = i;
         }
       }
@@ -9175,7 +9177,7 @@ var require_scan = __commonJS((exports2, module2) => {
 });
 
 // node_modules/picomatch/lib/parse.js
-var require_parse = __commonJS((exports2, module2) => {
+var require_parse = __commonJS(function(exports2, module2) {
   var constants = require_constants();
   var utils = require_utils();
   var {
@@ -9362,7 +9364,7 @@ var require_parse = __commonJS((exports2, module2) => {
       if (!match || match.type !== "*") {
         return;
       }
-      const branches = splitTopLevel(match.body).map((branch2) => branch2.trim());
+      const branches = splitTopLevel(match.body).map((branch) => branch.trim());
       if (branches.length !== 1) {
         return;
       }
@@ -9455,8 +9457,8 @@ var require_parse = __commonJS((exports2, module2) => {
       STAR,
       START_ANCHOR
     } = PLATFORM_CHARS;
-    const globstar = (opts2) => {
-      return `(${capture}(?:(?!${START_ANCHOR}${opts2.dot ? DOTS_SLASH : DOT_LITERAL}).)*?)`;
+    const globstar = (opts) => {
+      return `(${capture}(?:(?!${START_ANCHOR}${opts.dot ? DOTS_SLASH : DOT_LITERAL}).)*?)`;
     };
     const nodot = opts.dot ? "" : NO_DOT;
     const qmarkNoDot = opts.dot ? QMARK : QMARK_NO_DOT;
@@ -9495,8 +9497,8 @@ var require_parse = __commonJS((exports2, module2) => {
     const peek = state.peek = (n = 1) => input[state.index + n];
     const advance = state.advance = () => input[++state.index] || "";
     const remaining = () => input.slice(state.index + 1);
-    const consume = (value2 = "", num = 0) => {
-      state.consumed += value2;
+    const consume = (value = "", num = 0) => {
+      state.consumed += value;
       state.index += num;
     };
     const append = (token) => {
@@ -9551,8 +9553,8 @@ var require_parse = __commonJS((exports2, module2) => {
       tokens.push(tok);
       prev = tok;
     };
-    const extglobOpen = (type, value2) => {
-      const token = { ...EXTGLOB_CHARS[value2], conditions: 1, inner: "" };
+    const extglobOpen = (type, value) => {
+      const token = { ...EXTGLOB_CHARS[value], conditions: 1, inner: "" };
       token.prev = prev;
       token.parens = state.parens;
       token.output = state.output;
@@ -9560,7 +9562,7 @@ var require_parse = __commonJS((exports2, module2) => {
       token.tokensIndex = tokens.length;
       const output = (opts.capture ? "(" : "") + token.open;
       increment("parens");
-      push({ type, value: value2, output: state.output ? "" : ONE_CHAR });
+      push({ type, value, output: state.output ? "" : ONE_CHAR });
       push({ type: "paren", extglob: true, value: advance(), output });
       extglobs.push(token);
     };
@@ -9694,8 +9696,8 @@ var require_parse = __commonJS((exports2, module2) => {
             if (inner.includes(":")) {
               const idx = prev.value.lastIndexOf("[");
               const pre = prev.value.slice(0, idx);
-              const rest2 = prev.value.slice(idx + 2);
-              const posix = POSIX_REGEX_SOURCE[rest2];
+              const rest = prev.value.slice(idx + 2);
+              const posix = POSIX_REGEX_SOURCE[rest];
               if (posix) {
                 prev.value = pre + posix;
                 state.backtrack = true;
@@ -10150,10 +10152,10 @@ var require_parse = __commonJS((exports2, module2) => {
     if (opts.capture) {
       star = `(${star})`;
     }
-    const globstar = (opts2) => {
-      if (opts2.noglobstar === true)
+    const globstar = (opts) => {
+      if (opts.noglobstar === true)
         return star;
-      return `(${capture}(?:(?!${START_ANCHOR}${opts2.dot ? DOTS_SLASH : DOT_LITERAL}).)*?)`;
+      return `(${capture}(?:(?!${START_ANCHOR}${opts.dot ? DOTS_SLASH : DOT_LITERAL}).)*?)`;
     };
     const create = (str) => {
       switch (str) {
@@ -10177,10 +10179,10 @@ var require_parse = __commonJS((exports2, module2) => {
           const match = /^(.*?)\.(\w+)$/.exec(str);
           if (!match)
             return;
-          const source2 = create(match[1]);
-          if (!source2)
+          const source = create(match[1]);
+          if (!source)
             return;
-          return source2 + DOT_LITERAL + match[2];
+          return source + DOT_LITERAL + match[2];
         }
       }
     };
@@ -10195,7 +10197,7 @@ var require_parse = __commonJS((exports2, module2) => {
 });
 
 // node_modules/picomatch/lib/picomatch.js
-var require_picomatch = __commonJS((exports2, module2) => {
+var require_picomatch = __commonJS(function(exports2, module2) {
   var scan = require_scan();
   var parse = require_parse();
   var utils = require_utils();
@@ -10206,9 +10208,9 @@ var require_picomatch = __commonJS((exports2, module2) => {
       const fns = glob.map((input) => picomatch(input, options, returnState));
       const arrayMatcher = (str) => {
         for (const isMatch of fns) {
-          const state2 = isMatch(str);
-          if (state2)
-            return state2;
+          const state = isMatch(str);
+          if (state)
+            return state;
         }
         return false;
       };
@@ -10335,7 +10337,7 @@ var require_picomatch = __commonJS((exports2, module2) => {
 });
 
 // node_modules/picomatch/index.js
-var require_picomatch2 = __commonJS((exports2, module2) => {
+var require_picomatch2 = __commonJS(function(exports2, module2) {
   var pico = require_picomatch();
   var utils = require_utils();
   function picomatch(glob, options, returnState = false) {
@@ -10497,11 +10499,11 @@ class FullTextDocument {
   }
 }
 var TextDocument;
-(function(TextDocument2) {
+(function(TextDocument) {
   function create(uri, languageId, version, content) {
     return new FullTextDocument(uri, languageId, version, content);
   }
-  TextDocument2.create = create;
+  TextDocument.create = create;
   function update(document, changes, version) {
     if (document instanceof FullTextDocument) {
       document.update(changes, version);
@@ -10510,7 +10512,7 @@ var TextDocument;
       throw new Error("TextDocument.update: document must be created by TextDocument.create");
     }
   }
-  TextDocument2.update = update;
+  TextDocument.update = update;
   function applyEdits(document, edits) {
     const text = document.getText();
     const sortedEdits = mergeSort(edits.map(getWellformedEdit), (a, b) => {
@@ -10537,7 +10539,7 @@ var TextDocument;
     spans.push(text.substr(lastModifiedOffset));
     return spans.join("");
   }
-  TextDocument2.applyEdits = applyEdits;
+  TextDocument.applyEdits = applyEdits;
 })(TextDocument || (TextDocument = {}));
 function mergeSort(data, compare) {
   if (data.length <= 1) {
@@ -10601,13 +10603,13 @@ function getWellformedEdit(textEdit) {
 
 // src/index.ts
 var import_picomatch = __toESM(require_picomatch2(), 1);
-var fsSync = __toESM(require("fs"));
-var path4 = __toESM(require("path"));
+var fsSync = __toESM(require("fs"), 1);
+var path4 = __toESM(require("path"), 1);
 var import_url = require("url");
 
 // src/config.ts
-var os = __toESM(require("os"));
-var path = __toESM(require("path"));
+var os = __toESM(require("os"), 1);
+var path = __toESM(require("path"), 1);
 var DEFAULT_PROMPT = [
   "Determine the natural language the file below is written in.",
   "If its prose is already in {{targetLanguage}}, output exactly {{skipSentinel}}",
@@ -10633,10 +10635,16 @@ var DEFAULT_AGENTS = {
   },
   antigravity: {
     command: "agy",
-    args: ["-p", `{{prompt}}
+    args: [
+      "-p",
+      `{{prompt}}
 
-The file is at: {{file}}`],
+---
+{{content}}`,
+      "--disable-slash-commands"
+    ],
     modelArgs: ["--model", "{{model}}"],
+    defaultModel: "gemini-3.8-flash-low",
     stdin: "none"
   }
 };
@@ -10711,13 +10719,15 @@ function template(input, vars) {
 // src/agent.ts
 var import_child_process = require("child_process");
 function buildArgs(opts) {
+  const model = opts.model ?? opts.spec.defaultModel ?? null;
   const vars = {
     prompt: opts.prompt,
     file: opts.filePath,
     filename: opts.fileName,
-    model: opts.model ?? ""
+    content: opts.content,
+    model: model ?? ""
   };
-  const modelArgs = opts.model ? opts.spec.modelArgs ?? [] : [];
+  const modelArgs = model ? opts.spec.modelArgs ?? [] : [];
   return [...modelArgs, ...opts.spec.args].map((arg) => template(arg, vars));
 }
 function runAgent(opts) {
@@ -10774,9 +10784,9 @@ function runAgent(opts) {
 }
 
 // src/preview.ts
-var fs2 = __toESM(require("fs/promises"));
-var http = __toESM(require("http"));
-var path3 = __toESM(require("path"));
+var fs2 = __toESM(require("fs/promises"), 1);
+var http = __toESM(require("http"), 1);
+var path3 = __toESM(require("path"), 1);
 
 // node_modules/marked/lib/marked.esm.js
 function A() {
@@ -11760,7 +11770,7 @@ var L = class {
     return e;
   }
 };
-var b = class l2 {
+var b = class l {
   options;
   renderer;
   textRenderer;
@@ -11768,10 +11778,10 @@ var b = class l2 {
     this.options = e || R, this.options.renderer = this.options.renderer || new P, this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new L;
   }
   static parse(e, t) {
-    return new l2(t).parse(e);
+    return new l(t).parse(e);
   }
   static parseInline(e, t) {
-    return new l2(t).parseInline(e);
+    return new l(t).parseInline(e);
   }
   parse(e) {
     this.renderer.parser = this;
@@ -12122,20 +12132,20 @@ Please report this to https://github.com/markedjs/marked.`, e) {
   }
 };
 var M = new Z;
-function f(l3, e) {
-  return M.parse(l3, e);
+function f(l, e) {
+  return M.parse(l, e);
 }
-f.options = f.setOptions = function(l3) {
-  return M.setOptions(l3), f.defaults = M.defaults, j(f.defaults), f;
+f.options = f.setOptions = function(l) {
+  return M.setOptions(l), f.defaults = M.defaults, j(f.defaults), f;
 };
 f.getDefaults = A;
 f.defaults = R;
-function dt(...l3) {
-  return M.use(...l3), f.defaults = M.defaults, j(f.defaults), f;
+function dt(...l) {
+  return M.use(...l), f.defaults = M.defaults, j(f.defaults), f;
 }
 f.use = dt;
-f.walkTokens = function(l3, e) {
-  return M.walkTokens(l3, e);
+f.walkTokens = function(l, e) {
+  return M.walkTokens(l, e);
 };
 f.parseInline = M.parseInline;
 f.Parser = b;
@@ -12155,9 +12165,9 @@ var ln = b.parse;
 var un = x.lex;
 
 // src/cache.ts
-var crypto = __toESM(require("crypto"));
-var fs = __toESM(require("fs/promises"));
-var path2 = __toESM(require("path"));
+var crypto = __toESM(require("crypto"), 1);
+var fs = __toESM(require("fs/promises"), 1);
+var path2 = __toESM(require("path"), 1);
 async function writeGuarded(filePath, content, readOnly) {
   await fs.mkdir(path2.dirname(filePath), { recursive: true });
   await fs.rm(filePath, { force: true });
@@ -12220,13 +12230,13 @@ async function pruneCache(cacheDir, maxEntries) {
     const metaPath = path2.join(metaDir, name);
     try {
       const meta = JSON.parse(await fs.readFile(metaPath, "utf-8"));
-      const at2 = Date.parse(meta.processedAt);
-      return { metaPath, source: meta.source, at: Number.isNaN(at2) ? 0 : at2 };
+      const at = Date.parse(meta.processedAt);
+      return { metaPath, source: meta.source, at: Number.isNaN(at) ? 0 : at };
     } catch {
       return { metaPath, source: null, at: 0 };
     }
   }));
-  entries.sort((a, b2) => a.at - b2.at);
+  entries.sort((a, b) => a.at - b.at);
   const doomed = entries.slice(0, entries.length - maxEntries);
   for (const entry of doomed) {
     if (entry.source) {
