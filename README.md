@@ -89,6 +89,50 @@ processing anything.
 `{{targetLanguage}}`, `{{skipSentinel}}`, `{{file}}` (absolute path),
 `{{filename}}` (basename).
 
+### Local language detection
+
+Before any agent runs, the file is checked locally and an already-English one is
+dropped without a call. Asking the agent that question costs a full round trip —
+15-25s with `agy` — to be told there is nothing to do, which is the common case
+when opening files in an editor. The local check answers it in about **1ms**.
+
+Two detectors, because neither is sufficient alone:
+
+- **Non-Latin script ratio** over the file's prose. Settles CJK, Cyrillic, Arabic
+  and friends, and catches what `franc` misses: a mostly-English document with
+  one section in another script. The threshold is `0.02`; measured across 500
+  real `.md` files, the highest ratio in a genuinely English document was `0.003`
+  (Greek letters in maths notation).
+- **`franc-min`** for the Latin-script languages the ratio cannot see. Turkish,
+  German and Spanish all look Latin to it.
+
+Prose is extracted first — fenced and inline code, HTML, URLs and link targets
+are stripped — because leaving them in skews detection towards English on a file
+whose actual prose is not.
+
+Measured over 500 real `.md` files: 492 skipped, 8 flagged, **1.34ms/file**, and
+all 8 were genuinely Turkish.
+
+The verdict is deliberately **not cached**: re-deciding is free, and a cached
+heuristic would outlive any later improvement to it. The command palette action
+bypasses detection entirely — asking explicitly overrides the guess.
+
+Non-English `targetLanguage` values defer to the agent, since the local detector
+has nothing useful to say about whether a translation into, say, German is
+wanted.
+
+### Backends
+
+`server/src/backend.ts` is the seam between deciding *what* to translate and
+actually translating it. A `Backend` takes a request and returns finished text;
+how it gets there — a subprocess, an HTTP call, several of either in parallel —
+stays behind that interface. `index.ts` and `cli.ts` never spawn or fetch
+directly, so changing backend does not touch the run path.
+
+`SubprocessBackend` covers everything under `agents` (`pi`, `claude`, `agy`,
+`ollama`, …). An HTTP backend slots in at `resolveBackend` without either call
+site changing.
+
 ### Opening no tab at all
 
 If the agent's entire reply (trimmed) is exactly `skipSentinel`, AI Lens opens

@@ -212,6 +212,27 @@ function runAgent(opts) {
   });
 }
 
+// src/backend.ts
+class SubprocessBackend {
+  name;
+  spec;
+  constructor(name, spec) {
+    this.name = name;
+    this.spec = spec;
+  }
+  translate(req) {
+    return runAgent({ spec: this.spec, ...req });
+  }
+}
+function resolveBackend(config) {
+  const spec = config.agents[config.agent];
+  if (!spec) {
+    const known = Object.keys(config.agents).join(", ");
+    throw new Error(`unknown agent '${config.agent}'. Configured agents: ${known}`);
+  }
+  return new SubprocessBackend(config.agent, spec);
+}
+
 // src/cache.ts
 var crypto = __toESM(require("crypto"), 1);
 var fs = __toESM(require("fs/promises"), 1);
@@ -1973,9 +1994,11 @@ async function main() {
     process.exit(1);
   }
   const config = resolveConfig(await readZedInitializationOptions());
-  const spec = config.agents[config.agent];
-  if (!spec) {
-    console.error(`ai-lens: unknown agent '${config.agent}'. Known: ${Object.keys(config.agents).join(", ")}`);
+  let backend;
+  try {
+    backend = resolveBackend(config);
+  } catch (error) {
+    console.error(`ai-lens: ${error instanceof Error ? error.message : String(error)}`);
     process.exit(1);
   }
   const prompt = template(config.prompt, {
@@ -1992,10 +2015,9 @@ async function main() {
     console.log(`ai-lens: ${fileName} already translated (cached)`);
     produced = await fs4.readFile(entry.outPath, "utf-8");
   } else {
-    console.log(`ai-lens: running ${config.agent} on ${fileName}…`);
+    console.log(`ai-lens: running ${backend.name} on ${fileName}…`);
     const started = Date.now();
-    const stdout = await runAgent({
-      spec,
+    const stdout = await backend.translate({
       prompt,
       filePath,
       fileName,

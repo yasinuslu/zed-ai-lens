@@ -18,7 +18,7 @@ import * as path from "path";
 import { spawn } from "child_process";
 
 import { resolveConfig, template } from "./config";
-import { runAgent } from "./agent";
+import { resolveBackend } from "./backend";
 import { cacheKey, cachePaths, pruneCache, readFresh, writeOutput } from "./cache";
 import { readZedInitializationOptions } from "./settings";
 import { startPreviewServer } from "./preview";
@@ -55,11 +55,14 @@ async function main(): Promise<void> {
   }
 
   const config = resolveConfig(await readZedInitializationOptions());
-  const spec = config.agents[config.agent];
-  if (!spec) {
-    console.error(
-      `ai-lens: unknown agent '${config.agent}'. Known: ${Object.keys(config.agents).join(", ")}`,
-    );
+  // No local language detection here, for the same reason a cached skip is not
+  // honoured below: invoking the command is an explicit request to translate
+  // this file, which overrides any guess about whether it needs it.
+  let backend;
+  try {
+    backend = resolveBackend(config);
+  } catch (error: unknown) {
+    console.error(`ai-lens: ${error instanceof Error ? error.message : String(error)}`);
     process.exit(1);
   }
 
@@ -83,10 +86,9 @@ async function main(): Promise<void> {
     // A cached "no change needed" is not honoured here. Invoking the command is
     // an explicit request to see this file, so re-asking is the right behaviour;
     // the agent may also simply be wrong about a mixed-language document.
-    console.log(`ai-lens: running ${config.agent} on ${fileName}…`);
+    console.log(`ai-lens: running ${backend.name} on ${fileName}…`);
     const started = Date.now();
-    const stdout = await runAgent({
-      spec,
+    const stdout = await backend.translate({
       prompt,
       filePath,
       fileName,

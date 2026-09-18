@@ -14,7 +14,8 @@ import * as path from "path";
 import { pathToFileURL, fileURLToPath } from "url";
 
 import { Config, resolveConfig, template } from "./config";
-import { runAgent } from "./agent";
+import { resolveBackend } from "./backend";
+import { detect } from "./detect";
 import { startPreviewServer } from "./preview";
 import { openInZed } from "./open";
 import { spawn } from "child_process";
@@ -298,11 +299,11 @@ documents.onDidOpen(async (event) => {
     return;
   }
 
-  const spec = config.agents[config.agent];
-  if (!spec) {
-    connection.window.showErrorMessage(
-      `AI Lens: unknown agent '${config.agent}'. Known: ${Object.keys(config.agents).join(", ")}`,
-    );
+  let backend;
+  try {
+    backend = resolveBackend(config);
+  } catch (error: unknown) {
+    connection.window.showErrorMessage(`AI Lens: ${describe(error)}`);
     return;
   }
 
@@ -331,6 +332,19 @@ documents.onDidOpen(async (event) => {
     return;
   }
 
+  // Decide locally whether there is anything to do. Asking the agent costs a
+  // full round trip to be told "already English", which is the common case when
+  // opening files in an editor; this answers it in about a millisecond.
+  // Deliberately not cached: re-deciding is free, and caching a heuristic
+  // verdict would outlive any later improvement to it. The command palette
+  // action bypasses this entirely — asking explicitly overrides the guess.
+  const verdict = detect(content, config.targetLanguage);
+  if (!verdict.needsTranslation) {
+    debugLog(`no change needed (local): ${fileName} — ${verdict.reason}`);
+    return;
+  }
+  debugLog(`needs translation (local): ${fileName} — ${verdict.reason}`);
+
   inFlight.add(filePath);
   try {
     // No placeholder tab here. Whether a tab should exist at all is the agent's
@@ -338,16 +352,15 @@ documents.onDidOpen(async (event) => {
     // that turns out to need no translation would still flash a tab open.
     debugLog(`queued ${fileName} (${queued} ahead)`);
     const started = Date.now();
-    const stdout = await withProgress(`${fileName} — ${config.agent}`, () =>
+    const stdout = await withProgress(`${fileName} — ${backend.name}`, () =>
       enqueue(() =>
-        runAgent({
-        spec,
-        prompt,
-        filePath,
-        fileName,
-        content,
-        model: config.model,
-        cwd: path.dirname(filePath),
+        backend.translate({
+          prompt,
+          filePath,
+          fileName,
+          content,
+          model: config.model,
+          cwd: path.dirname(filePath),
           timeoutMs: config.timeoutMs,
           env: process.env,
         }),
