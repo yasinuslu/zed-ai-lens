@@ -86,11 +86,15 @@ const DEFAULT_AGENTS: Record<string, AgentSpec> = {
     modelArgs: ["--model", "{{model}}"],
     stdin: "content",
   },
-  codex: {
-    command: "codex",
-    args: ["exec", "{{prompt}}"],
+  antigravity: {
+    // agy's headless mode takes the prompt as a flag, and `-p` and piped stdin
+    // are mutually exclusive — in stream mode a flag-passed prompt is dropped.
+    // So the file goes in by path and the agent reads it itself, the way pi
+    // does, rather than on stdin the way claude does.
+    command: "agy",
+    args: ["-p", "{{prompt}}\n\nThe file is at: {{file}}"],
     modelArgs: ["--model", "{{model}}"],
-    stdin: "content",
+    stdin: "none",
   },
 };
 

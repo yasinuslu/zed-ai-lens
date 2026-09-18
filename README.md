@@ -4,7 +4,7 @@ View any file through a configured AI prompt â€” translate, summarize, explain â
 side tab, with content-hash caching so unchanged files never re-run the agent.
 
 Open a file matching your `include` globs and AI Lens processes it with the
-configured prompt and agent (`pi` by default, or `claude` / `codex` / anything
+configured prompt and agent (`pi` by default, or `claude` / `antigravity` / anything
 else on your PATH), then opens the result in its own tab. Reopen the file and you
 get the cached result instantly. Change the file and it reprocesses.
 
@@ -57,7 +57,7 @@ All settings live under `lsp.ai-lens.initialization_options` in your Zed
 "lsp": {
   "ai-lens": {
     "initialization_options": {
-      "agent": "pi",                    // pi | claude | codex | custom key below
+      "agent": "pi",                    // pi | claude | antigravity | custom key below
       "model": null,                    // null = agent's default
       "targetLanguage": "English",
       "include": ["**/*.md"],           // nothing runs unless a path matches
@@ -120,7 +120,7 @@ when `model` is set. `stdin: "content"` pipes the file text to the process;
 "agents": {
   "pi":     { "command": "pi",     "args": ["--print", "--mode", "text", "--", "{{prompt}}", "@{{file}}"], "stdin": "none" },
   "claude": { "command": "claude", "args": ["-p", "{{prompt}}"], "stdin": "content" },
-  "codex":  { "command": "codex",  "args": ["exec", "{{prompt}}"], "stdin": "content" },
+  "antigravity": { "command": "agy", "args": ["-p", "{{prompt}}\n\nThe file is at: {{file}}"], "stdin": "none" },
   "ollama": { "command": "ollama", "args": ["run", "llama3", "{{prompt}}"], "stdin": "content" }
 }
 ```

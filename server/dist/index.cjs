@@ -8086,7 +8086,7 @@ var require_server = __commonJS((exports2) => {
 
 // node_modules/vscode-languageserver/lib/node/files.js
 var require_files = __commonJS((exports2) => {
-  var __filename = "/Users/harmonyospc/code/.profile/yasinuslu/github/yasinuslu/zed-ai-lens/server/node_modules/vscode-languageserver/lib/node/files.js";
+  var __filename = "/Users/nepjua/code/yu/github/yasinuslu/zed-ai-lens/server/node_modules/vscode-languageserver/lib/node/files.js";
   Object.defineProperty(exports2, "__esModule", { value: true });
   exports2.resolveModulePath = exports2.FileSystem = exports2.resolveGlobalYarnPath = exports2.resolveGlobalNodePath = exports2.resolve = exports2.uriToFilePath = undefined;
   var url = require("url");
@@ -10631,11 +10631,13 @@ var DEFAULT_AGENTS = {
     modelArgs: ["--model", "{{model}}"],
     stdin: "content"
   },
-  codex: {
-    command: "codex",
-    args: ["exec", "{{prompt}}"],
+  antigravity: {
+    command: "agy",
+    args: ["-p", `{{prompt}}
+
+The file is at: {{file}}`],
     modelArgs: ["--model", "{{model}}"],
-    stdin: "content"
+    stdin: "none"
   }
 };
 var DEFAULTS = {

@@ -60,11 +60,13 @@ var DEFAULT_AGENTS = {
     modelArgs: ["--model", "{{model}}"],
     stdin: "content"
   },
-  codex: {
-    command: "codex",
-    args: ["exec", "{{prompt}}"],
+  antigravity: {
+    command: "agy",
+    args: ["-p", `{{prompt}}
+
+The file is at: {{file}}`],
     modelArgs: ["--model", "{{model}}"],
-    stdin: "content"
+    stdin: "none"
   }
 };
 var DEFAULTS = {
