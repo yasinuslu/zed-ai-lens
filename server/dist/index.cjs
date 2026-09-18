@@ -12984,11 +12984,6 @@ documents.onDidOpen(async (event) => {
     return;
   const content = document.getText();
   const fileName = path4.basename(filePath);
-  const bytes = Buffer.byteLength(content, "utf-8");
-  if (config.maxAutoBytes > 0 && bytes > config.maxAutoBytes) {
-    debugLog(`too large to auto-translate: ${fileName} (${bytes}B > ${config.maxAutoBytes}B) — use the command palette action`);
-    return;
-  }
   let backend;
   try {
     backend = resolveBackend(config);
@@ -13023,6 +13018,13 @@ documents.onDidOpen(async (event) => {
     return;
   }
   debugLog(`needs translation (local): ${fileName} — ${verdict.reason}`);
+  const bytes = Buffer.byteLength(content, "utf-8");
+  if (config.maxAutoBytes > 0 && bytes > config.maxAutoBytes) {
+    const kb = (n) => `${Math.round(n / 1024)} KB`;
+    debugLog(`too large to auto-translate: ${fileName} (${bytes}B > ${config.maxAutoBytes}B) — use the command palette action`);
+    connection.window.showWarningMessage(`AI Lens: ${fileName} is ${kb(bytes)}, over the ${kb(config.maxAutoBytes)} auto-translate limit. ` + `Run "task: spawn" → "AI Lens: translate this file" to translate it.`);
+    return;
+  }
   inFlight.add(filePath);
   try {
     debugLog(`queued ${fileName} (${queued} ahead)`);
