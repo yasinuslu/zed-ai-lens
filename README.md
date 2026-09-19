@@ -227,7 +227,7 @@ exactly when the decision is made. Two paths follow from that:
 immediately after opening. A stray edit can never be saved over the cached
 translation, and any later open of that path loads read-only.
 
-**The command palette action** — genuinely read-only. It shells out to `zed --add`
+**The command palette action** — genuinely read-only. It shells out to `zed --existing`
 rather than going through `applyEdit`, so nothing truncates the file and Zed loads
 it with its `0444` permissions intact.
 

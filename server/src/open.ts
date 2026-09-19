@@ -14,11 +14,17 @@ import { spawn } from "child_process";
  * Going through the CLI avoids both problems at once: nothing truncates the
  * file, so a `0444` output is loaded as a genuinely read-only buffer, and what
  * opens is a normal tab.
+ *
+ * `--existing`, not `--add`: `--add` makes the file a root of the workspace, so
+ * every translation showed up as its own entry in the project panel, was saved
+ * with the workspace and came back on every restart, and started another
+ * language server rooted at its cache directory. `--existing` opens the same
+ * tab in the current window without adding a root.
  */
 export function openInZed(filePath: string, binary = "zed"): Promise<boolean> {
   return new Promise((resolve) => {
     try {
-      const child = spawn(binary, ["--add", filePath], {
+      const child = spawn(binary, ["--existing", filePath], {
         detached: true,
         stdio: "ignore",
       });

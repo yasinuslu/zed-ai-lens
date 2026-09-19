@@ -1951,7 +1951,7 @@ var import_child_process2 = require("child_process");
 function openInZed(filePath, binary = "zed") {
   return new Promise((resolve) => {
     try {
-      const child = import_child_process2.spawn(binary, ["--add", filePath], {
+      const child = import_child_process2.spawn(binary, ["--existing", filePath], {
         detached: true,
         stdio: "ignore"
       });
